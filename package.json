@@ -1,6 +1,6 @@
 {
   "name": "bakai-capacitor-edna",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Edna chat plugin for Capacitor",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
