@@ -8,7 +8,6 @@ let package = Package(
     products: [
         .library(
             name: "BakaiCapacitorEdna",
-    defaultLocalization: "en",
             targets: ["BakaiEdnaPlugin"])
     ],
     dependencies: [
