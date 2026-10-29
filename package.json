@@ -22,10 +22,10 @@
   "license": "UNLICENSED",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Bakai/capacitor-edna.git"
+    "url": "git+https://github.com/bakai-dev-team/capacitor-edna.git"
   },
   "bugs": {
-    "url": "https://github.com/Bakai/capacitor-edna/issues"
+    "url": "https://github.com/bakai-dev-team/capacitor-edna/issues"
   },
   "keywords": [
     "capacitor",

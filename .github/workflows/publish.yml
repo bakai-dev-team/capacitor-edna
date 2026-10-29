@@ -1,0 +1,59 @@
+name: Publish to npm
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'package.json'
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: 'https://registry.npmjs.org'
+
+      - run: npm install -g npm@latest
+
+      # npm ci запускает prepare → npm run build (docgen + tsc + rollup)
+      - run: npm ci
+
+      - name: Проверить, опубликована ли уже эта версия
+        id: check
+        run: |
+          NAME=$(node -p "require('./package.json').name")
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          if npm view "$NAME@$VERSION" version >/dev/null 2>&1; then
+            echo "published=true" >> "$GITHUB_OUTPUT"
+            echo "$NAME@$VERSION уже опубликован — пропускаю."
+          else
+            echo "published=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: npm publish
+        if: steps.check.outputs.published == 'false'
+        run: npm publish --access public
+
+      - name: Создать GitHub Release (тег создаётся автоматически)
+        if: steps.check.outputs.published == 'false'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VERSION="v${{ steps.check.outputs.version }}"
+          # предыдущий тег вида vX.Y.Z — точка отсчёта для changelog
+          PREV=$(git tag --list 'v*' --sort=-v:refname | head -n 1)
+          gh release create "$VERSION" \
+            --title "$VERSION" \
+            --generate-notes \
+            ${PREV:+--notes-start-tag "$PREV"}
