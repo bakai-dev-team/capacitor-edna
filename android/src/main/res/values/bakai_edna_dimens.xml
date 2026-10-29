@@ -1,0 +1,16 @@
+<resources>
+    <dimen name="bakai_edna_image_preview_max">180dp</dimen>
+    <dimen name="ecc_message_image_size">180dp</dimen>
+    <dimen name="bakai_edna_message_side_margin">8dp</dimen>
+    <!-- SDK message layouts use this size for the operator avatar. -->
+    <dimen name="ecc_operator_photo_size">28dp</dimen>
+    <dimen name="bakai_edna_message_text_size">16sp</dimen>
+    <dimen name="bakai_edna_title_text_size">16sp</dimen>
+    <dimen name="bakai_edna_subtitle_text_size">11sp</dimen>
+    <dimen name="bakai_edna_input_text_size">15sp</dimen>
+    <dimen name="bakai_edna_time_text_size">10sp</dimen>
+    <dimen name="bakai_edna_date_text_size">12sp</dimen>
+    <dimen name="bakai_edna_bubble_horizontal">10dp</dimen>
+    <dimen name="bakai_edna_bubble_vertical">5dp</dimen>
+    <dimen name="bakai_edna_metadata_gap">3dp</dimen>
+</resources>

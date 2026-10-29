@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootLayout" android:tag="bank_client_row" android:minHeight="42dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/bubbleRoot" android:layout_marginEnd="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:weightSum="1">
+
+        <FrameLayout
+            android:id="@+id/infoButtonRoot"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <ImageView
+                android:id="@+id/infoButton"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/ecc_content_descr_info_btn"
+                android:padding="10dp"
+                android:src="@drawable/ecc_info_icon"
+                android:elevation="10dp"/>
+
+        </FrameLayout>
+
+        <kg.bakai.capacitor.edna.BankMessageBubble
+            android:id="@+id/bubble"
+            style="@style/userBubble"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:tag="bubble">
+
+            <edna.chatcenter.ui.visual.views.QuoteHolderView
+                android:id="@+id/quoteView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <kg.bakai.capacitor.edna.BankImagePreview
+                android:id="@+id/imageRoot"
+                android:layout_width="@dimen/ecc_message_image_size"
+                android:layout_height="@dimen/ecc_message_image_size"
+                android:layout_gravity="center_horizontal">
+
+                <FrameLayout
+                    android:id="@+id/imageLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"/>
+
+                </FrameLayout>
+
+                <ImageView
+                    android:id="@+id/errorImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="240dp"
+                    android:layout_marginTop="@dimen/ecc_margin_quarter"
+                    android:visibility="gone"
+                    android:minWidth="240dp" />
+
+                <edna.chatcenter.ui.visual.widget.textView.BubbleTimeTextView
+                    android:id="@+id/imageTimeStamp"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_gravity="end|bottom"
+                    android:layout_marginEnd="@dimen/ecc_timeLabelMarginRight"
+                    android:layout_marginBottom="@dimen/ecc_timeLabelMarginBottom"
+                    android:background="@drawable/ecc_timestamp_outgoing_underlayer"
+                    android:drawablePadding="0dp"
+                    android:paddingLeft="0dp"
+                    android:paddingRight="0dp"
+                    tools:ignore="RelativeOverlap"
+                    tools:text="10:19" android:maxWidth="0dp" android:alpha="0" />
+
+            </kg.bakai.capacitor.edna.BankImagePreview>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/rightTextRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginBottom="@dimen/ecc_margin_quarter"
+                android:paddingTop="@dimen/ecc_margin_quarter"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <FrameLayout
+                    android:id="@+id/buttonsLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:ignore="NestedWeights">
+
+                    <edna.chatcenter.ui.visual.views.CircularProgressButton
+                        android:id="@+id/buttonDownload"
+                        android:layout_width="@dimen/ecc_file_icon_size"
+                        android:layout_height="@dimen/ecc_file_icon_size"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="@dimen/ecc_margin_half"
+                        android:layout_marginBottom="@dimen/ecc_margin_half"
+                        android:visibility="gone" />
+
+                    <FrameLayout
+                        android:id="@+id/loaderAndErrorImagesLayout"
+                        android:layout_width="@dimen/ecc_file_icon_size"
+                        android:layout_height="@dimen/ecc_file_icon_size"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="@dimen/ecc_margin_half"
+                        android:layout_marginTop="@dimen/ecc_margin_material"
+                        android:layout_marginEnd="@dimen/ecc_margin_half"
+                        android:layout_marginBottom="@dimen/ecc_margin_material"
+                        android:visibility="gone"
+                        tools:visibility="visible">
+
+                        <ImageView
+                            android:id="@+id/loader"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="fitXY"
+                            android:visibility="gone" />
+
+                        <ImageView
+                            android:id="@+id/errorFileImage"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="fitXY"
+                            android:visibility="gone" />
+                    </FrameLayout>
+                </FrameLayout>
+
+                <edna.chatcenter.ui.visual.widget.textView.BubbleTimeTextView
+                    android:id="@+id/fileTimeStamp"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:drawablePadding="0dp"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:text="10:19" android:maxWidth="0dp" android:alpha="0" />
+
+                <LinearLayout
+                    android:id="@+id/fileSpecs"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="2dp"
+                    android:layout_marginStart="@dimen/ecc_margin_quarter"
+                    app:layout_constraintStart_toEndOf="@id/buttonsLayout"
+                    app:layout_constraintEnd_toStartOf="@id/fileTimeStamp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent">
+
+                    <edna.chatcenter.ui.visual.widget.textView.QuoteAuthorTextView
+                        android:id="@+id/fileTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        tools:text="Иван Петров" />
+
+                    <edna.chatcenter.ui.visual.widget.textView.QuoteMessageTextView
+                        android:id="@+id/fileSize"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/ecc_margin_three_fourth"
+                        android:ellipsize="end"
+                        android:maxLines="3"
+                        tools:text="счет на оплату 1,2mb 436666666666364" />
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/phraseFrame"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <edna.chatcenter.ui.visual.widget.textView.BubbleMessageTextView
+                    android:id="@+id/text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:lineSpacingMultiplier="1" android:includeFontPadding="false" android:textStyle="normal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:tag="textMessage"
+                    app:last_line_extra_padding_symbols="0"
+                    tools:text="user text google.com" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/voiceMessage"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="-12dp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="0dp">
+
+                    <ImageButton
+                        android:id="@+id/voiceMessageButtonPlayPause"
+                        android:layout_width="@dimen/ecc_file_icon_size"
+                        android:layout_height="@dimen/ecc_file_icon_size"
+                        android:background="@null"
+                        android:scaleType="fitXY"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ecc_voice_message_play"
+                        android:contentDescription="@string/ecc_content_descr_play_button" />
+
+                    <com.google.android.material.slider.Slider
+                        android:id="@+id/voiceMessageUserSlider"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:theme="@style/ThemeOverlay.ChatCenter.Slider.User"
+                        android:layout_marginTop="-11dp"
+                        app:thumbRadius="@dimen/ecc_thumb_size"
+                        app:haloRadius="@dimen/ecc_halo_radius"
+                        app:layout_constraintStart_toEndOf="@+id/voiceMessageButtonPlayPause"
+                        app:layout_constraintTop_toTopOf="@id/voiceMessageButtonPlayPause"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
+                    <edna.chatcenter.ui.visual.widget.textView.BubbleMessageTextView
+                        android:id="@+id/voiceFileSize"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="-11dp"
+                        android:layout_marginStart="@dimen/ecc_margin_half"
+                        app:layout_constraintStart_toStartOf="@+id/voiceMessageUserSlider"
+                        app:layout_constraintTop_toBottomOf="@+id/voiceMessageUserSlider"
+                        tools:text="1:20" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <edna.chatcenter.ui.visual.widget.textView.BubbleTimeTextView
+                    android:id="@+id/timeStamp"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="@id/text"
+                    android:drawablePadding="0dp"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="0dp"
+                    tools:text="10:19" android:maxWidth="0dp" android:alpha="0" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <include layout="@layout/ecc_open_graph_layout"/>
+        </kg.bakai.capacitor.edna.BankMessageBubble>
+
+    </LinearLayout>
+
+    <edna.chatcenter.ui.visual.widget.textView.BubbleTimeTextView
+        android:id="@+id/errorText"
+        style="@style/timestamp"
+        android:layout_below="@+id/bubbleRoot"
+        android:layout_alignParentEnd="true"
+        android:gravity="end"
+        android:paddingStart="0dp"
+        android:paddingEnd="0dp"
+        android:layout_marginEnd="@dimen/ecc_user_margin_right"
+        android:textSize="@dimen/ecc_error_text_size"
+        android:visibility="gone"
+        tools:text="Some error text"
+        tools:visibility="visible" />
+    <kg.bakai.capacitor.edna.BankClientSideView android:id="@+id/bank_client_side" android:layout_width="42dp" android:layout_height="42dp" android:layout_marginEnd="8dp" android:layout_alignParentEnd="true" android:layout_alignParentTop="true" />
+</RelativeLayout>

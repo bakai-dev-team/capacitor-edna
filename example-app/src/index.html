@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1" />
+    <title>Проверка чата edna</title>
+    <style>
+      body { margin: 0; padding: max(24px, env(safe-area-inset-top)) 20px max(24px, env(safe-area-inset-bottom)); font: 16px system-ui; background: #f4f6f8; color: #17212b; }
+      main { max-width: 640px; margin: auto; }
+      label { display: block; margin-top: 14px; }
+      input { box-sizing: border-box; width: 100%; padding: 12px; margin-top: 4px; border: 1px solid #8b98a5; border-radius: 8px; font: inherit; }
+      button { padding: 12px 16px; margin: 12px 8px 0 0; border: 0; border-radius: 8px; background: #174e70; color: white; font: inherit; }
+      button:disabled { opacity: .5; }
+      #status { white-space: pre-wrap; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Проверка чата edna</h1>
+      <p>Откройте приложение на Android или iOS. Введите настройки тестового стенда и данные тестового клиента. Поля не сохраняются.</p>
+      <form id="chat-form" autocomplete="off">
+        <label>Provider UID<input id="providerUid" required /></label>
+        <label>App marker (если требуется)<input id="appMarker" /></label>
+        <label>REST URL<input id="restUrl" type="url" placeholder="https://…" required /></label>
+        <label>WebSocket URL<input id="webSocketUrl" type="url" placeholder="wss://…" required /></label>
+        <label>DataStore URL<input id="dataStoreUrl" type="url" placeholder="https://…" required /></label>
+        <label>User ID чата<input id="userId" required /></label>
+        <label>Токен чата (только для кастомной авторизации)<input id="token" type="password" /></label>
+        <label>Схема авторизации (по настройкам стенда)<input id="scheme" /></label>
+        <label>Черновик сообщения<input id="prefilledMessage" /></label>
+        <button type="submit">Открыть чат</button>
+        <button type="button" id="lock">Заблокировать чат</button>
+        <button type="button" id="logout">Выйти из чата</button>
+      </form>
+      <p id="status" role="status" aria-live="polite">Введите настройки стенда.</p>
+    </main>
+    <script src="./js/example.js" type="module"></script>
+  </body>
+</html>

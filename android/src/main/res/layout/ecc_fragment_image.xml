@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/preview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/ecc_message_system_quote_image" />
+
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/loader"
+        android:layout_width="@dimen/ecc_operator_photo_size"
+        android:layout_height="@dimen/ecc_operator_photo_size"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:contentDescription="@string/ecc_empty_chat_loading_state" />
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/ecc_message_system_quote_image" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="#E6171819"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:orientation="vertical">
+
+        <edna.chatcenter.ui.visual.widget.CustomFontTextView
+            android:id="@+id/from"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|start"
+            android:paddingStart="@dimen/ecc_margin_material"
+            android:paddingEnd="0dp"
+            android:paddingTop="@dimen/ecc_margin_quarter"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/ecc_attachments_author_text_size"
+            tools:text="from"/>
+
+        <edna.chatcenter.ui.visual.widget.CustomFontTextView
+            android:id="@+id/date"
+            android:textColor="@color/bakai_edna_media_caption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|start"
+            android:paddingStart="@dimen/ecc_margin_material"
+            android:paddingEnd="0dp"
+            android:paddingBottom="@dimen/ecc_margin_quarter"
+            tools:text="date"/>
+
+    </LinearLayout>
+</FrameLayout>

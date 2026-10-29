@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootLayout" android:minHeight="42dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <kg.bakai.capacitor.edna.BankAvatarSourceView
+        android:id="@+id/consult_avatar"
+        android:scaleType="fitCenter"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:layout_alignBottom="@id/bubbleLayout"
+        android:layout_marginStart="@dimen/bakai_edna_message_side_margin"
+        tools:src="@drawable/ecc_operator_avatar_placeholder" />
+
+    <RelativeLayout
+        android:id="@+id/bubbleLayout"
+        style="@style/consultBubble"
+        android:layout_toEndOf="@+id/bank_client_side">
+
+        <edna.chatcenter.ui.visual.views.QuoteHolderView
+            android:id="@+id/quoteView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="@dimen/ecc_margin_half"
+            android:paddingBottom="@dimen/ecc_margin_half"/>
+
+        <edna.chatcenter.ui.visual.views.CircularProgressButton
+            android:id="@+id/buttonDownload"
+            style="@style/CircularProgressButtonStyle"
+            android:layout_marginTop="@dimen/ecc_margin_half"
+            android:layout_marginBottom="@dimen/ecc_margin_three_fourth"
+            android:layout_centerVertical="true"
+            android:layout_below="@+id/quoteView" />
+
+        <ImageView
+            android:id="@+id/fileImage"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_centerVertical="true"
+            app:srcCompat="@drawable/ecc_im_loading_consult" />
+
+        <LinearLayout
+            android:id="@+id/fileSpecLayout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/ecc_margin_half"
+            android:orientation="vertical"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/buttonDownload">
+
+            <edna.chatcenter.ui.visual.widget.textView.BubbleMessageTextView
+                android:id="@+id/to"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="счет на.pdf" />
+
+            <edna.chatcenter.ui.visual.widget.textView.BubbleMessageTextView
+                android:id="@+id/fileSpecs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                tools:text="1,2 mb" />
+
+        </LinearLayout>
+
+        <edna.chatcenter.ui.visual.widget.textView.BubbleTimeTextView
+            android:id="@+id/sendAt"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="0dp"
+            android:drawablePadding="0dp"
+            android:textColor="@color/ecc_operator_message_timestamp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            tools:text="10:19" android:maxWidth="0dp" android:alpha="0" />
+    </RelativeLayout>
+
+    <edna.chatcenter.ui.visual.widget.textView.BubbleTimeTextView
+        android:id="@+id/errorText"
+        style="@style/timestamp"
+        android:layout_below="@+id/bubbleLayout"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="@dimen/ecc_margin_half"
+        android:paddingStart="60dp"
+        android:paddingEnd="0dp"
+        android:textSize="@dimen/ecc_error_text_size"
+        android:visibility="visible"
+        tools:text="10:19" />
+
+    <kg.bakai.capacitor.edna.BankClientSideView android:id="@+id/bank_client_side" android:tag="incoming" android:layout_width="30dp" android:layout_height="42dp" android:layout_marginStart="8dp" android:layout_alignParentStart="true" android:layout_alignParentTop="true" />
+</RelativeLayout>

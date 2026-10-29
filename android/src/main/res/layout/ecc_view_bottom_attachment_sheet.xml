@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+    <kg.bakai.capacitor.edna.BankAttachmentMenuLayout
+        android:layout_width="match_parent" android:layout_height="106dp"
+        android:orientation="horizontal" android:paddingLeft="20dp" android:paddingRight="20dp"
+        android:paddingTop="18dp" android:paddingBottom="22dp">
+        <edna.chatcenter.ui.visual.widget.CustomFontButton
+            android:id="@+id/camera" android:layout_width="0dp" android:layout_height="66dp"
+            android:layout_weight="1" android:layout_marginLeft="0dp"
+            android:layout_marginRight="6dp" android:gravity="center"
+            android:padding="8dp" android:textAllCaps="false"
+            style="?android:attr/borderlessButtonStyle" />
+        <edna.chatcenter.ui.visual.widget.CustomFontButton
+            android:id="@+id/gallery" android:layout_width="0dp" android:layout_height="66dp"
+            android:layout_weight="1" android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp" android:gravity="center"
+            android:padding="8dp" android:textAllCaps="false"
+            style="?android:attr/borderlessButtonStyle" />
+        <edna.chatcenter.ui.visual.widget.CustomFontButton
+            android:id="@+id/file" android:layout_width="0dp" android:layout_height="66dp"
+            android:layout_weight="1" android:layout_marginLeft="6dp"
+            android:layout_marginRight="0dp" android:gravity="center"
+            android:padding="8dp" android:textAllCaps="false"
+            style="?android:attr/borderlessButtonStyle" />
+        <edna.chatcenter.ui.visual.widget.CustomFontButton
+            android:id="@+id/send" android:layout_width="wrap_content" android:layout_height="66dp"
+            android:visibility="gone" style="?android:attr/borderlessButtonStyle" />
+    </kg.bakai.capacitor.edna.BankAttachmentMenuLayout>
+</merge>

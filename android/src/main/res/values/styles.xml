@@ -1,0 +1,51 @@
+<resources>
+    <style name="BakaiEdnaChatTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:forceDarkAllowed">false</item>
+        <item name="android:textColorHighlight">#66626970</item>
+        <item name="bakaiEdnaSurface">@color/bakai_edna_light_input</item>
+        <item name="bakaiEdnaStroke">#1407203A</item>
+        <item name="bakaiEdnaText">@color/bakai_edna_light_text</item>
+        <item name="bakaiEdnaAccent">@color/bakai_edna_light_accent</item>
+        <item name="bakaiEdnaPage">@color/bakai_edna_light_background</item>
+        <item name="bakaiEdnaFade">#00F5F5F5</item>
+        <item name="android:colorBackground">@color/bakai_edna_light_background</item>
+    </style>
+    <item name="bakai_edna_chat_container" type="id" />
+    <style name="BakaiEdnaChatTheme.Dark">
+        <item name="bottomSheetDialogTheme">@style/BakaiEdnaAttachmentDialogDark</item>
+        <item name="android:textColorHighlight">#66626970</item>
+        <item name="bakaiEdnaSurface">@color/bakai_edna_dark_input</item>
+        <item name="bakaiEdnaText">@color/bakai_edna_dark_text</item>
+        <item name="bakaiEdnaAccent">@color/bakai_edna_dark_accent</item>
+        <item name="bakaiEdnaPage">@color/bakai_edna_dark_background</item>
+        <item name="bakaiEdnaStroke">#14F5F5F5</item>
+        <item name="bakaiEdnaFade">#00171819</item>
+        <item name="android:colorBackground">@color/bakai_edna_dark_background</item>
+    </style>
+    <style name="BakaiEdnaChatTheme.IfcLight">
+        <item name="android:textColorHighlight">#66626970</item>
+        <item name="bakaiEdnaSurface">@color/bakai_edna_ifclight_input</item>
+        <item name="bakaiEdnaText">@color/bakai_edna_ifclight_text</item>
+        <item name="bakaiEdnaAccent">@color/bakai_edna_ifclight_accent</item>
+        <item name="bakaiEdnaPage">@color/bakai_edna_ifclight_background</item>
+        <item name="bakaiEdnaStroke">#1407203A</item>
+        <item name="bakaiEdnaFade">#00F5F5F5</item>
+        <item name="android:colorBackground">@color/bakai_edna_ifclight_background</item>
+    </style>
+    <style name="BakaiEdnaChatTheme.IfcDark">
+        <item name="bottomSheetDialogTheme">@style/BakaiEdnaAttachmentDialogDark</item>
+        <item name="android:textColorHighlight">#66626970</item>
+        <item name="bakaiEdnaSurface">@color/bakai_edna_ifcdark_input</item>
+        <item name="bakaiEdnaText">@color/bakai_edna_ifcdark_text</item>
+        <item name="bakaiEdnaAccent">@color/bakai_edna_ifcdark_accent</item>
+        <item name="bakaiEdnaPage">@color/bakai_edna_ifcdark_background</item>
+        <item name="bakaiEdnaStroke">#14FFFFFF</item>
+        <item name="bakaiEdnaFade">#00000606</item>
+        <item name="android:colorBackground">@color/bakai_edna_ifcdark_background</item>
+    </style>
+    <style name="BakaiEdnaAttachmentDialogDark" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="android:navigationBarColor">@color/bakai_edna_menu_dark_surface</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:enforceNavigationBarContrast">false</item>
+    </style>
+</resources>

@@ -1,0 +1,8 @@
+<resources>
+    <attr name="bakaiEdnaSurface" format="color" />
+    <attr name="bakaiEdnaStroke" format="color" />
+    <attr name="bakaiEdnaText" format="color" />
+    <attr name="bakaiEdnaAccent" format="color" />
+    <attr name="bakaiEdnaPage" format="color" />
+    <attr name="bakaiEdnaFade" format="color" />
+</resources>

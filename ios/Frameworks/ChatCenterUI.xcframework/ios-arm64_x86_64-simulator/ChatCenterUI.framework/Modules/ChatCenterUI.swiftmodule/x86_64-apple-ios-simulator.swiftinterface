@@ -1,0 +1,2119 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.1.2 effective-5.10 (swiftlang-6.1.2.1.2 clang-1700.0.13.5)
+// swift-module-flags: -target x86_64-apple-ios14.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -module-name ChatCenterUI
+// swift-module-flags-ignorable: -no-verify-emitted-module-interface -interface-compiler-version 6.1.2
+import AVFoundation
+@_exported import ChatCenterUI
+import DeveloperToolsSupport
+import Foundation
+import ImageIO
+import LinkPresentation
+import MobileCoreServices
+import Photos
+import PhotosUI
+import Swift
+import SwiftUI
+import SystemConfiguration
+import UIKit
+import UIKit.UIView
+import UIKit.UIViewController
+import UniformTypeIdentifiers
+import WebKit
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+import os
+@objc @objcMembers final public class ChatTheme : ObjectiveC.NSObject, ChatCenterUI.Applicable {
+  @objc public init(colors: ChatCenterUI.ChatColors = .init(), images: ChatCenterUI.ChatImages = .init(), typography: ChatCenterUI.ChatTypography = .init())
+  @objc convenience public init(components: ChatCenterUI.ChatComponents)
+  @objc override final public var debugDescription: Swift.String {
+    @objc get
+  }
+  @objc final public var colors: ChatCenterUI.ChatColors {
+    get
+  }
+  @objc final public var images: ChatCenterUI.ChatImages {
+    get
+  }
+  @objc final public var typography: ChatCenterUI.ChatTypography {
+    get
+  }
+  @objc final public var components: ChatCenterUI.ChatComponents {
+    get
+  }
+  @objc final public var flows: ChatCenterUI.ChatFlows {
+    get
+  }
+  @objc deinit
+}
+@objc @objcMembers final public class THRDownloadDataRequest : ObjectiveC.NSObject, @unchecked Swift.Sendable {
+  @objc public init(dataProvider: ChatCenterUI.CCDataProvider)
+  @objc deinit
+  @objc final public func downloadAndSaveFile(url: Foundation.URL, completionHandler: @escaping (Foundation.URL?, (any Swift.Error)?) -> Swift.Void, progressHandler: ((CoreFoundation.CGFloat) -> Swift.Void)? = nil)
+  @objc final public func downloadImage(url: Foundation.URL, completionHandler: @escaping (Foundation.Data?, (any Swift.Error)?) -> Swift.Void)
+  @objc final public func downloadData(url: Foundation.URL, completionHandler: @escaping (Foundation.NSData?, Foundation.NSError?) -> Swift.Void, progressHandler: ((CoreFoundation.CGFloat) -> Swift.Void)? = nil)
+  @objc final public func cancelDownload()
+}
+@objc @_inheritsConvenienceInitializers @objcMembers final public class ChatMessagesStyles : ChatCenterUI.ChatStyle {
+  @objc required public init(components: ChatCenterUI.ChatComponents)
+  @objc final public var textMessageStyle: ChatCenterUI.TextChatMessageStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var imageMessageStyle: ChatCenterUI.ImageChatMessageStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var audioMessageStyle: ChatCenterUI.AudioChatMessageStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var fileMessageStyle: ChatCenterUI.FileChatMessageStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var deletedTextStyle: ChatCenterUI.ChatTextStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var bubbleMaskInsets: UIKit.UIEdgeInsets
+  @objc final public var bubbleErrorColor: UIKit.UIColor {
+    @objc get
+    @objc set
+  }
+  @objc final public var quoteStyle: ChatCenterUI.QuoteStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var showAvatar: Swift.Bool
+  @objc final public var avatarSize: CoreFoundation.CGSize
+  @objc final public var avatarOffset: CoreFoundation.CGFloat
+  @objc final public var avatarPlaceholderImage: ChatCenterUI.ChatImage {
+    @objc get
+    @objc set
+  }
+  @objc final public var bubbleMaskImage: ChatCenterUI.ChatImage {
+    @objc get
+    @objc set
+  }
+  @objc final public var bubbleTintColor: UIKit.UIColor {
+    @objc get
+    @objc set
+  }
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @objcMembers final public class ChatColors : ObjectiveC.NSObject, ChatCenterUI.Applicable {
+  @objc final public var main: UIKit.UIColor
+  @objc final public var secondary: UIKit.UIColor
+  @objc final public var disabled: UIKit.UIColor
+  @objc final public var background: UIKit.UIColor
+  @objc final public var backgroundWhite: UIKit.UIColor
+  @objc final public var link: UIKit.UIColor
+  @objc final public var linkLight: UIKit.UIColor
+  @objc final public var positive: UIKit.UIColor
+  @objc final public var warning: UIKit.UIColor
+  @objc final public var error: UIKit.UIColor
+  @objc final public var errorLight: UIKit.UIColor
+  @objc public static func build(configure: (ChatCenterUI.ChatColors) -> Swift.Void) -> ChatCenterUI.ChatColors
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers final public class NavigationBarStyle : ChatCenterUI.ChatStyle {
+  @objc final public var hidden: Swift.Bool
+  @objc final public var backButtonColor: UIKit.UIColor
+  @objc final public var showCloseButton: Swift.Bool
+  @objc final public var closeButtonStyle: ChatCenterUI.IconButtonStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var isConfigurable: Swift.Bool
+  @objc final public var titleTextStyle: ChatCenterUI.ChatTextStyle
+  @objc final public var subtitleVisible: Swift.Bool
+  @objc final public var subtitleShowOrgUnit: Swift.Bool
+  @objc final public var subtitleTextStyle: ChatCenterUI.ChatTextStyle?
+  @objc final public var searchButtonStyle: ChatCenterUI.NavigationBarButtonStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var searchBarStyle: ChatCenterUI.SearchBarStyle
+  @objc final public var keyboardControlVisible: Swift.Bool
+  @objc final public var keyboardShowButtonStyle: ChatCenterUI.NavigationBarButtonStyle
+  @objc final public var keyboardHideButtonStyle: ChatCenterUI.IconButtonStyle
+  @objc deinit
+}
+@objc public protocol SQFileViewerAttachment : ObjectiveC.NSObjectProtocol {
+  @objc var name: Swift.String? { get set }
+  @objc var url: Foundation.URL? { get set }
+}
+@objc @objcMembers public class THRJSQFile : ObjectiveC.NSObject, ChatCenterUI.SQFileViewerAttachment, Foundation.NSSecureCoding, Swift.Codable {
+  @objc required public init?(coder aDecoder: Foundation.NSCoder)
+  @objc public init(name: Swift.String?, url: Swift.String?)
+  @objc public static var supportsSecureCoding: Swift.Bool
+  @objc public var name: Swift.String?
+  @objc public var url: Foundation.URL?
+  @objc public var isCached: Swift.Bool {
+    @objc get
+  }
+  @objc public func encode(with coder: Foundation.NSCoder)
+  @objc deinit
+  public func encode(to encoder: any Swift.Encoder) throws
+  required public init(from decoder: any Swift.Decoder) throws
+}
+@objc public enum CCState : Swift.Int {
+  case notConnected = 0
+  case loadingHistory
+  case connecting
+  case reconnecting
+  case ready
+  case waitingForSpecialist
+  case working
+  case disconnected
+  case closed
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public protocol CCChatStateDelegate : ObjectiveC.NSObjectProtocol {
+  @objc func setTitleText(_ text: Swift.String)
+  @objc func setSubtitleText(_ text: Swift.String, animated: Swift.Bool)
+}
+@objc @_inheritsConvenienceInitializers @objcMembers public class CCChatState : ObjectiveC.NSObject {
+  @objc weak public var view: (any ChatCenterUI.CCChatStateDelegate)?
+  @objc weak public var chat: ChatCenterUI.CCChatModel?
+  @objc public func updateView()
+  @objc public func set(_ newState: ChatCenterUI.CCState)
+  @objc public func getState() -> ChatCenterUI.CCState
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @objcMembers public class Localization : ObjectiveC.NSObject {
+  @objc public class func localize(key: Swift.String, value: Swift.String) -> Swift.String
+  @objc public class func localize(key: Swift.String) -> Swift.String
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @objcMembers final public class QuoteStyle : ChatCenterUI.ChatStyle {
+  @objc required public init(components: ChatCenterUI.ChatComponents)
+  @objc final public var authorTextStyle: ChatCenterUI.ChatTextStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var messageTextStyle: ChatCenterUI.ChatTextStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var separatorColor: UIKit.UIColor
+  @objc final public var showFullName: Swift.Bool
+  @objc final public var backgroundCornerRadius: CoreFoundation.CGFloat
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers @_Concurrency.MainActor @preconcurrency public class SearchCell : UIKit.UITableViewCell {
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public init(style: UIKit.UITableViewCell.CellStyle, reuseIdentifier: Swift.String?)
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func prepareForReuse()
+  @objc @_Concurrency.MainActor @preconcurrency public func configureMessage(_ message: ChatCenterUI.THRMessage, avatarService: ChatCenterUI.AvatarService?, searchText: Swift.String, avatar: UIKit.UIImage?)
+  @objc deinit
+}
+extension ChatCenterUI.CCChatModel {
+  @objc dynamic public var voiceRecordingEnabled: Swift.Bool {
+    @objc get
+  }
+  @objc dynamic public var linkPreviewEnabled: Swift.Bool {
+    @objc get
+  }
+  @objc dynamic public var searchEnabled: Swift.Bool {
+    @objc get
+  }
+  @objc dynamic public var showAttachmentButton: Swift.Bool {
+    @objc get
+  }
+  @objc dynamic public var scrollToLatest: Swift.Bool {
+    @objc get
+  }
+  @objc dynamic public var surveyCompletionDelay: Swift.Int {
+    @objc get
+  }
+  @objc dynamic public func getAvatar(for url: Foundation.URL, size: CoreFoundation.CGSize) -> UIKit.UIImage?
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers public class MigrationServiceLocator : ObjectiveC.NSObject {
+  @objc public static var shared: ChatCenterUI.MigrationServiceLocator
+  @objc public static var currentLocale: Foundation.Locale
+  @objc public static let maxMesssageLength: Swift.Int
+  @objc public static var logger: ChatCenterUI.EDNALogger? {
+    @objc get
+  }
+  @objc public var logger: ChatCenterUI.EDNALogger?
+  @objc public var currentTheme: ChatCenterUI.ChatTheme {
+    @objc get
+  }
+  @objc public var clientName: Swift.String? {
+    @objc get
+  }
+  @objc public func open(url: Foundation.URL) -> Swift.Bool
+  @objc deinit
+}
+extension Foundation.NSString {
+  @objc dynamic public func getAttributedString(withAttributes flow: ChatCenterUI.ChatFlow, isOutgoing: Swift.Bool) -> Foundation.NSAttributedString
+}
+@objc @_inheritsConvenienceInitializers final public class TextButtonStyle : ChatCenterUI.ButtonStyle {
+  @objc required public init(components: ChatCenterUI.ChatComponents)
+  @objc final public var titleTextStyle: ChatCenterUI.ChatTextStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var titleTextInsets: UIKit.UIEdgeInsets {
+    @objc get
+    @objc set
+  }
+  @objc final public var borderWidth: CoreFoundation.CGFloat
+  @objc deinit
+}
+@objc @objcMembers public class THRClient : ChatCenterUI.THRParticipant {
+  @objc public init(identifier: Swift.String, name: Swift.String)
+  @objc public func toDictionary() -> [Swift.AnyHashable : Swift.String]?
+  @objc override public func encode(with coder: Foundation.NSCoder)
+  @objc deinit
+}
+@objc extension Foundation.NSAttributedString {
+  @objc dynamic public func detectPhoneNumbers() -> Foundation.NSAttributedString?
+}
+@objc public enum THRMessageStatus : Swift.Int {
+  case sending = 0
+  case failed
+  case unqueued
+  case sent
+  case delivered
+  case read
+  case edited
+  case deleted
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public enum THRMessageModified : Swift.Int {
+  case none = 0
+  case edited
+  case deleted
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public enum THRMessageType : Swift.Int {
+  case message
+  case clientInfo
+  case clientOffline
+  case operatorJoined
+  case typing
+  case survey
+  case surveyQuestionAnswer
+  case surveyQualityFormAnswer
+  case requestCloseThread
+  case closeThread
+  case reopenThread
+  case operatorLookupStarted
+  case clientBlocked
+  case clientBlockRejected
+  case clientUnblocked
+  case threadOpened
+  case threadClosed
+  case scenario
+  case unreadMessageNotification
+  case averageWaitTime
+  case threadWillBeTransferred
+  case threadInProgress
+  case threadEnqueued
+  case partingAfterSurvey
+  case threadWillBeReassigned
+  case speechMessageUpdated
+  case attachmentUpdated
+  case updateLocation
+  case messageEdited
+  case messageDeleted
+  case clientPersonalDataProcessing
+  case thisChatIsViewableOnly
+  case schedule
+  case none
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public protocol THRMessageProtocol : ObjectiveC.NSObjectProtocol {
+  @objc var date: Foundation.Date { get set }
+  @objc var uuid: Swift.String { get set }
+}
+@objc public protocol THRMessageDelegate {
+  @objc func didUpdateModified(_ modified: ChatCenterUI.THRMessageModified)
+  @objc func didUpdateStatus(_ status: ChatCenterUI.THRMessageStatus)
+  @objc func didUpdateStatusWithReload()
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers public class THRMessage : ObjectiveC.NSObject, ChatCenterUI.THRMessageProtocol, Foundation.NSSecureCoding, Swift.Comparable {
+  @objc public init(author: ChatCenterUI.THRParticipant? = nil, date: Foundation.Date? = nil, text: Swift.String? = nil, formattedText: Swift.String? = nil, speechText: Swift.String? = nil, status: ChatCenterUI.THRMessageStatus = .sending, media: (any ChatCenterUI.THRJSQMessageMediaData)? = nil, type: ChatCenterUI.THRMessageType)
+  @objc required public init?(coder: Foundation.NSCoder)
+  @objc public static var supportsSecureCoding: Swift.Bool
+  @objc override dynamic public var hash: Swift.Int {
+    @objc get
+  }
+  @objc public var uuid: Swift.String
+  @objc public var type: ChatCenterUI.THRMessageType
+  @objc public var correlationId: Swift.String?
+  @objc public var messageId: Swift.String?
+  @objc public var author: ChatCenterUI.THRParticipant?
+  @objc public var date: Foundation.Date
+  @objc public var isMediaMessage: Swift.Bool
+  @objc public var text: Swift.String?
+  @objc public var formattedText: Swift.String?
+  @objc public var speechText: Swift.String?
+  @objc public var ogData: ChatCenterUI.CCLinkMetadata?
+  @objc public var ogLoading: Swift.Bool
+  @objc public var rawType: Swift.String?
+  @objc public var media: (any ChatCenterUI.THRJSQMessageMediaData)?
+  @objc public var status: ChatCenterUI.THRMessageStatus
+  @objc public var modified: ChatCenterUI.THRMessageModified
+  @objc weak public var messageDelegate: (any ChatCenterUI.THRMessageDelegate)?
+  @objc public var quotedMessage: ChatCenterUI.THRMessage?
+  @objc public var quickReplies: [ChatCenterUI.QuickReply]?
+  @objc public var isQuickReply: Swift.Bool
+  @objc public var routingParams: ChatCenterUI.THRRoutingParams?
+  @objc public var isMassPushMessage: Swift.Bool
+  @objc public var campaign: Swift.String?
+  @objc public var chlSentAt: Swift.String?
+  @objc public var loadedFromHistory: Swift.Bool
+  @objc public var blockInput: Swift.Bool
+  @objc public var error: (any Swift.Error)?
+  @objc public var isOutgoing: Swift.Bool
+  @objc public var isPersonalOffer: Swift.Bool
+  @objc public var isSystemFlag: Swift.Bool
+  @objc public var containsLinkMetadata: Swift.Bool {
+    @objc get
+  }
+  @objc public var isShowStatus: Swift.Bool {
+    @objc get
+  }
+  public static func < (lhs: ChatCenterUI.THRMessage, rhs: ChatCenterUI.THRMessage) -> Swift.Bool
+  @objc public static func modified(for string: Swift.String?) -> ChatCenterUI.THRMessageModified
+  @objc public static func type(for string: Swift.String?) -> ChatCenterUI.THRMessageType
+  @objc public static func string(for type: ChatCenterUI.THRMessageType) -> Swift.String
+  @objc public func dayHeader() -> Swift.String
+  @objc public func isFileMessage() -> Swift.Bool
+  @objc public func isCompletedSurveyMessage() -> Swift.Bool
+  @objc public func quickRepliesMessage() -> ChatCenterUI.THRMessage?
+  @objc public func toDictionary() -> [Swift.String : Any]
+  @objc public func encode(with coder: Foundation.NSCoder)
+  @objc public func updateFromMessage(_ message: ChatCenterUI.THRMessage)
+  @objc public func setDeleted()
+  @objc deinit
+}
+extension ChatCenterUI.THRMessage {
+  @objc override dynamic public var debugDescription: Swift.String {
+    @objc get
+  }
+}
+@objc public protocol LoadingChatViewControllerDelegate : ObjectiveC.NSObjectProtocol {
+  @objc func repeatInitChat()
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers @_Concurrency.MainActor @preconcurrency final public class LoadingChatViewController : UIKit.UIViewController {
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public init()
+  @objc @_Concurrency.MainActor @preconcurrency weak final public var delegate: (any ChatCenterUI.LoadingChatViewControllerDelegate)?
+  @objc @_Concurrency.MainActor @preconcurrency weak final public var dataProvider: ChatCenterUI.CCDataProvider?
+  @objc @_Concurrency.MainActor @preconcurrency final public var error: (any Swift.Error)? {
+    @objc get
+    @objc set
+  }
+  @_Concurrency.MainActor @preconcurrency @objc override final public func loadView()
+  @objc deinit
+}
+@objc public enum THRParticipantSex : Swift.UInt {
+  case unknown = 1
+  case female = 2
+  case male = 3
+  public init?(rawValue: Swift.UInt)
+  public typealias RawValue = Swift.UInt
+  public var rawValue: Swift.UInt {
+    get
+  }
+}
+@objc @objcMembers public class THRParticipant : ObjectiveC.NSObject, Foundation.NSSecureCoding {
+  @objc public init(identifier: Swift.String, name: Swift.String? = nil, sex: ChatCenterUI.THRParticipantSex = .unknown)
+  @objc required convenience public init?(coder: Foundation.NSCoder)
+  @objc public static var supportsSecureCoding: Swift.Bool
+  @objc final public let identifier: Swift.String
+  @objc final public let name: Swift.String?
+  public var sex: ChatCenterUI.THRParticipantSex?
+  @objc public var avatarURL: Foundation.URL?
+  @objc public var avatar: UIKit.UIImage?
+  @objc public var image: UIKit.UIImage?
+  @objc public func encode(with coder: Foundation.NSCoder)
+  @objc deinit
+}
+extension UIKit.UIColor {
+  public static func colorFrom(hexString hexStr: Swift.String) -> UIKit.UIColor
+  public static func colorFor(light: UIKit.UIColor, dark: UIKit.UIColor) -> UIKit.UIColor
+}
+@objc @objcMembers public class THRJSQPhotoMediaItem : ChatCenterUI.THRJSQMediaItem, ChatCenterUI.SQFileViewerAttachment, Foundation.NSSecureCoding {
+  @objc public init(image: UIKit.UIImage?, messageId: Swift.String?, dataProvider: ChatCenterUI.CCDataProvider)
+  @objc convenience public init(url: Foundation.URL?, link: Swift.String?, messageId: Swift.String?, dataProvider: ChatCenterUI.CCDataProvider, shouldDownloadInitially: Swift.Bool, state: ChatCenterUI.THRJSQMessageAttachmentState)
+  @objc required public init?(coder aDecoder: Foundation.NSCoder)
+  @objc public static var supportsSecureCoding: Swift.Bool
+  @objc override public var fileData: Foundation.Data? {
+    @objc get
+    @objc set
+  }
+  @objc public var name: Swift.String?
+  @objc public var isImageDownloadFailed: Swift.Bool
+  @objc public var messageId: Swift.String?
+  @objc public var url: Foundation.URL?
+  @objc public var link: Swift.String?
+  @objc public var localURL: Foundation.URL?
+  @objc public var image: UIKit.UIImage?
+  @objc override public func mediaQuotedView() -> UIKit.UIImageView
+  @objc override public func fileName() -> Swift.String?
+  @objc override public func mediaDataType() -> Swift.String
+  @objc override public func mediaData() -> Any?
+  @objc override public func toDictionary() -> [Swift.String : Any]
+  @objc override public func sentSuccessfully(_ success: Swift.Bool)
+  @objc public func encode(with aCoder: Foundation.NSCoder)
+  @objc public func downloadImage()
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @objcMembers final public class ChatTypography : ObjectiveC.NSObject, ChatCenterUI.Applicable {
+  @objc final public var title: UIKit.UIFont
+  @objc final public var largeTitle: UIKit.UIFont
+  @objc final public var subtitle: UIKit.UIFont
+  @objc final public var heading1: UIKit.UIFont
+  @objc final public var heading2: UIKit.UIFont
+  @objc final public var body: UIKit.UIFont
+  @objc final public var bold: UIKit.UIFont
+  @objc final public var message: UIKit.UIFont
+  @objc final public var caption: UIKit.UIFont
+  @objc final public var caption2: UIKit.UIFont
+  @objc final public var footnote: UIKit.UIFont
+  @objc public static func build(configure: (ChatCenterUI.ChatTypography) -> Swift.Void) -> ChatCenterUI.ChatTypography
+  @objc override dynamic public init()
+  @objc deinit
+}
+public struct ChatConfig : Swift.CustomDebugStringConvertible {
+  public init(transportConfig: ChatCenterUI.ChatTransportConfig, networkConfig: ChatCenterUI.ChatNetworkConfig = .init(), isReconnectEnabled: Swift.Bool = false, maxReconnectAttempts: Swift.Int = 10)
+  public let isReconnectEnabled: Swift.Bool
+  public let maxReconnectAttempts: Swift.Int
+  public let transportConfig: ChatCenterUI.ChatTransportConfig
+  public var networkConfig: ChatCenterUI.ChatNetworkConfig
+  public var userInputEnabled: Swift.Bool
+  public var shouldUseRemoteConfig: Swift.Bool
+  public var searchEnabled: Swift.Bool
+  public var keepSocketActive: Swift.Bool
+  public var keepSocketActiveDuringOperatorSession: Swift.Bool
+  public var scrollToLatest: Swift.Bool
+  public var linkPreviewEnabled: Swift.Bool
+  public var surveyCompletionDelay: Swift.Int
+  public var voiceRecordingEnabled: Swift.Bool
+  public var historyLoadingCount: Swift.Int
+  public var unreadMessageCountDelay: Swift.Int
+  public var showAttachButton: Swift.Bool
+  public var debugDescription: Swift.String {
+    get
+  }
+}
+public struct ChatNetworkConfig : Swift.CustomDebugStringConvertible {
+  public init(httpConfig: ChatCenterUI.ChatNetworkConfig.HTTPConfig = HTTPConfig(), wsConfig: ChatCenterUI.ChatNetworkConfig.WSConfig = WSConfig(), sslPinning: ChatCenterUI.ChatNetworkConfig.SSLPinningConfig = SSLPinningConfig())
+  public struct HTTPConfig {
+    public init(connectionTimeout: Foundation.TimeInterval = 30, downloadTimeout: Foundation.TimeInterval = 30, uploadTimeout: Foundation.TimeInterval = 120)
+    public var connectionTimeout: Foundation.TimeInterval
+    public var downloadTimeout: Foundation.TimeInterval
+    public var uploadTimeout: Foundation.TimeInterval
+  }
+  public struct WSConfig {
+    public init(connectionTimeout: Foundation.TimeInterval = 30, sendTimeout: Foundation.TimeInterval = 20)
+    public var connectionTimeout: Foundation.TimeInterval
+    public var sendTimeout: Foundation.TimeInterval
+  }
+  public struct SSLPinningConfig {
+    public init(allowUntrustedSSLCertificate: Swift.Bool = false, trustedCertificates: [ChatCenterUI.ChatSSLCertificate] = [ChatSSLCertificate]())
+    public var allowUntrustedSSLCertificate: Swift.Bool
+    public var trustedCertificates: [ChatCenterUI.ChatSSLCertificate]
+  }
+  public var httpConfig: ChatCenterUI.ChatNetworkConfig.HTTPConfig
+  public var wsConfig: ChatCenterUI.ChatNetworkConfig.WSConfig
+  public var sslPinning: ChatCenterUI.ChatNetworkConfig.SSLPinningConfig
+  public var debugDescription: Swift.String {
+    get
+  }
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers public class THRProxyMessage : ChatCenterUI.THRMessage {
+  @available(*, unavailable)
+  @objc required public init?(coder _: Foundation.NSCoder)
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objc public class THRQuickRepliesMessage : ChatCenterUI.THRProxyMessage {
+  @objc override public var isMediaMessage: Swift.Bool {
+    @objc get
+    @objc set
+  }
+  @objc override public var quickReplies: [ChatCenterUI.QuickReply]? {
+    @objc get
+    @objc set
+  }
+  @objc deinit
+}
+@objc public enum THRJSQAudioMediaStatus : Swift.UInt {
+  case none = 0
+  case processing
+  case updated
+  case success
+  case maxSpeech
+  case error
+  public init?(rawValue: Swift.UInt)
+  public typealias RawValue = Swift.UInt
+  public var rawValue: Swift.UInt {
+    get
+  }
+}
+@objc public protocol THRJSQAudioMediaItemDelegate {
+  @objc func audioMediaItem(_ audioMediaItem: ChatCenterUI.THRJSQAudioMediaItem, didChangeAudioCategory category: AVFAudio.AVAudioSession.Category, options: AVFAudio.AVAudioSession.CategoryOptions, error: (any Swift.Error)?)
+}
+@objc @objcMembers public class THRJSQAudioMediaItem : ChatCenterUI.THRJSQMediaItem, AVFAudio.AVAudioPlayerDelegate, Foundation.NSSecureCoding {
+  @objc required public init?(coder: Foundation.NSCoder)
+  @objc public init(audioData: Foundation.Data, dataProvider: ChatCenterUI.CCDataProvider)
+  @objc public init(audioUrl: Foundation.URL?, dataProvider: ChatCenterUI.CCDataProvider)
+  @objc public static var supportsSecureCoding: Swift.Bool
+  @objc override public var fileData: Foundation.Data? {
+    @objc get
+    @objc set
+  }
+  @objc public var audioData: Foundation.Data?
+  @objc public var audioUrl: Foundation.URL?
+  @objc public var localURL: Foundation.URL?
+  @objc public var mediaURL: Foundation.URL?
+  @objc public var speechStatus: ChatCenterUI.THRJSQAudioMediaStatus
+  @objc override public func mediaData() -> Any?
+  @objc override public func fileName() -> Swift.String?
+  @objc override public func mediaQuotedView() -> UIKit.UIImageView
+  @objc override public func mediaDataType() -> Swift.String
+  @objc override public func toDictionary() -> [Swift.String : Any]
+  @objc override public func failedText() -> Swift.String?
+  @objc public class func convertStatusByName(_ name: Swift.String?) -> ChatCenterUI.THRJSQAudioMediaStatus
+  @objc public func encode(with aCoder: Foundation.NSCoder)
+  @objc public func downloadAudio()
+  @objc public func audioPlayerDidFinishPlaying(_ player: AVFAudio.AVAudioPlayer, successfully _: Swift.Bool)
+  @objc deinit
+}
+@objc public actor AvatarService : ObjectiveC.NSObject {
+  public init(dataProvider: ChatCenterUI.CCDataProvider)
+  @objc public func loadAvatar(url: Foundation.URL, size: CoreFoundation.CGSize = CGSize(width: 40, height: 40)) async throws -> UIKit.UIImage?
+  @objc deinit
+  @available(iOS 13.0, tvOS 13.0, watchOS 6.0, macOS 10.15, *)
+  @_semantics("defaultActor") nonisolated final public var unownedExecutor: _Concurrency.UnownedSerialExecutor {
+    get
+  }
+}
+extension Foundation.NSCache : @unchecked @retroactive Swift.Sendable {
+}
+public protocol ChatCenterUISDKDelegate : AnyObject {
+  func chatCenterUI(chatCenter: ChatCenterUI.ChatCenterUISDK, didChangeUnreadMessages count: Swift.Int)
+  func chatCenterUI(chatCenter: ChatCenterUI.ChatCenterUISDK, didReceiveNetwork error: any Swift.Error)
+  func chatCenterUI(chatCenter: ChatCenterUI.ChatCenterUISDK, didOpen url: Foundation.URL) -> Swift.Bool
+  func chatCenterUI(chatCenter: ChatCenterUI.ChatCenterUISDK, didLog event: Swift.String)
+}
+extension ChatCenterUI.ChatCenterUISDKDelegate {
+  public func chatCenterUI(chatCenter _: ChatCenterUI.ChatCenterUISDK, didChangeUnreadMessages _: Swift.Int)
+  public func chatCenterUI(chatCenter _: ChatCenterUI.ChatCenterUISDK, didReceiveNetwork _: any Swift.Error)
+  public func chatCenterUI(chatCenter _: ChatCenterUI.ChatCenterUISDK, didOpen _: Foundation.URL) -> Swift.Bool
+  public func chatCenterUI(chatCenter _: ChatCenterUI.ChatCenterUISDK, didLog _: Swift.String)
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers public class ChatUserFlow : ObjectiveC.NSObject, ChatCenterUI.Applicable {
+  @objc public var navigationBarStyle: ChatCenterUI.NavigationBarStyle {
+    @objc get
+    @objc set
+  }
+  @objc public var backgroundColor: UIKit.UIColor
+  @objc deinit
+}
+public enum ChatMessage {
+  case text(Swift.String)
+  case image(UIKit.UIImage)
+  case location(CoreFoundation.CGPoint)
+}
+public protocol Applicable {
+}
+extension ChatCenterUI.Applicable where Self : AnyObject {
+  @discardableResult
+  public func apply(_ configure: (Self) -> Swift.Void) -> Self
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers final public class ChatFlow : ChatCenterUI.ChatUserFlow {
+  @objc final public var loadingChatStyle: ChatCenterUI.ChatLoadingStyle
+  @objc final public var errorPlaceholderStyle: ChatCenterUI.ChatPlaceholderErrorStyle
+  @objc final public var chatPlaceholderStyle: ChatCenterUI.ChatPlaceholderStyle
+  @objc final public var outcomeMessages: ChatCenterUI.ChatMessagesStyles {
+    @objc get
+    @objc set
+  }
+  @objc final public var systemMessages: ChatCenterUI.ChatSystemMessagesStyles {
+    @objc get
+    @objc set
+  }
+  @objc final public var inputViewStyle: ChatCenterUI.ChatInputStyle
+  @objc final public var quickRepliesStyle: ChatCenterUI.QuickReplyStyle {
+    @objc get
+    @objc set
+  }
+  @objc @available(*, deprecated, renamed: "addFileMenuStyle")
+  final public var photoPickerStyle: ChatCenterUI.ChatMenuStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var addFileMenuStyle: ChatCenterUI.ChatMenuStyle
+  @objc final public var toastAlertStyle: ChatCenterUI.ToastAlertStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var scrollToTopUnreadMessagesButtonStyle: ChatCenterUI.ScrollToMessageButtonStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var scrollToBottomUnreadMessagesButtonStyle: ChatCenterUI.ScrollToMessageButtonStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var pullToRefreshColor: UIKit.UIColor {
+    @objc get
+    @objc set
+  }
+  @objc final public var incomeMessages: ChatCenterUI.ChatMessagesStyles {
+    @objc get
+    @objc set
+  }
+  @objc final public func messageStyle(for isOutgoing: Swift.Bool) -> ChatCenterUI.ChatMessagesStyles
+  @objc deinit
+}
+extension UIKit.UIImage {
+  @objc dynamic public var name: Swift.String {
+    @objc get
+  }
+}
+@objc @_inheritsConvenienceInitializers @objcMembers final public class ToastAlertStyle : ChatCenterUI.ChatStyle {
+  @objc required public init(components: ChatCenterUI.ChatComponents)
+  @objc final public var textStyle: ChatCenterUI.ChatTextStyle
+  @objc final public var size: CoreFoundation.CGSize
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @objcMembers public class CCFileSettings : ObjectiveC.NSObject {
+  @objc public static let shared: ChatCenterUI.CCFileSettings
+  @objc public static func isSupportedExtension(for url: Foundation.URL?) -> Swift.Bool
+  @objc public static func getDocumentTypes() -> [UniformTypeIdentifiers.UTType]
+  @objc public static func getFileUTI(by url: Foundation.URL) -> Swift.String?
+  @objc public static func isImageUTI(_ fileUTI: Swift.String) -> Swift.Bool
+  @objc public static func mimeType(for url: Foundation.URL) -> Swift.String
+  @objc public func setConfig(_ dictionary: [Swift.String : Any]?)
+  @objc public func fileSizeLimit() -> Swift.Int
+  @objc public func showAccessDeniedAlert(in viewController: UIKit.UIViewController) -> Swift.Bool
+  @objc public func fileExtensions() -> Swift.Set<UniformTypeIdentifiers.UTType>
+  @objc public func hasAccessToPhotos() -> Swift.Bool
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc public protocol THRJSQFileMediaData : ChatCenterUI.THRJSQMessageMediaData {
+  @objc func fileName() -> Swift.String?
+  @objc var fileData: Foundation.Data? { get set }
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers public class THRJSQSystemMessageItem : ChatCenterUI.THRJSQMediaItem {
+  @objc public init(title: Swift.String?, subTitle: Swift.String?)
+  @objc public var title: Swift.String?
+  @objc public var subTitle: Swift.String?
+  @objc override public func mediaDataType() -> Swift.String
+  @objc override public func toDictionary() -> [Swift.String : Any]
+  @objc deinit
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers final public class ChatButtonColor : ObjectiveC.NSObject {
+  @objc public init(normal: UIKit.UIColor, highlighted: UIKit.UIColor, disabled: UIKit.UIColor)
+  @objc final public var normal: UIKit.UIColor
+  @objc final public var highlighted: UIKit.UIColor
+  @objc final public var disabled: UIKit.UIColor
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @objcMembers @_Concurrency.MainActor @preconcurrency public class THRSearchViewController : UIKit.UIViewController {
+  @objc @_Concurrency.MainActor @preconcurrency public var didSelectMessage: ((_ message: ChatCenterUI.THRMessage) -> Swift.Void)?
+  @objc @_Concurrency.MainActor @preconcurrency weak public var dataProvider: ChatCenterUI.CCDataProvider?
+  @objc @_Concurrency.MainActor @preconcurrency weak public var avatarService: ChatCenterUI.AvatarService?
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func viewDidLoad()
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func viewWillAppear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func viewWillDisappear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func viewDidAppear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func viewDidLayoutSubviews()
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+extension ChatCenterUI.THRSearchViewController : UIKit.UISearchBarDelegate {
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func searchBarCancelButtonClicked(_: UIKit.UISearchBar)
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public func searchBar(_ searchBar: UIKit.UISearchBar, textDidChange _: Swift.String)
+}
+@objc @objcMembers final public class ChatComponents : ObjectiveC.NSObject, ChatCenterUI.Applicable {
+  @objc public init(images: ChatCenterUI.ChatImages = .init(), colors: ChatCenterUI.ChatColors = .init(), typography: ChatCenterUI.ChatTypography = .init())
+  @objc final public var navigationBarStyle: ChatCenterUI.NavigationBarStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var searchBarStyle: ChatCenterUI.SearchBarStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var loadingIndicatorStyle: ChatCenterUI.LoadingIndicatorStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var loadingChatStyle: ChatCenterUI.ChatLoadingStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var chatPlaceholderStyle: ChatCenterUI.ChatPlaceholderStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var errorPlaceholderStyle: ChatCenterUI.ChatPlaceholderErrorStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var inputViewStyle: ChatCenterUI.ChatInputStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var inputTextStyle: ChatCenterUI.ChatInputTextStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var inputSearchTextStyle: ChatCenterUI.ChatInputTextStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var audioPlayerStyle: ChatCenterUI.AudioPlayerStyle {
+    @objc get
+    @objc set
+  }
+  @objc @available(*, deprecated, renamed: "chatMenuStyle")
+  final public var photoPickerStyle: ChatCenterUI.ChatMenuStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var chatMenuStyle: ChatCenterUI.ChatMenuStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var images: ChatCenterUI.ChatImages {
+    get
+  }
+  @objc final public var colors: ChatCenterUI.ChatColors {
+    get
+  }
+  @objc final public var typography: ChatCenterUI.ChatTypography {
+    get
+  }
+  @objc public static func build(images: ChatCenterUI.ChatImages = .init(), colors: ChatCenterUI.ChatColors = .init(), typography: ChatCenterUI.ChatTypography = .init(), configure: (ChatCenterUI.ChatComponents) -> Swift.Void) -> ChatCenterUI.ChatComponents
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers final public class SearchChatMessageStyle : ChatCenterUI.ChatMessageStyle {
+  @objc required public init(components: ChatCenterUI.ChatComponents)
+  @objc final public var authorTextStyle: ChatCenterUI.ChatTextStyle
+  @objc final public var fileNameTextStyle: ChatCenterUI.ChatTextStyle
+  @objc final public var matchTextStyle: ChatCenterUI.ChatTextStyle
+  @objc final public var nextImage: ChatCenterUI.ChatImage {
+    @objc get
+    @objc set
+  }
+  @objc deinit
+}
+@objc @objcMembers public class THRRoutingParams : ObjectiveC.NSObject {
+  @objc public init(priority: Swift.Int, skillId: Swift.Int, expiredAt: Swift.String?)
+  @objc public func toDictionary() -> [Swift.String : Any]
+  @objc deinit
+}
+@objc extension Foundation.DateFormatter {
+  @objc public static func formatFrom(date: Foundation.Date) -> Swift.String
+  @objc public static let timeOnlyFormatter: Foundation.DateFormatter
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers @_Concurrency.MainActor @preconcurrency final public class CCQuestionView : UIKit.UIView {
+  @objc @_Concurrency.MainActor @preconcurrency public init(question: ChatCenterUI.THRSurveyQuestion, chatModel: ChatCenterUI.CCChatModel?, survey: ChatCenterUI.THRSurvey)
+  @_Concurrency.MainActor @preconcurrency @objc override final public func removeFromSuperview()
+  @objc @_Concurrency.MainActor @preconcurrency final public func configure()
+  @objc deinit
+}
+extension ChatCenterUI.CCQuestionView : ChatCenterUI.CCRatingViewDelegate {
+  @_Concurrency.MainActor @preconcurrency @objc final public func valueDidChange(value: Swift.Int)
+}
+@available(*, deprecated, message: "Используйте ChatInputStyle")
+public typealias InputViewStyle = ChatCenterUI.ChatInputStyle
+@objc @_inheritsConvenienceInitializers @objcMembers final public class ChatInputStyle : ChatCenterUI.ChatStyle {
+  @objc required public init(components: ChatCenterUI.ChatComponents)
+  @objc final public var separatorLineColor: UIKit.UIColor
+  @objc final public var inputTextStyle: ChatCenterUI.ChatInputTextStyle
+  @objc final public var quoteStyle: ChatCenterUI.ChatInputQuoteStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var sendButtonStyle: ChatCenterUI.IconButtonStyle
+  @objc final public var attachButtonStyle: ChatCenterUI.IconButtonStyle
+  @objc final public var voiceButtonStyle: ChatCenterUI.IconButtonStyle
+  @objc final public var voiceRecordStyle: ChatCenterUI.ChatInputVoiceStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var alignment: ChatCenterUI.ChatInputAlignment
+  @objc deinit
+}
+@objc public enum ChatInputAlignment : Swift.Int {
+  case top = 2
+  case center = 1
+  case bottom = 0
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public struct ChatLocalizationConfig {
+  public init(bundle: Foundation.Bundle, tableName: Swift.String, locale: Foundation.Locale = .current)
+}
+@_inheritsConvenienceInitializers @objc @_Concurrency.MainActor @preconcurrency public class CCUnselectableTextView : UIKit.UITextView {
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public var selectedTextRange: UIKit.UITextRange? {
+    @objc get
+    @objc set
+  }
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIKit.UIGestureRecognizer) -> Swift.Bool
+  @available(iOS 7.0, *)
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public init(frame: CoreFoundation.CGRect, textContainer: UIKit.NSTextContainer?)
+  @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
+  @objc deinit
+}
+@objc @objcMembers final public class SystemFilePickerViewController : ObjectiveC.NSObject {
+  @objc public init(viewController: UIKit.UIViewController, hasAccessToPhotos: Swift.Bool, hasAccessFile: Swift.Bool, documentTypes: [UniformTypeIdentifiers.UTType], fileSizeLimit: Swift.Double)
+  @objc final public var dismissAction: (() -> Swift.Void)?
+  @objc final public var selectImageAction: ((UIKit.UIImage) -> Swift.Void)?
+  @objc final public var selectFileAction: ((Foundation.URL) -> Swift.Void)?
+  @objc final public var maxImagesCount: Swift.Int
+  @objc final public var maxPhotoSide: CoreFoundation.CGFloat
+  @objc final public func show()
+  @objc deinit
+}
+extension ChatCenterUI.SystemFilePickerViewController : PhotosUI.PHPickerViewControllerDelegate {
+  @_Concurrency.MainActor @preconcurrency final public func picker(_ picker: PhotosUI.PHPickerViewController, didFinishPicking results: [PhotosUI.PHPickerResult])
+}
+extension ChatCenterUI.SystemFilePickerViewController : UIKit.UIImagePickerControllerDelegate, UIKit.UINavigationControllerDelegate {
+  @_Concurrency.MainActor @preconcurrency @objc final public func imagePickerController(_ picker: UIKit.UIImagePickerController, didFinishPickingMediaWithInfo info: [UIKit.UIImagePickerController.InfoKey : Any])
+  @_Concurrency.MainActor @preconcurrency @objc final public func imagePickerControllerDidCancel(_ picker: UIKit.UIImagePickerController)
+}
+extension ChatCenterUI.SystemFilePickerViewController : UIKit.UIDocumentPickerDelegate {
+  @_Concurrency.MainActor @preconcurrency @objc final public func documentPicker(_: UIKit.UIDocumentPickerViewController, didPickDocumentsAt urls: [Foundation.URL])
+}
+@objc @_inheritsConvenienceInitializers @objcMembers public class ChatMessageStyle : ChatCenterUI.ChatStyle {
+  @objc required public init(components: ChatCenterUI.ChatComponents)
+  @objc public var textStyle: ChatCenterUI.ChatTextStyle {
+    @objc get
+    @objc set
+  }
+  @objc public var timeTextStyle: ChatCenterUI.ChatTextStyle {
+    @objc get
+    @objc set
+  }
+  @objc public var editedStatusImage: ChatCenterUI.ChatImage {
+    @objc get
+    @objc set
+  }
+  @objc public var pendingStatusImage: ChatCenterUI.ChatImage {
+    @objc get
+    @objc set
+  }
+  @objc public var deliveredStatusImage: ChatCenterUI.ChatImage {
+    @objc get
+    @objc set
+  }
+  @objc public var readStatusImage: ChatCenterUI.ChatImage {
+    @objc get
+    @objc set
+  }
+  @objc public var errorTextStyle: ChatCenterUI.ChatTextStyle {
+    @objc get
+    @objc set
+  }
+  @objc public var errorInfoButton: ChatCenterUI.IconButtonStyle {
+    @objc get
+    @objc set
+  }
+  @objc public var errorStatusColor: UIKit.UIColor {
+    @objc get
+    @objc set
+  }
+  @objc public var errorTimeTextStyle: ChatCenterUI.ChatTextStyle {
+    @objc get
+    @objc set
+  }
+  @objc public var messageBubbleEndMargin: CoreFoundation.CGFloat
+  @objc public var containerRightOffset: CoreFoundation.CGFloat
+  @objc public var containerLeftOffset: CoreFoundation.CGFloat
+  @objc deinit
+}
+@objc @objcMembers public class THRJSQAttachmentUpdateItem : ObjectiveC.NSObject, Foundation.NSSecureCoding {
+  @objc public init(attachmentId: Swift.Int, originalUrl: Foundation.URL?, url: Swift.String?, result: Swift.String?, state: ChatCenterUI.THRJSQMessageAttachmentState, errorMessage: Swift.String?, errorType: ChatCenterUI.THRJSQMessageAttachmentErrorType, localGUID: Swift.String?, name: Swift.String?, type: Swift.String?, size: Swift.Int, speechStatus: Swift.String?)
+  @objc required public init?(coder aDecoder: Foundation.NSCoder)
+  @objc public static var supportsSecureCoding: Swift.Bool
+  @objc override dynamic public var hash: Swift.Int {
+    @objc get
+  }
+  @objc public var attachmentId: Swift.Int
+  @objc public var originalUrl: Foundation.URL?
+  @objc public var result: Swift.String?
+  @objc public var state: ChatCenterUI.THRJSQMessageAttachmentState
+  @objc public var errorMessage: Swift.String?
+  @objc public var errorType: ChatCenterUI.THRJSQMessageAttachmentErrorType
+  @objc public var localGUID: Swift.String?
+  @objc public var name: Swift.String?
+  @objc public var type: Swift.String?
+  @objc public var size: Swift.Int
+  @objc public var speechStatus: Swift.String?
+  @objc override dynamic public func isEqual(_ object: Any?) -> Swift.Bool
+  @objc public static func parseAttachmentStateByName(_ name: Swift.String?) -> ChatCenterUI.THRJSQMessageAttachmentState
+  @objc public static func parseAttachmentErrorTypeByName(_ name: Swift.String?) -> ChatCenterUI.THRJSQMessageAttachmentErrorType
+  @objc public func encode(with aCoder: Foundation.NSCoder)
+  @objc deinit
+}
+extension ChatCenterUI.CCDataProvider {
+  @objc final public var userInputEnabled: Swift.Bool {
+    @objc get
+  }
+  @objc final public var dataStoreHTTPHeaders: [Swift.String : Swift.String] {
+    @objc get
+  }
+}
+public struct ChatSSLCertificate {
+  public init(contentsOf url: Foundation.URL)
+}
+@objc public protocol CCRatingViewDelegate : ObjectiveC.NSObjectProtocol {
+  @objc func valueDidChange(value: Swift.Int)
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers @_Concurrency.MainActor @preconcurrency public class CCRatingView : UIKit.UIView {
+  @objc @_Concurrency.MainActor @preconcurrency convenience public init(minimumValue: Swift.Int, maximumValue: Swift.Int, initialValue: Swift.Int = 0)
+  @objc @_Concurrency.MainActor @preconcurrency public init(minimumValue: Swift.Int, maximumValue: Swift.Int, value: Swift.Int, spacing: CoreFoundation.CGFloat, emptyStarImage: UIKit.UIImage?, emptyStarColor: UIKit.UIColor, filledStarImage: UIKit.UIImage?, fullStarColor: UIKit.UIColor)
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public var backgroundColor: UIKit.UIColor! {
+    @objc get
+    @objc set
+  }
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public var intrinsicContentSize: CoreFoundation.CGSize {
+    @objc get
+  }
+  @objc @_Concurrency.MainActor @preconcurrency weak public var delegate: (any ChatCenterUI.CCRatingViewDelegate)?
+  @objc @_Concurrency.MainActor @preconcurrency public var maximumValue: Swift.Int
+  @objc @_Concurrency.MainActor @preconcurrency public var minimumValue: Swift.Int
+  @objc @_Concurrency.MainActor @preconcurrency public var spacing: CoreFoundation.CGFloat
+  @objc @_Concurrency.MainActor @preconcurrency public var emptyStarImage: UIKit.UIImage?
+  @objc @_Concurrency.MainActor @preconcurrency public var emptyStarColor: UIKit.UIColor
+  @objc @_Concurrency.MainActor @preconcurrency public var filledStarImage: UIKit.UIImage?
+  @objc @_Concurrency.MainActor @preconcurrency public var fullStarColor: UIKit.UIColor
+  @objc @_Concurrency.MainActor @preconcurrency public var value: Swift.Int {
+    @objc get
+    @objc set
+  }
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func draw(_ rect: CoreFoundation.CGRect)
+  @objc deinit
+}
+@objc public protocol QuickReplyCellDelegate {
+  @objc func didSelectQuickReply(_ quickReply: ChatCenterUI.QuickReply)
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers @_Concurrency.MainActor @preconcurrency public class QuickReplyCell : UIKit.UICollectionViewCell {
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @objc @_Concurrency.MainActor @preconcurrency public class var sizingCell: ChatCenterUI.QuickReplyCell {
+    @objc get
+  }
+  @objc @_Concurrency.MainActor @preconcurrency public var colView: UIKit.UICollectionView?
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func prepareForReuse()
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func layoutSubviews()
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func traitCollectionDidChange(_ previousTraitCollection: UIKit.UITraitCollection?)
+  @objc @_Concurrency.MainActor @preconcurrency public class func cellIdentifier() -> Swift.String
+  @objc @_Concurrency.MainActor @preconcurrency public func configure(quickReply: ChatCenterUI.QuickReply, delegate: any ChatCenterUI.QuickReplyCellDelegate)
+  @objc @_Concurrency.MainActor @preconcurrency public func setWidth(_: CoreFoundation.CGFloat)
+  @objc @_Concurrency.MainActor @preconcurrency public func getSize(width: CoreFoundation.CGFloat) -> CoreFoundation.CGSize
+  @objc deinit
+}
+@objc @objcMembers public class THRJSQMessageMediaOptional : ObjectiveC.NSObject, Foundation.NSSecureCoding {
+  @objc public init(type: Swift.String?, name: Swift.String?, size: Swift.Int, lastModified: Swift.Int)
+  @objc required convenience public init?(coder aDecoder: Foundation.NSCoder)
+  @objc public static var supportsSecureCoding: Swift.Bool
+  @objc override dynamic public var description: Swift.String {
+    @objc get
+  }
+  @objc public var type: Swift.String?
+  @objc public var name: Swift.String?
+  @objc public var size: Swift.Int
+  @objc public func encode(with aCoder: Foundation.NSCoder)
+  @objc deinit
+}
+@objc @objcMembers public class THRSpecialist : ChatCenterUI.THRParticipant {
+  @objc public init(identifier: Swift.String, name: Swift.String, position: Swift.String, sex: ChatCenterUI.THRParticipantSex)
+  @objc convenience public init(dict: [Swift.AnyHashable : Any])
+  @objc final public let position: Swift.String
+  @objc public var info: Swift.String
+  @objc public var organizationUnit: Swift.String?
+  @objc public var alias: Swift.String?
+  @objc override public func encode(with coder: Foundation.NSCoder)
+  @objc deinit
+}
+@objc @objcMembers final public class QuoteData : ObjectiveC.NSObject {
+  @objc public init(message: ChatCenterUI.THRMessage, isOutgoing: Swift.Bool)
+  @objc deinit
+}
+@objc public protocol QuoteViewControllerDelegate : ObjectiveC.NSObjectProtocol {
+  @objc(didTapQuoteViewController:) func didTapQuote(quoteViewController: ChatCenterUI.QuoteViewController)
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers @_Concurrency.MainActor @preconcurrency final public class QuoteViewController : UIKit.UIViewController {
+  @objc @_Concurrency.MainActor @preconcurrency public init(quoteData: ChatCenterUI.QuoteData)
+  @objc @_Concurrency.MainActor @preconcurrency final public var delegate: (any ChatCenterUI.QuoteViewControllerDelegate)?
+  @_Concurrency.MainActor @preconcurrency @objc override final public func viewDidLoad()
+  @objc @_Concurrency.MainActor @preconcurrency final public func tapDone()
+  @objc @_Concurrency.MainActor @preconcurrency final public func setQuotedMediaImage(image: UIKit.UIImage?)
+  @objc @_Concurrency.MainActor @preconcurrency final public func getHeight(By width: CoreFoundation.CGFloat) -> CoreFoundation.CGFloat
+  @objc deinit
+}
+@available(*, deprecated, message: "Используйте ChatInputVoiceStyle")
+public typealias InputChatVoiceStyle = ChatCenterUI.ChatInputVoiceStyle
+@objc @_inheritsConvenienceInitializers @objcMembers final public class ChatInputVoiceStyle : ChatCenterUI.ChatStyle {
+  @objc final public var deleteButtonStyle: ChatCenterUI.IconButtonStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var sendButtonStyle: ChatCenterUI.IconButtonStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var audioPlayerStyle: ChatCenterUI.AudioPlayerStyle {
+    @objc get
+    @objc set
+  }
+  @objc required public init(components: ChatCenterUI.ChatComponents)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers final public class OpenGraphViewStyle : ChatCenterUI.ChatStyle {
+  @objc required public init(components: ChatCenterUI.ChatComponents)
+  @objc final public var titleTextStyle: ChatCenterUI.ChatTextStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var urlTextStyle: ChatCenterUI.ChatTextStyle {
+    @objc get
+    @objc set
+  }
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @objcMembers final public class ChatImages : ObjectiveC.NSObject, ChatCenterUI.Applicable {
+  @objc final public var backButtonImage: ChatCenterUI.ChatImage
+  @objc final public var closeButtonImage: ChatCenterUI.ChatImage
+  @objc final public var nextButtonImage: ChatCenterUI.ChatImage
+  @objc final public var searchButtonImage: ChatCenterUI.ChatImage
+  @objc final public var sendButtonImage: ChatCenterUI.ChatImage
+  @objc final public var attachButtonImage: ChatCenterUI.ChatImage
+  @objc final public var emptyChatPlaceholderImage: ChatCenterUI.ChatImage
+  @objc final public var errorPlaceholderImage: ChatCenterUI.ChatImage
+  @objc final public var searchNotFoundPlaceholderImage: ChatCenterUI.ChatImage
+  @objc final public var likeEmptyImage: ChatCenterUI.ChatImage
+  @objc final public var likeFullImage: ChatCenterUI.ChatImage
+  @objc final public var dislikeEmptyImage: ChatCenterUI.ChatImage
+  @objc final public var dislikeFullImage: ChatCenterUI.ChatImage
+  @objc final public var starRatingEmptyImage: ChatCenterUI.ChatImage
+  @objc final public var starRatingFullImage: ChatCenterUI.ChatImage
+  @objc final public var scheduleImage: ChatCenterUI.ChatImage
+  @objc final public var scrollToTopImage: ChatCenterUI.ChatImage
+  @objc final public var scrollToBottomImage: ChatCenterUI.ChatImage
+  @objc final public var avatarPlaceholderImage: ChatCenterUI.ChatImage
+  @objc final public var fileImage: ChatCenterUI.ChatImage
+  @objc final public var chatBubble: ChatCenterUI.ChatImage
+  @objc final public var menuCopyImage: ChatCenterUI.ChatImage
+  @objc final public var menuQuoteImage: ChatCenterUI.ChatImage
+  @objc final public var keyboardShowImage: ChatCenterUI.ChatImage
+  @objc final public var keyboardHideImage: ChatCenterUI.ChatImage
+  @objc final public var voiceButtonImage: ChatCenterUI.ChatImage
+  @objc final public var voiceSendButtonImage: ChatCenterUI.ChatImage
+  @objc final public var voicePlayImage: ChatCenterUI.ChatImage
+  @objc final public var voicePauseImage: ChatCenterUI.ChatImage
+  @objc final public var sentStatusImage: ChatCenterUI.ChatImage {
+    @objc get
+    @objc set
+  }
+  @objc final public var pendingStatusImage: ChatCenterUI.ChatImage {
+    @objc get
+    @objc set
+  }
+  @objc final public var readStatusImage: ChatCenterUI.ChatImage {
+    @objc get
+    @objc set
+  }
+  @objc final public var errorInfoImage: ChatCenterUI.ChatImage
+  @objc final public var errorAlertImage: ChatCenterUI.ChatImage
+  @objc final public var errorShieldImage: ChatCenterUI.ChatImage
+  @objc final public var editImage: ChatCenterUI.ChatImage
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc @objcMembers final public class ChatImage : ObjectiveC.NSObject {
+  public init(image: UIKit.UIImage, tintColor: UIKit.UIColor? = nil, renderingMode: UIKit.UIImage.RenderingMode? = nil)
+  public init(named: Swift.String, bundle: Foundation.Bundle = Bundle(for: ChatImage.self), tintColor: UIKit.UIColor? = nil, renderingMode: UIKit.UIImage.RenderingMode? = nil)
+  @objc public init(system name: Swift.String, tintColor: UIKit.UIColor? = nil)
+  @objc public init(system name: Swift.String, size: CoreFoundation.CGFloat = 14, tintColor: UIKit.UIColor? = nil)
+  @objc final public let uiImage: UIKit.UIImage
+  @objc final public let tintColor: UIKit.UIColor?
+  @objc public static func build(configure: (ChatCenterUI.ChatImages) -> Swift.Void) -> ChatCenterUI.ChatImages
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers final public class SearchFlow : ChatCenterUI.ChatUserFlow {
+  @objc final public var searchMessageStyle: ChatCenterUI.SearchChatMessageStyle
+  @objc final public var notFoundImage: ChatCenterUI.ChatImage
+  @objc final public var notFoundTextStyle: ChatCenterUI.ChatTextStyle
+  @objc deinit
+}
+extension Foundation.NSError {
+  @objc dynamic public class func applicationError(with description: Swift.String) -> Foundation.NSError
+}
+@objc @objcMembers final public class ChatSurveyIcon : ObjectiveC.NSObject {
+  @objc public init(unselectedImage: ChatCenterUI.ChatImage, selectedImage: ChatCenterUI.ChatImage)
+  @objc final public let unselectedImage: ChatCenterUI.ChatImage
+  @objc final public let selectedImage: ChatCenterUI.ChatImage
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @objcMembers final public class SurveyChatMessageStyle : ChatCenterUI.ChatMessageStyle {
+  @objc required public init(components: ChatCenterUI.ChatComponents)
+  @objc final public var questionTitleTextStyle: ChatCenterUI.ChatTextStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var questionSubtitleTextStyle: ChatCenterUI.ChatTextStyle {
+    @objc get
+    @objc set
+  }
+  @objc @available(*, deprecated, message: "Используйте questionButtonColor")
+  final public var questionBackgroundColor: UIKit.UIColor {
+    @objc get
+    @objc set
+  }
+  @objc final public var questionButtonColor: ChatCenterUI.ChatButtonColor {
+    @objc get
+    @objc set
+  }
+  @objc final public var voteLikeIcon: ChatCenterUI.ChatSurveyIcon?
+  @objc final public var voteDislikeIcon: ChatCenterUI.ChatSurveyIcon?
+  @objc final public var voteLikeEnabledColor: UIKit.UIColor
+  @objc final public var voteLikeDisabledColor: UIKit.UIColor
+  @objc final public var voteLikeCompleted: UIKit.UIColor
+  @objc final public var voteIcon: ChatCenterUI.ChatSurveyIcon?
+  @objc final public var voteUnselectedColor: UIKit.UIColor
+  @objc final public var voteSelectedColor: UIKit.UIColor
+  @objc final public var voteEnabledColor: UIKit.UIColor
+  @objc final public var voteDisabledColor: UIKit.UIColor
+  @objc final public var voteCompletedColor: UIKit.UIColor
+  @objc final public var onStarTextStyle: ChatCenterUI.ChatTextStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var underStarTextStyle: ChatCenterUI.ChatTextStyle {
+    @objc get
+    @objc set
+  }
+  @objc deinit
+}
+@available(*, deprecated, message: "Используйте ChatPlaceholderStyle")
+public typealias PlaceholderChatStyle = ChatCenterUI.ChatPlaceholderStyle
+@objc @_inheritsConvenienceInitializers @objcMembers final public class ChatPlaceholderStyle : ChatCenterUI.ChatStyle {
+  @objc required public init(components: ChatCenterUI.ChatComponents)
+  @objc final public var image: ChatCenterUI.ChatImage
+  @objc final public var titleTextStyle: ChatCenterUI.ChatTextStyle
+  @objc final public var subtitleTextStyle: ChatCenterUI.ChatTextStyle
+  @objc deinit
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers public class EDNALogger : ObjectiveC.NSObject {
+  @objc public func shareLogs(in viewController: UIKit.UIViewController)
+  @objc public func logInfo(_ message: Swift.String)
+  @objc public func logNetwork(_ message: Swift.String, body: Swift.String? = nil)
+  @objc public func logWebSocket(_ message: Swift.String, body: Swift.String? = nil)
+  @objc public func logUserInterface(_ message: Swift.String)
+  @objc public func logError(_ message: Swift.String)
+  @objc deinit
+}
+@objc public enum Position : Swift.UInt {
+  case top
+  case bottom
+  public init?(rawValue: Swift.UInt)
+  public typealias RawValue = Swift.UInt
+  public var rawValue: Swift.UInt {
+    get
+  }
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers @_Concurrency.MainActor @preconcurrency public class ToastView : UIKit.UIView {
+  @objc @_Concurrency.MainActor @preconcurrency convenience public init(title: Swift.String, icon: UIKit.UIImage?, position: ChatCenterUI.Position)
+  @objc @_Concurrency.MainActor @preconcurrency public init(title: Swift.String, icon: UIKit.UIImage? = nil, position: ChatCenterUI.Position = .top, onTap _: (() -> Swift.Void)? = nil)
+  @objc deinit
+  @objc @_Concurrency.MainActor @preconcurrency public func show()
+}
+@objc public enum NavigationBarButtonPosition : Swift.Int {
+  case right
+  case left
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc @objcMembers public class NavigationBarButtonStyle : ChatCenterUI.IconButtonStyle {
+  @objc public init(image: ChatCenterUI.ChatImage, position: ChatCenterUI.NavigationBarButtonPosition = .right, components: ChatCenterUI.ChatComponents)
+  @objc required public init(components: ChatCenterUI.ChatComponents)
+  @objc public var position: ChatCenterUI.NavigationBarButtonPosition
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers @_Concurrency.MainActor @preconcurrency public class EDNAPreloadView : UIKit.UIView {
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public init(frame _: CoreFoundation.CGRect)
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func layoutSubviews()
+  @objc @_Concurrency.MainActor @preconcurrency public func startAnimating()
+  @objc @_Concurrency.MainActor @preconcurrency public func stopAnimating()
+  @objc deinit
+}
+@available(*, deprecated, message: "Используйте AudioChatMessageStyle")
+public typealias AudioMessageStyle = ChatCenterUI.AudioChatMessageStyle
+@objc @_inheritsConvenienceInitializers @objcMembers final public class AudioChatMessageStyle : ChatCenterUI.ChatMessageStyle {
+  @objc required public init(components: ChatCenterUI.ChatComponents)
+  @objc final public var audioPlayerStyle: ChatCenterUI.AudioPlayerStyle
+  @objc deinit
+}
+extension UIKit.UIApplication {
+  @objc @_Concurrency.MainActor @preconcurrency dynamic public class func open(selected url: Foundation.URL)
+  @objc @_Concurrency.MainActor @preconcurrency dynamic public class func isLiquidGlassAvailable() -> Swift.Bool
+  @_Concurrency.MainActor @preconcurrency public static var isUnitTesting: Swift.Bool {
+    get
+  }
+}
+@available(*, deprecated, message: "Используйте AudioPlayerStyle")
+public typealias AudioPlayerChatStyle = ChatCenterUI.AudioPlayerStyle
+@objc @_inheritsConvenienceInitializers @objcMembers final public class AudioPlayerStyle : ChatCenterUI.ChatStyle {
+  @objc required public init(components: ChatCenterUI.ChatComponents)
+  @objc final public var recordButtonStyle: ChatCenterUI.IconButtonStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var playButtonStyle: ChatCenterUI.IconButtonStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var pauseButtonStyle: ChatCenterUI.IconButtonStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var progressViewStyle: ChatCenterUI.ProgressViewStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var loadingIndicatorStyle: ChatCenterUI.LoadingIndicatorStyle {
+    @objc get
+    @objc set
+  }
+  @objc deinit
+}
+public struct ChatUser {
+  public init(identifier: Swift.String, name: Swift.String? = nil, data: [Swift.String : Swift.String]? = nil)
+  public mutating func updateData(data: [Swift.String : Swift.String]?)
+}
+@objc public protocol SurveyViewControllerDelegate {
+  @objc optional func ratingViewControllerDidClose()
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers @_Concurrency.MainActor @preconcurrency final public class SurveyViewController : UIKit.UIViewController, UIKit.UIGestureRecognizerDelegate {
+  @objc deinit
+  @objc @_Concurrency.MainActor @preconcurrency public init(with chatModel: ChatCenterUI.CCChatModel, survey: ChatCenterUI.THRSurvey)
+  @objc @_Concurrency.MainActor @preconcurrency weak final public var delegate: (any ChatCenterUI.SurveyViewControllerDelegate)?
+  @_Concurrency.MainActor @preconcurrency @objc override final public func viewDidLoad()
+  @_Concurrency.MainActor @preconcurrency @objc override final public func viewDidLayoutSubviews()
+  @_Concurrency.MainActor @preconcurrency @objc final public func gestureRecognizerShouldBegin(_ gestureRecognizer: UIKit.UIGestureRecognizer) -> Swift.Bool
+  @objc @_Concurrency.MainActor @preconcurrency final public func valueDidChange(value: Swift.Int, changedQuestion: ChatCenterUI.THRSurveyQuestion)
+}
+@available(*, deprecated, message: "Используйте IconButtonStyle")
+public typealias IconButtonChatStyle = ChatCenterUI.IconButtonStyle
+@objc @_inheritsConvenienceInitializers @objcMembers public class IconButtonStyle : ChatCenterUI.ButtonStyle {
+  @objc public init(image: ChatCenterUI.ChatImage, components: ChatCenterUI.ChatComponents)
+  @objc required public init(components: ChatCenterUI.ChatComponents)
+  @objc public var image: ChatCenterUI.ChatImage
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @objcMembers public class CCHistoryLoadingOptions : ObjectiveC.NSObject {
+  @objc public var firstLoading: Swift.Bool
+  @objc public var keepContentOffset: Swift.Bool
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc public enum CCChatModelConfigState : Swift.UInt8 {
+  case notLoaded
+  case loading
+  case loaded
+  case error
+  public init?(rawValue: Swift.UInt8)
+  public typealias RawValue = Swift.UInt8
+  public var rawValue: Swift.UInt8 {
+    get
+  }
+}
+@objc public protocol CCChatModelDelegate : ObjectiveC.NSObjectProtocol {
+  @objc func initChat()
+  @objc func messagesUpdated()
+  @objc func searchingForSpecialist(_ searching: Swift.Bool)
+  @objc func showQuickReplies(_ quickReplies: [Any]?)
+  @objc func hideQuickRepliesIfNeeded()
+  @objc func finishReceivingOldMessages(_ count: Swift.Int, options: Any)
+  @objc func finishSendingMessageAnimated(_ animated: Swift.Bool, clearInputText: Swift.Bool)
+  @objc func updateMessages(_ messages: [ChatCenterUI.THRMessage])
+  @objc func collectionViewReloadData()
+  @objc func collectionViewUpdateItemsAtIndexPaths(_ paths: [Foundation.NSIndexPath])
+  @objc func movedItem(from: Swift.Int, toIdx: Swift.Int)
+  @objc func specialistTyping(_: Swift.Bool)
+  @objc func openSurvey(_ survey: ChatCenterUI.THRSurvey?)
+  @objc func setInputToolbarEnabledIfPossible(_ enabled: Swift.Bool)
+  @objc func finishReceivingMessage()
+  @objc func preloadChatViewControllerSet(error: (any Swift.Error)?)
+  @objc func checkLaunchViewVisibility(_ isLoadedHistory: Swift.Bool)
+  @objc func setToolbarDisabledButtons(_ disabled: Swift.Bool)
+  @objc func showPreloadChatError(_ error: Foundation.NSError)
+  @objc func addFile(_ file: ChatCenterUI.THRJSQFile)
+}
+@objc @objcMembers public class CCChatModel : ObjectiveC.NSObject {
+  @objc public init(dataProvider: ChatCenterUI.CCDataProvider)
+  @objc deinit
+  @objc final public let avatarService: ChatCenterUI.AvatarService
+  @objc weak public var viewDelegate: (any ChatCenterUI.CCChatModelDelegate)?
+  weak public var sdkInstance: ChatCenterUI.ChatCenterUISDK?
+  @objc public var historyIsLoaded: Swift.Bool
+  @objc public var cellSizeCache: Foundation.NSMutableDictionary
+  @objc public var stateModel: ChatCenterUI.CCChatState
+  @objc public var specialist: ChatCenterUI.THRSpecialist?
+  @objc public var configState: ChatCenterUI.CCChatModelConfigState
+  @objc public var messages: [ChatCenterUI.THRMessage]
+  @objc weak public var dataProvider: ChatCenterUI.CCDataProvider?
+  @objc public var typingMessagesIntervalSeconds: Swift.Int {
+    @objc get
+  }
+  @objc public func initChat()
+  @objc public func sendMessage(_ message: ChatCenterUI.THRMessage, completion: (((any Swift.Error)?) -> Swift.Void)? = nil)
+  @objc public func openSurvey(survey: ChatCenterUI.THRSurvey)
+  @objc public func sendFileMessage(_ newMessage: ChatCenterUI.THRMessage, retry: Swift.Bool = false, completion: (((any Swift.Error)?) -> Swift.Void)? = nil)
+  @objc public func connectClient()
+  @objc public func markIncomingMessagesAsRead(_ messages: [ChatCenterUI.THRMessage], completion: (() -> Swift.Void)?)
+  @objc public func cleanCache()
+  @objc public func closeChat()
+  @objc public func isAvailable() -> Swift.Bool
+  @objc public func isSendScheduleAvailable() -> Swift.Bool
+  @objc public func viewDidAppear()
+  @objc public func sendTyping(withText text: Swift.String)
+  @objc public func loadNextHistory(completion: (([ChatCenterUI.THRMessage]) -> Swift.Void)? = nil)
+  @objc public func retrySendMessage(_ message: ChatCenterUI.THRMessage)
+  @objc public func message(at index: Swift.Int) -> ChatCenterUI.THRMessage?
+  @objc public func deleteMessage(_ message: ChatCenterUI.THRMessage)
+  @objc public func checkAndShowQuickReplies()
+  @objc public func notifyUnreadCounterChanged(newCount: Swift.Int)
+  @objc public func removeFailed(_ message: ChatCenterUI.THRMessage)
+  @objc public func specialistById(specialist: ChatCenterUI.THRSpecialist) -> ChatCenterUI.THRSpecialist?
+  @objc public func getMessageBy(uuid: Swift.String) -> ChatCenterUI.THRMessage?
+  @objc public func loadHistoryForReinit()
+}
+@available(*, deprecated, message: "Используйте ChatMenuStyle")
+public typealias PhotoPickerStyle = ChatCenterUI.ChatMenuStyle
+@objc @_inheritsConvenienceInitializers @objcMembers final public class ChatMenuStyle : ChatCenterUI.ChatStyle {
+  @objc final public var titleTextStyle: ChatCenterUI.ChatTextStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var maximumImagesCount: Swift.UInt8
+  @objc required public init(components: ChatCenterUI.ChatComponents)
+  @objc deinit
+}
+@available(*, deprecated, message: "Используйте ChatInputTextStyle")
+public typealias InputChatTextStyle = ChatCenterUI.ChatInputTextStyle
+@objc @_inheritsConvenienceInitializers @objcMembers final public class ChatInputTextStyle : ChatCenterUI.ChatStyle {
+  @objc required public init(components: ChatCenterUI.ChatComponents)
+  @objc final public var hasBorder: Swift.Bool
+  @objc final public var borderWidth: CoreFoundation.CGFloat
+  @objc final public var borderColor: UIKit.UIColor
+  @objc final public var textStyle: ChatCenterUI.ChatTextStyle
+  @objc final public var minimumHeight: CoreFoundation.CGFloat
+  @objc final public var maximumHeight: CoreFoundation.CGFloat
+  @objc final public var cursorColor: UIKit.UIColor
+  @objc @available(*, deprecated, message: "Выравнивание настраивается в ChatInputStyle")
+  final public var alignment: ChatCenterUI.ChatInputAlignment
+  @objc deinit
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers final public class ChatFlows : ObjectiveC.NSObject, ChatCenterUI.Applicable {
+  @objc final public var components: ChatCenterUI.ChatComponents {
+    get
+  }
+  @objc final public var chatFlow: ChatCenterUI.ChatFlow {
+    get
+  }
+  @objc final public var searchFlow: ChatCenterUI.SearchFlow {
+    get
+  }
+  @objc deinit
+}
+@available(*, deprecated, message: "Используйте ImageChatMessageStyle")
+public typealias ImageMessageStyle = ChatCenterUI.ImageChatMessageStyle
+@objc @_inheritsConvenienceInitializers @objcMembers final public class ImageChatMessageStyle : ChatCenterUI.ChatMessageStyle {
+  @objc required public init(components: ChatCenterUI.ChatComponents)
+  @objc final public var loadingIndicatorStyle: ChatCenterUI.LoadingIndicatorStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var timeBackgroundColor: UIKit.UIColor {
+    @objc get
+    @objc set
+  }
+  @objc final public var emptyImageColor: UIKit.UIColor
+  @objc final public var imageEdges: UIKit.UIEdgeInsets
+  @objc final public var imageCornerRadius: CoreFoundation.CGFloat
+  @objc deinit
+}
+extension ChatCenterUI.CCChatModel {
+  @objc dynamic public func messageWith(uuid: Swift.String) -> ChatCenterUI.THRMessage?
+  @objc dynamic public func messageWith(correlationId: Swift.String) -> ChatCenterUI.THRMessage?
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers public class QuickReply : ObjectiveC.NSObject {
+  @objc override dynamic public var description: Swift.String {
+    @objc get
+  }
+  @objc final public let text: Swift.String
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @objcMembers final public class OperatorJoinedChatMessageStyle : ChatCenterUI.ChatMessageStyle {
+  @objc required public init(components: ChatCenterUI.ChatComponents)
+  @objc final public var titleTextStyle: ChatCenterUI.ChatTextStyle
+  @objc final public var subtitleTextStyle: ChatCenterUI.ChatTextStyle
+  @objc deinit
+}
+@objc @objcMembers public class ChatStyle : ObjectiveC.NSObject, ChatCenterUI.Applicable {
+  @objc required public init(components: ChatCenterUI.ChatComponents)
+  @objc public var cornerRadius: CoreFoundation.CGFloat
+  @objc public var backgroundColor: UIKit.UIColor
+  @objc public var tintColor: UIKit.UIColor
+  @objc final public let components: ChatCenterUI.ChatComponents
+  public static func build<T>(with components: ChatCenterUI.ChatComponents, configure: (T) -> Swift.Void) -> T where T : ChatCenterUI.ChatStyle
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @objcMembers final public class ChatPlaceholderErrorStyle : ChatCenterUI.ChatStyle {
+  @objc required public init(components: ChatCenterUI.ChatComponents)
+  @objc final public var titleTextStyle: ChatCenterUI.ChatTextStyle
+  @objc final public var subtitleTextStyle: ChatCenterUI.ChatTextStyle
+  @objc final public var defaultErrorImage: ChatCenterUI.ChatImage
+  @objc final public var serverErrorImage: ChatCenterUI.ChatImage
+  @objc final public var repeatButtonStyle: ChatCenterUI.TextButtonStyle
+  @objc final public var imageSize: CoreFoundation.CGSize
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers public class THRSystemMessageFactory : ObjectiveC.NSObject {
+  @objc public static func messageSchedule(_ schedule: ChatCenterUI.THRSchedule) -> ChatCenterUI.THRMessage
+  @objc public static func messageRequestCloseThread(hideAfter: Swift.Int) -> ChatCenterUI.THRMessage
+  @objc public static func messageSystemText(_ text: Swift.String, date: Foundation.Date, type: ChatCenterUI.THRMessageType) -> ChatCenterUI.THRMessage
+  @objc deinit
+}
+@available(*, deprecated, message: "Используйте FileChatMessageStyle")
+public typealias FileMessageStyle = ChatCenterUI.FileChatMessageStyle
+@objc @_inheritsConvenienceInitializers @objcMembers final public class FileChatMessageStyle : ChatCenterUI.ChatMessageStyle {
+  @objc required public init(components: ChatCenterUI.ChatComponents)
+  @objc final public var fileSizeTextStyle: ChatCenterUI.ChatTextStyle
+  @objc final public var fileNameTextStyle: ChatCenterUI.ChatTextStyle
+  @objc final public var loadingIndicatorStyle: ChatCenterUI.LoadingIndicatorStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var fileIconImage: ChatCenterUI.ChatImage {
+    @objc get
+    @objc set
+  }
+  @objc final public var fileBackgroundColor: UIKit.UIColor {
+    @objc get
+    @objc set
+  }
+  @objc deinit
+}
+@available(*, deprecated, message: "Используйте SearchBarStyle")
+public typealias SearchBarChatStyle = ChatCenterUI.SearchBarStyle
+@objc @_inheritsConvenienceInitializers @objcMembers final public class SearchBarStyle : ChatCenterUI.ChatStyle {
+  @objc required public init(components: ChatCenterUI.ChatComponents)
+  @objc final public var inputTextStyle: ChatCenterUI.ChatInputTextStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var cancelButtonStyle: ChatCenterUI.ButtonStyle {
+    @objc get
+    @objc set
+  }
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @objcMembers final public class ProgressViewStyle : ChatCenterUI.ChatStyle {
+  @objc required public init(components: ChatCenterUI.ChatComponents)
+  @objc final public var textStyle: ChatCenterUI.ChatTextStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var color: UIKit.UIColor
+  @objc deinit
+}
+public struct ChatTransportConfig : Swift.CustomDebugStringConvertible {
+  public init(rest: Swift.String, webSocket: Swift.String, dataStore: Swift.String, dataStoreHTTPHeaders: [Swift.String : Swift.String]? = nil, newRoutesEnabled: Swift.Bool = true, apiVersion: ChatCenterUI.ChatTransportConfig.APIVersion = .api17)
+  public init(cloudHost host: Swift.String, apiVersion: ChatCenterUI.ChatTransportConfig.APIVersion = .api17)
+  public enum APIVersion : Swift.UInt {
+    case api17
+    case api18
+    case api19
+    case api20
+    case api21
+    public init?(rawValue: Swift.UInt)
+    public typealias RawValue = Swift.UInt
+    public var rawValue: Swift.UInt {
+      get
+    }
+  }
+  public var newRoutesEnabled: Swift.Bool
+  public var apiVersion: ChatCenterUI.ChatTransportConfig.APIVersion
+  public var dataStoreHTTPHeaders: [Swift.String : Swift.String]
+  public var debugDescription: Swift.String {
+    get
+  }
+}
+@objc public enum THRJSQMessageAttachmentState : Swift.Int {
+  case none = 0
+  case pending
+  case ready
+  case error
+  case expired
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public enum THRJSQMessageAttachmentErrorType : Swift.Int {
+  case none = 0
+  case disallowed
+  case timeout
+  case unexpected
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc public protocol THRJSQMediaItemDelegate {
+  @objc func dataDidUpdate(_ data: Foundation.Data)
+}
+@objc @_inheritsConvenienceInitializers @objcMembers public class THRJSQMediaItem : ObjectiveC.NSObject, ChatCenterUI.THRJSQFileMediaData {
+  @objc deinit
+  @objc weak public var mediaItemDelegate: (any ChatCenterUI.THRJSQMediaItemDelegate)?
+  @objc public var state: ChatCenterUI.THRJSQMessageAttachmentState
+  @objc public var errorMessage: Swift.String?
+  @objc public var errorType: ChatCenterUI.THRJSQMessageAttachmentErrorType
+  @objc public var attachmentID: Swift.Int
+  @objc public var optional: ChatCenterUI.THRJSQMessageMediaOptional?
+  @objc public var sentStatus: Swift.Bool
+  @objc public var localGUID: Swift.String
+  @objc public var fileData: Foundation.Data? {
+    @objc get
+    @objc set
+  }
+  @objc public func fileName() -> Swift.String?
+  @objc public func mediaDataType() -> Swift.String
+  @objc public func toDictionary() -> [Swift.String : Any]
+  @objc public func mediaData() -> Any?
+  @objc public func mediaQuotedView() -> UIKit.UIImageView
+  @objc public func sentSuccessfully(_ success: Swift.Bool)
+  @objc public func isInProgressForUI() -> Swift.Bool
+  @objc public func failedText() -> Swift.String?
+  @objc public func mediaItemInfo() -> Swift.String
+  @objc public func mediaViewTitle() -> Swift.String
+  @objc override dynamic public init()
+}
+@objc @_inheritsConvenienceInitializers @objcMembers final public class ChatLoadingStyle : ChatCenterUI.ChatStyle {
+  @objc required public init(components: ChatCenterUI.ChatComponents)
+  @objc final public var textStyle: ChatCenterUI.ChatTextStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var indicatorStyle: ChatCenterUI.LoadingIndicatorStyle
+  @objc final public var minimumSize: CoreFoundation.CGSize
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @objc @_Concurrency.MainActor @preconcurrency public class CCLoadingLabel : UIKit.UILabel {
+  @objc deinit
+  @objc @_Concurrency.MainActor @preconcurrency public func setText(_ text: Swift.String, animated: Swift.Bool)
+  @objc @_Concurrency.MainActor @preconcurrency public func stopAnimatation()
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public init(frame: CoreFoundation.CGRect)
+  @_Concurrency.MainActor @preconcurrency @objc required dynamic public init?(coder: Foundation.NSCoder)
+}
+@available(*, deprecated, renamed: "ChatSystemMessagesStyles", message: "Переименован в ChatSystemMessagesStyles")
+public typealias SystemMessagesStyles = ChatCenterUI.ChatSystemMessagesStyles
+@objc @_inheritsConvenienceInitializers @objcMembers final public class ChatSystemMessagesStyles : ChatCenterUI.ChatStyle {
+  @objc required public init(components: ChatCenterUI.ChatComponents)
+  @objc final public var operatorJoinedMessageStyle: ChatCenterUI.OperatorJoinedChatMessageStyle
+  @objc final public var scheduleMessageStyle: ChatCenterUI.ScheduleChatMessageStyle
+  @objc final public var dateMessageStyle: ChatCenterUI.ChatTextStyle
+  @objc final public var surveyMessageStyle: ChatCenterUI.SurveyChatMessageStyle
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @objcMembers public class THRButton : ObjectiveC.NSObject {
+  @objc public var text: Swift.String?
+  @objc public var value: Swift.Int
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc @objcMembers public class THRSurvey : ChatCenterUI.THRJSQMediaItem {
+  @objc convenience public init(json: [Swift.String : Any])
+  @objc public init(identifier: Swift.Int = 0, sendingId: Swift.Int = 0, questions: [ChatCenterUI.THRSurveyQuestion]? = [], hideAfter: Swift.Int = 0)
+  @objc convenience public init(fromAnswer json: [Swift.String : Any])
+  @objc @available(*, unavailable)
+  required public init?(coder _: Foundation.NSCoder)
+  @objc public var identifier: Swift.Int
+  @objc public var sendingId: Swift.Int
+  @objc public var questions: [ChatCenterUI.THRSurveyQuestion]
+  @objc public var hideAfter: Swift.Int
+  @objc public var isCloseThreadRequest: Swift.Bool
+  @objc public var uuid: Swift.String?
+  @objc public var childUUIDs: [Swift.String]
+  @objc public var blockInput: Swift.Bool
+  @objc public var vote: Foundation.NSNumber {
+    @objc get
+  }
+  @objc public var completed: Swift.Bool {
+    @objc get
+  }
+  @objc public var question: ChatCenterUI.THRSurveyQuestion? {
+    @objc get
+  }
+  @objc public var onlyButtonQuestions: Swift.Bool {
+    @objc get
+  }
+  @objc override public func toDictionary() -> [Swift.String : Any]
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @objcMembers public class THRSurveyQuestion : ObjectiveC.NSObject {
+  @objc convenience public init?(json: [Swift.String : Any])
+  @objc public var identifier: Swift.Int
+  @objc public var text: Swift.String?
+  @objc public var positiveAnswer: Swift.String?
+  @objc public var negativeAnswer: Swift.String?
+  @objc public var scale: Swift.Int
+  @objc public var simple: Swift.Bool
+  @objc public var rate: Foundation.NSNumber?
+  public var clientCommentThreshold: Swift.Int?
+  @objc public var isCloseThreadRequest: Swift.Bool
+  @objc public var completed: Swift.Bool
+  @objc public var buttons: [ChatCenterUI.THRButton]?
+  @objc public var buttonQuestion: Swift.Bool {
+    @objc get
+  }
+  @objc public static func question(json: [Swift.String : Any]) -> ChatCenterUI.THRSurveyQuestion?
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc public protocol THRJSQPhotoMediaData : ChatCenterUI.THRJSQMessageMediaData {
+  @objc var isImageDownloadFailed: Swift.Bool { get set }
+  @objc var image: UIKit.UIImage? { get set }
+}
+public typealias CCOGProviderCompletion = (ChatCenterUI.CCLinkMetadata?, (any Swift.Error)?) -> Swift.Void
+@objc @objcMembers final public class CCLinkMetadata : ObjectiveC.NSObject {
+  @objc public init(url: Foundation.URL?, title: Swift.String? = nil, image: UIKit.UIImage? = nil)
+  @objc final public let url: Foundation.URL?
+  @objc final public let title: Swift.String?
+  @objc final public let image: UIKit.UIImage?
+  @objc deinit
+}
+extension Foundation.NSURL {
+  @objc public static func first(from input: Swift.String) -> Foundation.URL?
+}
+@objc public protocol THRJSQMessageMediaData : ObjectiveC.NSObjectProtocol {
+  @objc var sentStatus: Swift.Bool { get set }
+  @objc func mediaViewTitle() -> Swift.String
+  @objc func mediaItemInfo() -> Swift.String
+  @objc func sentSuccessfully(_ success: Swift.Bool)
+  @objc func mediaQuotedView() -> UIKit.UIImageView
+  @objc func mediaDataType() -> Swift.String
+  @objc func toDictionary() -> [Swift.String : Any]
+  @objc func mediaData() -> Any?
+}
+@available(*, deprecated, message: "Используйте ChatTextStyle")
+public typealias TextChatStyle = ChatCenterUI.ChatTextStyle
+@objc @objcMembers final public class ChatTextStyle : ObjectiveC.NSObject {
+  @objc public init(font: UIKit.UIFont, color: UIKit.UIColor)
+  @objc final public var font: UIKit.UIFont
+  @objc final public var color: UIKit.UIColor
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @objcMembers final public class ScheduleChatMessageStyle : ChatCenterUI.ChatMessageStyle {
+  @objc required public init(components: ChatCenterUI.ChatComponents)
+  @objc final public var image: ChatCenterUI.ChatImage
+  @objc deinit
+}
+@objc @objcMembers public class THRSchedule : ChatCenterUI.THRJSQMediaItem {
+  @objc public init?(configJSON: [Swift.String : Any]?)
+  @objc required public init?(coder aDecoder: Foundation.NSCoder)
+  @objc override dynamic public var debugDescription: Swift.String {
+    @objc get
+  }
+  @objc weak public var chat: ChatCenterUI.CCChatModel?
+  @objc public var titleMessage: Swift.String?
+  @objc public var sendDuringInactive: Swift.Bool
+  @objc public var serverTime: Foundation.Date?
+  @objc override public func fileName() -> Swift.String?
+  @objc override public func mediaDataType() -> Swift.String
+  @objc override public func toDictionary() -> [Swift.String : Any]
+  @objc override public func mediaData() -> Any?
+  @objc public func encode(with aCoder: Foundation.NSCoder)
+  @objc public func isAvailableNow() -> Swift.Bool
+  @objc public func getIntervalToNextAvailabilityChange() -> Swift.Int
+  @objc deinit
+}
+extension Foundation.NSPredicate {
+  @objc dynamic public class func unreadMessages() -> Foundation.NSPredicate
+}
+@objc @objcMembers public class THRJSQFileMediaItem : ChatCenterUI.THRJSQMediaItem, Foundation.NSSecureCoding {
+  @objc public init(files: [ChatCenterUI.THRJSQFile]? = nil)
+  @objc required convenience public init?(coder aDecoder: Foundation.NSCoder)
+  @objc public static var supportsSecureCoding: Swift.Bool
+  @objc override public var fileData: Foundation.Data? {
+    @objc get
+    @objc set
+  }
+  @objc public var downloading: Swift.Bool
+  @objc public var files: [ChatCenterUI.THRJSQFile]?
+  @objc public var fileUrl: Foundation.URL?
+  @objc public var mediaURL: Foundation.URL?
+  @objc override public func mediaQuotedView() -> UIKit.UIImageView
+  @objc override public func mediaDataType() -> Swift.String
+  @objc override public func mediaData() -> Any?
+  @objc override public func toDictionary() -> [Swift.String : Any]
+  @objc override public func fileName() -> Swift.String?
+  @objc override public func failedText() -> Swift.String?
+  @objc public func encode(with aCoder: Foundation.NSCoder)
+  @objc public func startDownloading()
+  @objc public func stopDownloading()
+  @objc public func isFileExist() -> Swift.Bool
+  @objc deinit
+}
+extension UIKit.UIView {
+  @_Concurrency.MainActor @preconcurrency public func fillToSuperview()
+  @discardableResult
+  @_Concurrency.MainActor @preconcurrency public func anchor(top: UIKit.NSLayoutYAxisAnchor? = nil, left: UIKit.NSLayoutXAxisAnchor? = nil, bottom: UIKit.NSLayoutYAxisAnchor? = nil, right: UIKit.NSLayoutXAxisAnchor? = nil, topConstant: CoreFoundation.CGFloat = 0, leftConstant: CoreFoundation.CGFloat = 0, bottomConstant: CoreFoundation.CGFloat = 0, rightConstant: CoreFoundation.CGFloat = 0, widthConstant: CoreFoundation.CGFloat = 0, heightConstant: CoreFoundation.CGFloat = 0) -> [UIKit.NSLayoutConstraint]
+  @_Concurrency.MainActor @preconcurrency public func anchorCenterXToSuperview(constant: CoreFoundation.CGFloat = 0)
+  @_Concurrency.MainActor @preconcurrency public func anchorCenterYToSuperview(constant: CoreFoundation.CGFloat = 0)
+  @_Concurrency.MainActor @preconcurrency public func anchorCenterSuperview()
+  @_Concurrency.MainActor @preconcurrency public func thrjsqImage() -> UIKit.UIImage?
+  @objc @_Concurrency.MainActor @preconcurrency dynamic public func addContainedView(_ inSubView: UIKit.UIView)
+}
+@objc public protocol CCRestDataProviderDelegate : ObjectiveC.NSObjectProtocol {
+  @objc func restImageLoaded(_ item: ChatCenterUI.THRJSQPhotoMediaItem)
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers final public class CCDataProvider : ObjectiveC.NSObject, @unchecked Swift.Sendable {
+  @objc weak final public var delegate: (any ChatCenterUI.CCRestDataProviderDelegate)?
+  @objc final public func cleanCache()
+  @objc final public func fetchOGData(URL url: Foundation.URL, completion: @escaping ChatCenterUI.CCOGProviderCompletion)
+  @objc deinit
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers @_Concurrency.MainActor @preconcurrency final public class CCOpenGraphView : UIKit.UIView {
+  @_Concurrency.MainActor @preconcurrency @objc dynamic public init()
+  @objc @_Concurrency.MainActor @preconcurrency final public var onTap: ((Foundation.URL) -> Swift.Void)?
+  @objc @_Concurrency.MainActor @preconcurrency final public var isOutgoing: Swift.Bool
+  @objc @_Concurrency.MainActor @preconcurrency final public var metadata: ChatCenterUI.CCLinkMetadata? {
+    @objc get
+    @objc set
+  }
+  @objc deinit
+}
+@objc public enum ChatAlignment : Swift.UInt {
+  case center
+  case left
+  case right
+  public init?(rawValue: Swift.UInt)
+  public typealias RawValue = Swift.UInt
+  public var rawValue: Swift.UInt {
+    get
+  }
+}
+@objc @_inheritsConvenienceInitializers @objcMembers final public class QuickReplyStyle : ChatCenterUI.ChatStyle {
+  @objc required public init(components: ChatCenterUI.ChatComponents)
+  @objc public enum QuickReplyMode : Swift.Int {
+    case toolbar
+    case embed
+    public init?(rawValue: Swift.Int)
+    public typealias RawValue = Swift.Int
+    public var rawValue: Swift.Int {
+      get
+    }
+  }
+  @objc final public var mode: ChatCenterUI.QuickReplyStyle.QuickReplyMode
+  @objc final public var alignment: ChatCenterUI.ChatAlignment
+  @objc final public var font: UIKit.UIFont {
+    @objc get
+    @objc set
+  }
+  @objc final public var color: ChatCenterUI.ChatButtonColor {
+    @objc get
+    @objc set
+  }
+  @objc final public var textColor: ChatCenterUI.ChatButtonColor {
+    @objc get
+    @objc set
+  }
+  @objc final public var borderColor: ChatCenterUI.ChatButtonColor {
+    @objc get
+    @objc set
+  }
+  @objc final public var buttonHeight: CoreFoundation.CGFloat
+  @objc final public var borderWidth: CoreFoundation.CGFloat
+  @objc final public let insets: UIKit.UIEdgeInsets
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @objcMembers @_Concurrency.MainActor @preconcurrency public class ChatPlaceholderView : UIKit.UIView {
+  @objc @_Concurrency.MainActor @preconcurrency public func activateConstraints(size: CoreFoundation.CGSize, verticalOffset _: CoreFoundation.CGFloat)
+  @objc deinit
+}
+@available(*, deprecated, message: "Используйте TextChatMessageStyle")
+public typealias TextMessageStyle = ChatCenterUI.TextChatMessageStyle
+@objc @_inheritsConvenienceInitializers final public class TextChatMessageStyle : ChatCenterUI.ChatMessageStyle {
+  @objc required public init(components: ChatCenterUI.ChatComponents)
+  @objc final public var linkTextStyle: ChatCenterUI.ChatTextStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var textViewInsets: UIKit.UIEdgeInsets
+  @objc final public var textInsets: UIKit.UIEdgeInsets
+  @objc final public var openGraphStyle: ChatCenterUI.OpenGraphViewStyle {
+    @objc get
+    @objc set
+  }
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers @objcMembers final public class LoadingIndicatorStyle : ChatCenterUI.ChatStyle {
+  @objc required public init(components: ChatCenterUI.ChatComponents)
+  @objc final public var indicatorColor: UIKit.UIColor
+  @objc deinit
+}
+public struct ChatAuth {
+  public init(token: Swift.String? = nil, scheme: Swift.String? = nil, method: ChatCenterUI.ChatAuthMethod = .headers, signature: Swift.String? = nil, isEncrypted: Swift.Bool = false)
+}
+public enum ChatAuthMethod {
+  case headers
+  case cookies
+  public static func == (a: ChatCenterUI.ChatAuthMethod, b: ChatCenterUI.ChatAuthMethod) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+@objc @objcMembers public class PushUserInfo : ObjectiveC.NSObject {
+  @objc public init?(from pushUserInfo: [Swift.String : Any])
+  @objc final public let alert: Swift.String
+  @objc final public let skillId: Swift.Int
+  @objc final public let expiredAt: Swift.String
+  @objc final public let chlSentAt: Swift.String
+  @objc final public let campaign: Swift.String
+  @objc final public let priority: Swift.Int
+  @objc final public let senderName: Swift.String
+  @objc final public let chatMessageId: Swift.String?
+  @objc public class func checkMinimumPush(from pushUserInfo: [Swift.String : Any]) -> Swift.Bool
+  @objc deinit
+}
+public struct ChatLoggerConfig {
+  public init(logLevel: ChatCenterUI.ChatLogLevel = .off, logFileSize: Swift.Int = 2, logFilesCount: Swift.Int = 10)
+}
+public struct ChatLogLevel : Swift.OptionSet {
+  public init(rawValue: Swift.Int)
+  public static let off: ChatCenterUI.ChatLogLevel
+  public static let info: ChatCenterUI.ChatLogLevel
+  public static let rest: ChatCenterUI.ChatLogLevel
+  public static let webSocket: ChatCenterUI.ChatLogLevel
+  public static let userInterface: ChatCenterUI.ChatLogLevel
+  public static let error: ChatCenterUI.ChatLogLevel
+  public static let network: ChatCenterUI.ChatLogLevel
+  public static let all: ChatCenterUI.ChatLogLevel
+  public let rawValue: Swift.Int
+  public typealias ArrayLiteralElement = ChatCenterUI.ChatLogLevel
+  public typealias Element = ChatCenterUI.ChatLogLevel
+  public typealias RawValue = Swift.Int
+}
+@objc @objcMembers final public class ScrollToMessageButtonStyle : ChatCenterUI.IconButtonStyle {
+  @objc public init(icon: ChatCenterUI.ChatImage, components: ChatCenterUI.ChatComponents)
+  @objc required public init(components: ChatCenterUI.ChatComponents)
+  @objc final public var badgeStyle: ChatCenterUI.ChatTextStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var alwaysShow: Swift.Bool
+  @objc deinit
+}
+@objc public enum THRAlertAction : Swift.UInt {
+  case retry
+  case delete
+  case cancel
+  public init?(rawValue: Swift.UInt)
+  public typealias RawValue = Swift.UInt
+  public var rawValue: Swift.UInt {
+    get
+  }
+}
+@objc @_inheritsConvenienceInitializers @objcMembers public class THRAlertFactory : ObjectiveC.NSObject {
+  @objc public static func buildToastView(title: Swift.String, icon: UIKit.UIImage?, position: ChatCenterUI.Position) -> ChatCenterUI.ToastView
+  @objc public static func buildInfoAlert(title: Swift.String?, message: Swift.String?) -> UIKit.UIAlertController
+  @objc public static func buildInfoAlert(title: Swift.String?, message: Swift.String?, handler: ((UIKit.UIAlertAction) -> Swift.Void)?) -> UIKit.UIAlertController
+  @objc public static func buildAlert(title: Swift.String?, message: Swift.String?, actionTitle: Swift.String, handler: ((UIKit.UIAlertAction) -> Swift.Void)? = nil) -> UIKit.UIAlertController
+  @objc public static func buildCancellableAlert(title: Swift.String?, message: Swift.String?, cancelTitle: Swift.String?, actionTitle: Swift.String, handler: ((UIKit.UIAlertAction) -> Swift.Void)?) -> UIKit.UIAlertController
+  @objc public static func failedMessageAlert(withIsSendAvailable isSendAvailable: Swift.Bool, message: Swift.String?, handler: ((ChatCenterUI.THRAlertAction) -> Swift.Void)?) -> UIKit.UIAlertController
+  @objc public static func failedMessageAlert(handler: ((ChatCenterUI.THRAlertAction) -> Swift.Void)?) -> UIKit.UIAlertController
+  @objc override dynamic public init()
+  @objc deinit
+}
+final public class ChatCenterUISDK {
+  public init(providerUid: Swift.String, appMarker: Swift.String? = nil, chatConfig: ChatCenterUI.ChatConfig, loggerConfig: ChatCenterUI.ChatLoggerConfig? = nil)
+  @objc deinit
+  public static let version: Swift.String
+  final public var localizationConfig: ChatCenterUI.ChatLocalizationConfig? {
+    get
+    set
+  }
+  weak final public var delegate: (any ChatCenterUI.ChatCenterUISDKDelegate)? {
+    get
+    set
+  }
+  final public var theme: ChatCenterUI.ChatTheme {
+    get
+    set
+  }
+  final public var darkTheme: ChatCenterUI.ChatTheme {
+    get
+    set
+  }
+  public static func isChatCenterNotification(_ userInfo: [Swift.String : Any]) -> Swift.Bool
+  public static func setDeviceToken(_ deviceToken: Foundation.Data)
+  final public func authorize(user: ChatCenterUI.ChatUser, auth: ChatCenterUI.ChatAuth = ChatAuth())
+  final public func deauthorizeUser()
+  final public func logout() throws(ChatCenterUI.ChatCenterUIError)
+  final public func getChat(userInfo: [Swift.AnyHashable : Any]? = nil) throws(ChatCenterUI.ChatCenterUIError) -> UIKit.UIViewController
+  final public func getUnreadMessagesCount(completion: @escaping (Swift.Result<Swift.Int, any Swift.Error>) -> Swift.Void) throws(ChatCenterUI.ChatCenterUIError)
+  final public func prefill(message: Swift.String)
+  final public func send(message: ChatCenterUI.ChatMessage) throws(ChatCenterUI.ChatCenterUISendMessageError)
+  final public func handleNotification(userInfo: [Swift.AnyHashable : Any]) throws(ChatCenterUI.ChatCenterUIError)
+}
+public enum ChatCenterUISendMessageError : Swift.Error {
+  case userNotAuthorized
+  case webSocketNotActive
+  case chatNotOpened
+  case messageNotSent
+  case messageIsEmpty
+  case messageTooLong
+  case messageImageTooLarge
+  case messageImageCompressionError
+  public static func == (a: ChatCenterUI.ChatCenterUISendMessageError, b: ChatCenterUI.ChatCenterUISendMessageError) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public enum ChatCenterUIError : Swift.Error {
+  case userNotAuthorized
+  case chatNotOpened
+  public static func == (a: ChatCenterUI.ChatCenterUIError, b: ChatCenterUI.ChatCenterUIError) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+@objc @_inheritsConvenienceInitializers @objcMembers final public class ChatInputQuoteStyle : ChatCenterUI.ChatStyle {
+  @objc final public var titleTextStyle: ChatCenterUI.ChatTextStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var subtitleTextStyle: ChatCenterUI.ChatTextStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var messageAuthorTextStyle: ChatCenterUI.ChatTextStyle {
+    @objc get
+    @objc set
+  }
+  @objc final public var messageTextStyle: ChatCenterUI.ChatTextStyle {
+    @objc get
+    @objc set
+  }
+  @objc required public init(components: ChatCenterUI.ChatComponents)
+  @objc deinit
+}
+@objc extension Foundation.FileManager {
+  @objc dynamic public func saveData(data: Foundation.Data, toCacheFile name: Swift.String) -> Foundation.URL?
+  @objc dynamic public func getURL(forCachedFile name: Swift.String) -> Foundation.URL?
+  @objc dynamic public func getData(forCachedFile name: Swift.String) -> Foundation.Data?
+  @objc dynamic public func saveToTemporaryDirectory(image: UIKit.UIImage) -> Foundation.URL?
+  @objc dynamic public func getFromTemporaryDirectory(for url: Foundation.URL) -> Foundation.Data?
+  @objc dynamic public func cleanCache()
+  @objc dynamic public var temporaryImagesCache: Foundation.URL? {
+    @objc get
+  }
+}
+@available(*, deprecated, message: "Используйте ButtonStyle")
+public typealias ButtonChatStyle = ChatCenterUI.ButtonStyle
+@objc @_inheritsConvenienceInitializers @objcMembers public class ButtonStyle : ChatCenterUI.ChatStyle {
+  @objc required public init(components: ChatCenterUI.ChatComponents)
+  @objc public var textStyle: ChatCenterUI.ChatTextStyle
+  @objc public var color: ChatCenterUI.ChatButtonColor
+  @objc deinit
+}
+extension ChatCenterUI.CCState : Swift.Equatable {}
+extension ChatCenterUI.CCState : Swift.Hashable {}
+extension ChatCenterUI.CCState : Swift.RawRepresentable {}
+extension ChatCenterUI.THRMessageStatus : Swift.Equatable {}
+extension ChatCenterUI.THRMessageStatus : Swift.Hashable {}
+extension ChatCenterUI.THRMessageStatus : Swift.RawRepresentable {}
+extension ChatCenterUI.THRMessageModified : Swift.Equatable {}
+extension ChatCenterUI.THRMessageModified : Swift.Hashable {}
+extension ChatCenterUI.THRMessageModified : Swift.RawRepresentable {}
+extension ChatCenterUI.THRMessageType : Swift.Equatable {}
+extension ChatCenterUI.THRMessageType : Swift.Hashable {}
+extension ChatCenterUI.THRMessageType : Swift.RawRepresentable {}
+extension ChatCenterUI.THRParticipantSex : Swift.Equatable {}
+extension ChatCenterUI.THRParticipantSex : Swift.Hashable {}
+extension ChatCenterUI.THRParticipantSex : Swift.RawRepresentable {}
+extension ChatCenterUI.THRJSQAudioMediaStatus : Swift.Equatable {}
+extension ChatCenterUI.THRJSQAudioMediaStatus : Swift.Hashable {}
+extension ChatCenterUI.THRJSQAudioMediaStatus : Swift.RawRepresentable {}
+extension ChatCenterUI.ChatInputAlignment : Swift.Equatable {}
+extension ChatCenterUI.ChatInputAlignment : Swift.Hashable {}
+extension ChatCenterUI.ChatInputAlignment : Swift.RawRepresentable {}
+extension ChatCenterUI.Position : Swift.Equatable {}
+extension ChatCenterUI.Position : Swift.Hashable {}
+extension ChatCenterUI.Position : Swift.RawRepresentable {}
+extension ChatCenterUI.NavigationBarButtonPosition : Swift.Equatable {}
+extension ChatCenterUI.NavigationBarButtonPosition : Swift.Hashable {}
+extension ChatCenterUI.NavigationBarButtonPosition : Swift.RawRepresentable {}
+extension ChatCenterUI.CCChatModelConfigState : Swift.Equatable {}
+extension ChatCenterUI.CCChatModelConfigState : Swift.Hashable {}
+extension ChatCenterUI.CCChatModelConfigState : Swift.RawRepresentable {}
+extension ChatCenterUI.ChatTransportConfig.APIVersion : Swift.Equatable {}
+extension ChatCenterUI.ChatTransportConfig.APIVersion : Swift.Hashable {}
+extension ChatCenterUI.ChatTransportConfig.APIVersion : Swift.RawRepresentable {}
+extension ChatCenterUI.THRJSQMessageAttachmentState : Swift.Equatable {}
+extension ChatCenterUI.THRJSQMessageAttachmentState : Swift.Hashable {}
+extension ChatCenterUI.THRJSQMessageAttachmentState : Swift.RawRepresentable {}
+extension ChatCenterUI.THRJSQMessageAttachmentErrorType : Swift.Equatable {}
+extension ChatCenterUI.THRJSQMessageAttachmentErrorType : Swift.Hashable {}
+extension ChatCenterUI.THRJSQMessageAttachmentErrorType : Swift.RawRepresentable {}
+extension ChatCenterUI.ChatAlignment : Swift.Equatable {}
+extension ChatCenterUI.ChatAlignment : Swift.Hashable {}
+extension ChatCenterUI.ChatAlignment : Swift.RawRepresentable {}
+extension ChatCenterUI.QuickReplyStyle.QuickReplyMode : Swift.Equatable {}
+extension ChatCenterUI.QuickReplyStyle.QuickReplyMode : Swift.Hashable {}
+extension ChatCenterUI.QuickReplyStyle.QuickReplyMode : Swift.RawRepresentable {}
+extension ChatCenterUI.ChatAuthMethod : Swift.Equatable {}
+extension ChatCenterUI.ChatAuthMethod : Swift.Hashable {}
+extension ChatCenterUI.THRAlertAction : Swift.Equatable {}
+extension ChatCenterUI.THRAlertAction : Swift.Hashable {}
+extension ChatCenterUI.THRAlertAction : Swift.RawRepresentable {}
+extension ChatCenterUI.ChatCenterUISendMessageError : Swift.Equatable {}
+extension ChatCenterUI.ChatCenterUISendMessageError : Swift.Hashable {}
+extension ChatCenterUI.ChatCenterUIError : Swift.Equatable {}
+extension ChatCenterUI.ChatCenterUIError : Swift.Hashable {}

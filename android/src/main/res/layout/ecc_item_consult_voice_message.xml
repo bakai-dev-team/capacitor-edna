@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/rootLayout" android:minHeight="42dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/bubble"
+        style="@style/consultBubble"
+        android:layout_width="0dp"
+        app:layout_constraintStart_toEndOf="@+id/bank_client_side"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <edna.chatcenter.ui.visual.views.QuoteHolderView
+            android:id="@+id/quoteView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/ecc_margin_half"
+            android:paddingBottom="@dimen/ecc_margin_half"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/buttonsStartGuideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="@dimen/ecc_margin_zero"
+            app:layout_constraintTop_toBottomOf="@id/quoteView"/>
+
+        <ImageButton
+            android:id="@+id/voiceMessageButtonPlayPause"
+            android:layout_width="@dimen/ecc_file_icon_size"
+            android:layout_height="@dimen/ecc_file_icon_size"
+            android:layout_marginEnd="@dimen/ecc_margin_half"
+            android:layout_marginBottom="@dimen/ecc_margin_three_fourth"
+            app:layout_constraintStart_toEndOf="@id/buttonsStartGuideline"
+            app:layout_constraintTop_toBottomOf="@id/quoteView"
+            android:background="@null"
+            tools:background="@color/ecc_toolbar_gray"
+            android:scaleType="fitXY"
+            android:contentDescription="@string/ecc_content_descr_play_button" />
+
+        <ImageView
+            android:id="@+id/loader"
+            android:layout_width="@dimen/ecc_file_icon_size"
+            android:layout_height="@dimen/ecc_file_icon_size"
+            android:layout_marginEnd="@dimen/ecc_margin_half"
+            android:layout_marginBottom="@dimen/ecc_margin_three_fourth"
+            app:layout_constraintStart_toEndOf="@id/buttonsStartGuideline"
+            app:layout_constraintTop_toBottomOf="@id/quoteView"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="@string/ecc_content_descr_loading_animation" />
+
+        <com.google.android.material.slider.Slider
+            android:id="@+id/voiceMessageConsultSlider"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-11dp"
+            app:layout_constraintStart_toEndOf="@+id/voiceMessageButtonPlayPause"
+            app:layout_constraintTop_toTopOf="@id/voiceMessageButtonPlayPause"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:thumbRadius="@dimen/ecc_thumb_size"
+            app:haloRadius="@dimen/ecc_halo_radius"
+            android:theme="@style/ThemeOverlay.ChatCenter.Slider.Consult"/>
+
+        <edna.chatcenter.ui.visual.widget.textView.BubbleMessageTextView
+            android:id="@+id/voiceMessageConsultAudioStatus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textSize="@dimen/ecc_text_small"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:layout_marginTop="-10dp"
+            app:layout_constraintStart_toStartOf="@id/voiceMessageConsultSlider"
+            app:layout_constraintTop_toBottomOf="@id/voiceMessageConsultSlider"
+            app:layout_constraintEnd_toEndOf="@id/voiceMessageConsultSlider"
+            android:layout_below="@id/voiceMessageConsultSlider"
+            android:text="@string/ecc_message_voice_is_processing"
+            android:textColor="@color/ecc_incoming_message_text"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:layout_marginStart="@dimen/bakai_edna_message_side_margin"
+            android:layout_marginEnd="@dimen/ecc_margin_half"
+            android:layout_marginBottom="@dimen/ecc_margin_half" />
+
+        <edna.chatcenter.ui.visual.widget.textView.BubbleMessageTextView
+            android:id="@+id/fileSize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/ecc_margin_half"
+            android:layout_marginTop="-10dp"
+            app:layout_constraintStart_toStartOf="@id/voiceMessageConsultSlider"
+            app:layout_constraintTop_toBottomOf="@id/voiceMessageConsultSlider"
+            tools:text="1:20" />
+
+        <edna.chatcenter.ui.visual.widget.textView.QuoteMessageTextView
+            android:id="@+id/voiceMessageConsultText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:paddingBottom="@dimen/ecc_margin_half"
+            android:layout_marginTop="@dimen/ecc_margin_material"
+            android:textColor="@color/ecc_incoming_message_text"
+            android:textStyle="italic"
+            app:layout_constraintStart_toStartOf="@id/voiceMessageButtonPlayPause"
+            app:layout_constraintTop_toBottomOf="@+id/voiceMessageButtonPlayPause"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="счет на оплату очень длинное название очень длинное название очень длинное название или счет на оплату очень длинное название очень длинное название очень длинное название" />
+
+        <FrameLayout
+            android:id="@+id/fileRootLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/loader"
+            app:layout_constraintTop_toBottomOf="@id/voiceMessageConsultText"
+            android:visibility="visible">
+
+            <RelativeLayout
+                android:id="@+id/usualFileRootLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="@id/loader"
+                app:layout_constraintTop_toBottomOf="@id/voiceMessageConsultText"
+                android:visibility="visible">
+
+                <FrameLayout
+                    android:id="@+id/fileImagesContainer"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_centerVertical="true">
+
+                    <ImageView
+                        android:id="@+id/fileImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                    <edna.chatcenter.ui.visual.views.CircularProgressButton
+                        android:id="@+id/buttonDownload"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+
+                </FrameLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@id/fileImagesContainer"
+                    android:minHeight="50dp"
+                    android:orientation="vertical">
+
+                    <edna.chatcenter.ui.visual.widget.textView.QuoteAuthorTextView
+                        android:id="@+id/to"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/ecc_margin_half"
+                        android:layout_marginTop="2dp"
+                        android:paddingStart="0dp"
+                        android:paddingEnd="@dimen/ecc_margin_material"
+                        tools:text="Иван Петров" />
+
+                    <edna.chatcenter.ui.visual.widget.textView.QuoteMessageTextView
+                        android:id="@+id/fileSpecs"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/ecc_margin_half"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginEnd="@dimen/ecc_margin_half"
+                        android:ellipsize="end"
+                        android:maxLines="3"
+                        tools:text="счет на оплату очень длинное название очень длинное название очень длинное название.pdf" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <ImageView
+                android:id="@+id/bigImage"
+                android:layout_width="@dimen/ecc_message_image_size"
+                android:layout_height="@dimen/ecc_message_image_size"
+                android:scaleType="centerCrop"
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:adjustViewBounds="true" />
+
+        </FrameLayout>
+
+        <edna.chatcenter.ui.visual.widget.textView.BubbleTimeTextView
+            android:id="@+id/timeStamp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/ecc_margin_material"
+            android:drawablePadding="0dp"
+            android:paddingStart="0dp"
+            android:paddingEnd="0dp"
+            android:paddingBottom="@dimen/ecc_margin_half"
+            app:layout_constraintEnd_toEndOf="@id/voiceMessageConsultSlider"
+            app:layout_constraintTop_toBottomOf="@id/fileRootLayout"
+            tools:text="10:19" android:maxWidth="0dp" android:alpha="0" />
+
+        <edna.chatcenter.ui.visual.widget.textView.BubbleTimeTextView
+            android:id="@+id/errorText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/voiceMessageButtonPlayPause"
+            app:layout_constraintEnd_toStartOf="@id/timeStamp"
+            app:layout_constraintTop_toBottomOf="@id/fileRootLayout"
+            android:visibility="gone"
+            tools:text="Some error text"
+            tools:visibility="visible" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <kg.bakai.capacitor.edna.BankAvatarSourceView
+        android:id="@+id/consultAvatar"
+        android:scaleType="fitCenter"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/bubble"
+        android:layout_marginStart="@dimen/ecc_margin_half"
+        android:contentDescription="@string/ecc_content_descr_operator_avatar" />
+
+    <kg.bakai.capacitor.edna.BankClientSideView android:id="@+id/bank_client_side" android:tag="incoming" android:layout_width="30dp" android:layout_height="42dp" android:layout_marginStart="8dp" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

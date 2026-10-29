@@ -1,0 +1,6 @@
+framework module ChatCenterUI {
+    umbrella header "ChatCenterUI.h"
+
+    export *
+    module * { export * }
+}

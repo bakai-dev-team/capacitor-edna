@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ecc_chat_title_opened">Контакт борбору</string>
+    <string name="ecc_chat_title_working">Контакт борбору</string>
+    <string name="ecc_chat_title_waiting_for_specialist">Оператор изделүүдө…</string>
+    <string name="ecc_search_placeholder_title">Билдирүүлөрдү издөө</string>
+    <string name="ecc_attachments_menu_take_photo">Камера</string>
+    <string name="ecc_attachments_menu_my_albums">Галерея</string>
+    <string name="ecc_attachments_menu_files">Файл</string>
+    <string name="ecc_chat_title_typing">Оператор жазып жатат…</string>
+    <string name="ecc_operator_bot">Бот</string>
+    <string name="ecc_operator_external_bot">Тышкы бот</string>
+    <string name="ecc_empty_chat_placeholder_title">Контакт борборуна кош келиңиз!</string>
+    <string name="ecc_empty_chat_placeholder_desc">Сурооңузду жөнөтүңүз, биринчи бош оператор сизге жооп берет.</string>
+    <string name="ecc_empty_chat_placeholder_subtitle">Кардар туташтырылууда</string>
+    <string name="ecc_empty_chat_loading_state">Жүктөлүүдө</string>
+</resources>
