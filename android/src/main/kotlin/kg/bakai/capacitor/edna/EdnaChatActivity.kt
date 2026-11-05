@@ -19,6 +19,35 @@ class EdnaChatActivity : AppCompatActivity() {
         internal var current = WeakReference<EdnaChatActivity>(null)
     }
 
+    private val historyTap by lazy {
+        android.view.GestureDetector(this, object : android.view.GestureDetector.SimpleOnGestureListener() {
+            override fun onDown(event: android.view.MotionEvent) = true
+
+            override fun onSingleTapUp(event: android.view.MotionEvent): Boolean {
+                val input = currentFocus as? EditText ?: return false
+                val chat = supportFragmentManager.findFragmentByTag("edna-chat") as? ChatFragment ?: return false
+                val content = chat.view?.findViewById<View>(edna.chatcenter.ui.R.id.chat_content) ?: return false
+                val bounds = android.graphics.Rect()
+                if (!content.getGlobalVisibleRect(bounds) || !bounds.contains(event.rawX.toInt(), event.rawY.toInt())) return false
+                // Let the SDK finish handling links, attachments and message taps
+                // before hiding the keyboard changes the history's layout.
+                content.post {
+                    if (currentFocus === input) {
+                        input.clearFocus()
+                        androidx.core.view.WindowCompat.getInsetsController(window, window.decorView)
+                            .hide(WindowInsetsCompat.Type.ime())
+                    }
+                }
+                return false
+            }
+        })
+    }
+
+    override fun dispatchTouchEvent(event: android.view.MotionEvent): Boolean {
+        historyTap.onTouchEvent(event)
+        return super.dispatchTouchEvent(event)
+    }
+
     private var darkChat = false
     private var sessionRevision = -1L
 

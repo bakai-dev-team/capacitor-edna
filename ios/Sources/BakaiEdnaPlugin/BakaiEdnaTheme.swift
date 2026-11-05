@@ -3,6 +3,7 @@ import ObjectiveC
 import QuickLook
 import UniformTypeIdentifiers
 import CoreImage
+import CoreText
 import ChatCenterUI
 
 /// Uses the same palette and type sizes as BakaiEdnaTheme.kt.
@@ -349,12 +350,14 @@ private final class BankChatHeader: UIView {
     let title = UILabel()
     let subtitle = UILabel()
     let pill = UIView()
+    let searchHost = UIView()
     private let loadingDots = UIView()
     private var isLoading = false
     private let icon = UIImageView(image: UIImage(systemName: "headphones"))
 
     init(palette: BankChatTheme.Palette) {
         super.init(frame: .zero)
+        accessibilityIdentifier = "bankChatHeader"
         backgroundColor = palette.background
         for (button, symbol) in [(back, "arrow.left"), (search, "magnifyingglass")] {
             button.setImage(UIImage(systemName: symbol, withConfiguration: UIImage.SymbolConfiguration(pointSize: 20)), for: .normal)
@@ -368,6 +371,8 @@ private final class BankChatHeader: UIView {
         pill.backgroundColor = palette.input
         pill.layer.cornerRadius = 24
         addSubview(pill)
+        searchHost.isHidden = true
+        addSubview(searchHost)
         icon.tintColor = palette.text
         icon.contentMode = .scaleAspectFit
         pill.addSubview(icon)
@@ -398,6 +403,8 @@ private final class BankChatHeader: UIView {
         back.frame = CGRect(x: 8, y: 12, width: 40, height: 40)
         search.frame = CGRect(x: bounds.width - 48, y: 12, width: 40, height: 40)
         pill.frame = CGRect(x: 60, y: 8, width: max(0, bounds.width - 120), height: 48)
+        searchHost.frame = CGRect(x: 56, y: 8, width: max(0, bounds.width - 64), height: 48)
+        searchHost.subviews.forEach { $0.frame = searchHost.bounds }
         icon.frame = CGRect(x: 12, y: 14, width: 20, height: 20)
         loadingDots.frame = CGRect(x: 50, y: 20, width: 13, height: 9)
         title.isHidden = isLoading
@@ -432,6 +439,101 @@ private final class BankChatHeader: UIView {
         setNeedsLayout()
     }
 
+}
+
+/// Delay only query changes; all other optional search-bar callbacks stay with Edna.
+internal final class BankDebouncedSearchDelegate: NSObject, UISearchBarDelegate {
+    private weak var downstream: UISearchBarDelegate?
+    private let delay: TimeInterval
+    private var pending: Timer?
+
+    init(downstream: UISearchBarDelegate, delay: TimeInterval = 0.4) {
+        self.downstream = downstream
+        self.delay = delay
+        super.init()
+    }
+
+    func cancel() {
+        pending?.invalidate()
+        pending = nil
+    }
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        cancel()
+        guard searchBar.searchTextField.markedTextRange == nil else { return }
+        let timer = Timer(timeInterval: delay, repeats: false) { [weak self, weak searchBar] _ in
+            guard let self, let searchBar, searchBar.text == searchText,
+                  searchBar.searchTextField.markedTextRange == nil else { return }
+            self.pending = nil
+            self.downstream?.searchBar?(searchBar, textDidChange: searchText)
+        }
+        pending = timer
+        RunLoop.main.add(timer, forMode: .common)
+    }
+
+    override func responds(to aSelector: Selector!) -> Bool {
+        super.responds(to: aSelector) || downstream?.responds(to: aSelector) == true
+    }
+
+    override func forwardingTarget(for aSelector: Selector!) -> Any? {
+        downstream?.responds(to: aSelector) == true ? downstream : super.forwardingTarget(for: aSelector)
+    }
+
+    deinit { pending?.invalidate() }
+}
+
+/// Keep dismissal routing scoped to this SDK search instance, even after a
+/// selected result removes it from the chat's child-controller hierarchy.
+private final class BankInlineSearchOwner: NSObject {
+    weak var navigation: BankChatNavigationController?
+    init(_ navigation: BankChatNavigationController) { self.navigation = navigation }
+}
+
+/// The SDK recalculates both text and placeholder insets from drawRect:.
+/// Apply one shared origin on every such pass for the bank composer only.
+private enum BankComposerTextLayout {
+    static var configuredKey: UInt8 = 0
+    private static let installed: Void = {
+        guard let sdkClass = NSClassFromString("THRJSQMessagesComposerTextView"),
+              let original = class_getInstanceMethod(sdkClass, NSSelectorFromString("configureInsetsWith:")),
+              let replacement = class_getInstanceMethod(UITextView.self, #selector(UITextView.bankConfigureComposerInsets(with:))) else { return }
+        let selector = #selector(UITextView.bankConfigureComposerInsets(with:))
+        class_addMethod(sdkClass, selector, method_getImplementation(replacement), method_getTypeEncoding(replacement))
+        guard let localReplacement = class_getInstanceMethod(sdkClass, selector) else { return }
+        method_exchangeImplementations(original, localReplacement)
+    }()
+
+    static func install(on text: UITextView) {
+        _ = installed
+        objc_setAssociatedObject(text, &configuredKey, true, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        text.textContainer.lineFragmentPadding = 0
+        text.textContainer.widthTracksTextView = true
+        text.contentInset = .zero
+        text.contentOffset.x = 0
+        text.clipsToBounds = true
+        apply(to: text)
+    }
+
+    static func apply(to text: UITextView) {
+        let insets = UIEdgeInsets(top: 12, left: 0, bottom: 12, right: 0)
+        if text.textContainerInset != insets { text.textContainerInset = insets }
+        if text.responds(to: NSSelectorFromString("setPlaceHolderInsets:")),
+           (text.value(forKey: "placeHolderInsets") as? NSValue)?.uiEdgeInsetsValue != insets {
+            text.setValue(NSValue(uiEdgeInsets: insets), forKey: "placeHolderInsets")
+            text.setNeedsDisplay()
+        }
+    }
+}
+
+private extension UITextView {
+    @objc(bankConfigureComposerInsetsWith:)
+    dynamic func bankConfigureComposerInsets(with size: CGSize) {
+        if objc_getAssociatedObject(self, &BankComposerTextLayout.configuredKey) as? Bool == true {
+            BankComposerTextLayout.apply(to: self)
+        } else {
+            bankConfigureComposerInsets(with: size)
+        }
+    }
 }
 
 /// Changes geometry only; Edna retains its composer, delegates, targets, draft,
@@ -493,7 +595,9 @@ private final class BankChatComposerLayout {
         text.backgroundColor = .clear
         text.layer.borderWidth = 0
         text.layer.cornerRadius = 0
-        text.textContainerInset = UIEdgeInsets(top: 12, left: 11, bottom: 12, right: 0)
+        // Reserve the horizontal padding with layout, rather than a scrollable
+        // text-container inset, so the caret and SDK placeholder share an origin.
+        BankComposerTextLayout.install(on: text)
         left.backgroundColor = .clear
         right.backgroundColor = .clear
         BankSendSurface.install(in: right, button: send, textColor: palette.text)
@@ -524,15 +628,15 @@ private final class BankChatComposerLayout {
             button.contentEdgeInsets = UIEdgeInsets(top: 11, left: 11, bottom: 11, right: 11)
         }
         NSLayoutConstraint.activate([
-            right.trailingAnchor.constraint(equalTo: content.trailingAnchor, constant: -6),
+            right.trailingAnchor.constraint(equalTo: content.trailingAnchor, constant: -8),
             right.bottomAnchor.constraint(equalTo: content.bottomAnchor, constant: -8),
             right.widthAnchor.constraint(equalToConstant: 44), right.heightAnchor.constraint(equalToConstant: 44),
             left.trailingAnchor.constraint(equalTo: right.leadingAnchor, constant: -6),
             left.bottomAnchor.constraint(equalTo: right.bottomAnchor),
             left.widthAnchor.constraint(equalToConstant: 44), left.heightAnchor.constraint(equalToConstant: 44),
-            text.leadingAnchor.constraint(equalTo: content.leadingAnchor, constant: 6),
+            pill.leadingAnchor.constraint(equalTo: content.leadingAnchor, constant: 8),
+            text.leadingAnchor.constraint(equalTo: pill.leadingAnchor, constant: 16),
             text.trailingAnchor.constraint(equalTo: left.leadingAnchor),
-            pill.leadingAnchor.constraint(equalTo: text.leadingAnchor),
             pill.trailingAnchor.constraint(equalTo: left.trailingAnchor),
             pill.topAnchor.constraint(equalTo: text.topAnchor),
             pill.bottomAnchor.constraint(equalTo: text.bottomAnchor)
@@ -541,13 +645,31 @@ private final class BankChatComposerLayout {
         installed = true
     }
 
+    func updateSurveyVisibility(in root: UIViewController) {
+        func controllers(_ screen: UIViewController) -> [UIViewController] {
+            [screen] + screen.children.flatMap { controllers($0) }
+        }
+        let hasPendingSurvey = controllers(root).contains { controller in
+            let model: CCChatModel? = BankEdnaOutlet.get(controller, "chatModel") ?? BankEdnaOutlet.get(controller, "chat")
+            return model?.messages.contains { message in
+                message.type == .survey && (message.media as? THRSurvey)?.completed == false
+            } == true
+        }
+        // Keep the surface visible while preserving Edna's disabled editor and
+        // button states until the survey allows input again.
+        if hasPendingSurvey { content?.isHidden = false }
+    }
+
     private func descendants(_ view: UIView) -> [UIView] {
         [view] + view.subviews.flatMap { descendants($0) }
     }
 }
 
 /// The root chat has one bank header. Pushed SDK screens keep native navigation.
-internal final class BankChatNavigationController: UINavigationController {
+internal final class BankChatNavigationController: UINavigationController, UIGestureRecognizerDelegate {
+    private var inlineSearch: THRSearchViewController?
+    private var inlineSearchBar: UISearchBar?
+    private var inlineSearchDelegate: BankDebouncedSearchDelegate?
     private var normalizing = false
     private let bankPalette: BankChatTheme.Palette
     private let bankHeader: BankChatHeader
@@ -577,7 +699,11 @@ internal final class BankChatNavigationController: UINavigationController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        BankAttachmentPresentation.install()
+        BankChatPresentation.install()
+        let dismissKeyboardTap = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboardFromHistory))
+        dismissKeyboardTap.cancelsTouchesInView = false
+        dismissKeyboardTap.delegate = self
+        view.addGestureRecognizer(dismissKeyboardTap)
         view.backgroundColor = bankPalette.background
         // Keep SDK views in the layout hierarchy, but do not expose their first,
         // unstyled frames during presentation or initial history loading.
@@ -593,6 +719,28 @@ internal final class BankChatNavigationController: UINavigationController {
             name: UITextView.textDidChangeNotification, object: nil)
     }
 
+    @objc private func dismissKeyboardFromHistory() {
+        view.endEditing(true)
+    }
+
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        guard let root = viewControllers.first, topViewController === root,
+              presentedViewController == nil, let touched = touch.view,
+              touched.isDescendant(of: root.view) else { return false }
+        var candidate: UIView? = touched
+        while let current = candidate {
+            if current === composer.content || current is UIControl { return false }
+            if let text = current as? UITextView, text.isEditable { return false }
+            candidate = current.superview
+        }
+        return true
+    }
+
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer,
+                           shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        true
+    }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateLoadingState()
@@ -606,6 +754,11 @@ internal final class BankChatNavigationController: UINavigationController {
         loadingTimer = Timer.scheduledTimer(withTimeInterval: 0.25, repeats: true) { [weak self] _ in
             self?.updateLoadingState()
         }
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        inlineSearchDelegate?.cancel()
+        super.viewWillDisappear(animated)
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -701,7 +854,7 @@ internal final class BankChatNavigationController: UINavigationController {
             }
         }
         copyTitle(from: source, fallback: root.title)
-        bankHeader.search.isEnabled = searchItem != nil
+        bankHeader.search.isEnabled = searchContext != nil
     }
 
     private func titleLabels(_ view: UIView) -> [UILabel] {
@@ -724,8 +877,18 @@ internal final class BankChatNavigationController: UINavigationController {
         bankHeader.setNeedsLayout()
     }
 
-    private var searchItem: UIBarButtonItem? {
-        viewControllers.first?.navigationItem.rightBarButtonItems?.first { $0.action != nil || $0.customView is UIControl }
+    private var searchContext: (controller: UIViewController, model: CCChatModel)? {
+        guard let root = viewControllers.first else { return nil }
+        func screens(_ controller: UIViewController) -> [UIViewController] {
+            [controller] + controller.children.flatMap { screens($0) }
+        }
+        return screens(root).compactMap { controller in
+            guard !(controller is THRSearchViewController),
+                  let model: CCChatModel = BankEdnaOutlet.get(controller, "chatModel") ?? BankEdnaOutlet.get(controller, "chat"),
+                  model.dataProvider != nil,
+                  controller.responds(to: NSSelectorFromString("scrollToMessage:animated:")) else { return nil }
+            return (controller, model)
+        }.first
     }
 
     @objc private func updateMessageSides() {
@@ -739,6 +902,7 @@ internal final class BankChatNavigationController: UINavigationController {
         // SDK content can arrive after presentation. Install the composer and
         // style newly created cells before revealing the first complete layout.
         composer.install(in: root.view, palette: bankPalette)
+        composer.updateSurveyVisibility(in: root)
         root.view.layoutIfNeeded()
         BankClientMessageSide.update(in: root.view, avatar: clientAvatar, palette: bankPalette)
         if awaitingInitialAppearance {
@@ -852,14 +1016,112 @@ internal final class BankChatNavigationController: UINavigationController {
         present(BankContactProfile(dark: bankPalette.isDark), animated: true)
     }
 
-    @objc private func closeChat() { onClose?() }
-    @objc private func searchChat() {
-        guard let item = searchItem else { return }
-        if let control = item.customView as? UIControl {
-            control.sendActions(for: .touchUpInside)
-        } else if let action = item.action {
-            UIApplication.shared.sendAction(action, to: item.target, from: item, for: nil)
+    @objc private func closeChat() {
+        if inlineSearch != nil { closeInlineSearch() }
+        else { onClose?() }
+    }
+
+    /// Mount SDK results directly. This path never invokes SDK's search action
+    /// or UIViewController.present(), including when the search bar is unavailable.
+    @discardableResult
+    internal func showInlineSearch(_ search: THRSearchViewController) -> Bool {
+        guard let root = viewControllers.first, topViewController === root else { return false }
+        if inlineSearch != nil { return true }
+        let selectMessage = search.didSelectMessage
+        search.didSelectMessage = { [weak self] message in
+            self?.closeInlineSearch()
+            selectMessage?(message)
         }
+        objc_setAssociatedObject(search, &BankChatPresentation.inlineSearchOwnerKey,
+                                 BankInlineSearchOwner(self), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        root.addChild(search)
+        search.loadViewIfNeeded()
+        func findBar(in view: UIView) -> UISearchBar? {
+            if let bar = view as? UISearchBar { return bar }
+            return view.subviews.lazy.compactMap { findBar(in: $0) }.first
+        }
+        guard let bar = search.navigationItem.titleView.flatMap({ findBar(in: $0) })
+                ?? findBar(in: search.view) else {
+            search.willMove(toParent: nil)
+            search.removeFromParent()
+            search.didSelectMessage = selectMessage
+            objc_setAssociatedObject(search, &BankChatPresentation.inlineSearchOwnerKey, nil, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            return false
+        }
+        view.endEditing(true)
+        inlineSearch = search
+        search.view.backgroundColor = bankPalette.background
+        search.view.frame = root.view.bounds
+        search.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        root.view.addSubview(search.view)
+        search.didMove(toParent: root)
+        var ancestor = bar.superview
+        while let parent = ancestor {
+            NSLayoutConstraint.deactivate(parent.constraints.filter {
+                ($0.firstItem as? UIView) === bar || ($0.secondItem as? UIView) === bar
+            })
+            ancestor = parent.superview
+        }
+        if search.navigationItem.titleView === bar { search.navigationItem.titleView = nil }
+        bar.removeFromSuperview()
+        bar.translatesAutoresizingMaskIntoConstraints = true
+        bar.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        bar.showsCancelButton = false
+        bar.searchBarStyle = .minimal
+        bar.tintColor = bankPalette.text
+        bar.searchTextField.textColor = bankPalette.text
+        bar.searchTextField.backgroundColor = bankPalette.input
+        let delegate = BankDebouncedSearchDelegate(downstream: search)
+        inlineSearchDelegate = delegate
+        bar.delegate = delegate
+        inlineSearchBar = bar
+        bankHeader.searchHost.addSubview(bar)
+        bar.frame = bankHeader.searchHost.bounds
+        bankHeader.searchHost.isHidden = false
+        bankHeader.pill.isHidden = true
+        bankHeader.search.isHidden = true
+        bankHeader.setNeedsLayout()
+        bankHeader.layoutIfNeeded()
+        // Focus after containment and header layout have completed.
+        DispatchQueue.main.async { [weak self, weak bar] in
+            guard self?.inlineSearch === search else { return }
+            bar?.becomeFirstResponder()
+        }
+        return true
+    }
+
+    fileprivate func closeInlineSearch() {
+        guard let search = inlineSearch else { return }
+        inlineSearchDelegate?.cancel()
+        inlineSearchBar?.resignFirstResponder()
+        inlineSearchBar?.removeFromSuperview()
+        inlineSearchBar = nil
+        inlineSearchDelegate = nil
+        search.willMove(toParent: nil)
+        search.view.removeFromSuperview()
+        search.removeFromParent()
+        inlineSearch = nil
+        bankHeader.searchHost.isHidden = true
+        bankHeader.pill.isHidden = false
+        bankHeader.search.isHidden = false
+    }
+
+    @objc private func searchChat() {
+        guard let context = searchContext else { return }
+        let search = THRSearchViewController(nibName: nil, bundle: nil)
+        search.dataProvider = context.model.dataProvider
+        search.avatarService = context.model.avatarService
+        search.didSelectMessage = { [weak controller = context.controller] message in
+            guard let controller else { return }
+            // Match the bundled SDK's own result-selection callback. The
+            // Objective-C entry point is guarded before enabling search.
+            let selector = NSSelectorFromString("scrollToMessage:animated:")
+            guard controller.responds(to: selector), let implementation = controller.method(for: selector) else { return }
+            typealias ScrollToMessage = @convention(c) (AnyObject, Selector, AnyObject, Bool) -> Void
+            let scroll = unsafeBitCast(implementation, to: ScrollToMessage.self)
+            scroll(controller, selector, message, true)
+        }
+        showInlineSearch(search)
     }
 
     @objc private func textChanged(_ notification: Notification) {
@@ -1000,6 +1262,7 @@ private final class BankClientMessageSide: UIView {
     private let photo = UIImageView()
     private let time = UILabel()
     private let status = UIImageView()
+    private let bubbleMask = CAShapeLayer()
     private static let tagValue = 0xBA2401
     private var outgoing = false
     override init(frame: CGRect) {
@@ -1049,33 +1312,61 @@ private final class BankClientMessageSide: UIView {
         }
     }
 
+    private static func visibleTextBounds(in text: UITextView) -> CGRect? {
+        let layout = text.layoutManager
+        layout.ensureLayout(for: text.textContainer)
+        let range = layout.glyphRange(for: text.textContainer)
+        var bounds = CGRect.null
+        layout.enumerateLineFragments(forGlyphRange: range) { lineRect, _, _, glyphRange, _ in
+            let characters = layout.characterRange(forGlyphRange: glyphRange, actualGlyphRange: nil)
+            guard characters.length > 0 else { return }
+            let line = CTLineCreateWithAttributedString(text.textStorage.attributedSubstring(from: characters))
+            let ink = CTLineGetImageBounds(line, nil)
+            guard !ink.isNull, !ink.isEmpty else { return }
+            // TextKit uses a downward Y axis; Core Text ink bounds are relative
+            // to an upward baseline. Exclude unused font descent/leading.
+            let baseline = lineRect.minY + layout.location(forGlyphAt: glyphRange.location).y
+            let visible = CGRect(x: 0, y: baseline - ink.maxY, width: 1, height: ink.height)
+            bounds = bounds.union(visible)
+        }
+        return bounds.isNull ? nil : bounds
+    }
+
     private static func fitTextBubble(in cell: UICollectionViewCell, message: THRMessage) {
         guard message.media == nil,
               let text: UITextView = BankEdnaOutlet.get(cell, "textView"),
               let background: UIImageView = BankEdnaOutlet.get(cell, "messageBubbleImageView"),
-              let parent = background.superview else { return }
+              let side = cell.contentView.viewWithTag(tagValue) as? BankClientMessageSide else { return }
         // Link previews have their own content below the text.
         let previewHeight: NSLayoutConstraint? = BankEdnaOutlet.get(cell, "opengGraphContainerHeight")
-        guard (previewHeight?.constant ?? 0) <= 0 else { return }
-        text.layoutManager.ensureLayout(for: text.textContainer)
-        let glyphs = text.layoutManager.usedRect(for: text.textContainer)
-        guard !glyphs.isEmpty else { return }
-        let textBottom = text.convert(CGPoint(x: 0,
-            y: text.textContainerInset.top + glyphs.maxY + 5), to: parent).y
-        // The SDK still sizes the row for its original timestamp. Trim only the
-        // visible background after layout; keep quote content and row hit areas.
-        var frame = background.frame
-        if message.quotedMessage == nil {
-            frame.origin.y = text.convert(CGPoint(x: 0,
-                y: text.textContainerInset.top + glyphs.minY - 5), to: parent).y
-        }
-        frame.size.height = max(0, textBottom - frame.minY)
-        background.frame = frame
+        guard (previewHeight?.constant ?? 0) <= 0,
+              let visibleText = visibleTextBounds(in: text) else { return }
+        let top = text.convert(CGPoint(x: 0,
+            y: text.textContainerInset.top + visibleText.minY - 5), to: background).y
+        let bottom = text.convert(CGPoint(x: 0,
+            y: text.textContainerInset.top + visibleText.maxY + 5), to: background).y
+        // Auto Layout owns the image view's frame. Clip its painted surface
+        // instead, so a subsequent SDK layout cannot restore timestamp space.
+        let minY = message.quotedMessage == nil ? top : background.bounds.minY
+        let visible = CGRect(x: background.bounds.minX, y: minY,
+                             width: background.bounds.width, height: max(0, bottom - minY))
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        side.bubbleMask.frame = background.bounds
+        side.bubbleMask.path = UIBezierPath(roundedRect: visible, cornerRadius: 14).cgPath
+        background.layer.mask = side.bubbleMask
+        CATransaction.commit()
     }
 
     static func update(in view: UIView, avatar: UIImage?, palette: BankChatTheme.Palette) {
         if let collection = view as? UICollectionView {
             for cell in collection.visibleCells {
+                // A recycled text cell can become a media or system cell.
+                if let side = cell.contentView.viewWithTag(tagValue) as? BankClientMessageSide,
+                   let background: UIImageView = BankEdnaOutlet.get(cell, "messageBubbleImageView"),
+                   background.layer.mask === side.bubbleMask {
+                    background.layer.mask = nil
+                }
                 let message: THRMessage? = BankEdnaOutlet.get(cell, "data")
                 guard let message, message.type == .message else {
                     cell.contentView.viewWithTag(tagValue)?.isHidden = true
@@ -1136,7 +1427,9 @@ private final class BankClientMessageSide: UIView {
                 let bubbleImage: UIImageView? = BankEdnaOutlet.get(cell, "messageBubbleImageView")
                 let visibleBubbleRect = bubbleImage.flatMap { image -> CGRect? in
                     guard !image.isHidden, image.alpha > 0, !image.bounds.isEmpty else { return nil }
-                    return image.convert(image.bounds, to: cell.contentView)
+                    let visible = image.layer.mask === side.bubbleMask
+                        ? (side.bubbleMask.path?.boundingBoxOfPath ?? image.bounds) : image.bounds
+                    return image.convert(visible, to: cell.contentView)
                 }
                 let top = visibleBubbleRect?.minY ?? bubbleRect?.minY ?? 0
                 side.frame = CGRect(x: x, y: top, width: width, height: 42)
@@ -1158,16 +1451,29 @@ private final class BankClientMessageSide: UIView {
     }
 }
 
-/// Substitute only Edna's attachment action sheet before UIKit renders it.
-private enum BankAttachmentPresentation {
+/// Adapt attachment sheets and route embedded search cancellation locally.
+private enum BankChatPresentation {
+    static var inlineSearchOwnerKey: UInt8 = 0
     private static let installed: Void = {
         guard let original = class_getInstanceMethod(UIViewController.self, #selector(UIViewController.present(_:animated:completion:))),
               let replacement = class_getInstanceMethod(UIViewController.self, #selector(UIViewController.bankPresent(_:animated:completion:))) else { return }
         method_exchangeImplementations(original, replacement)
+        guard let dismiss = class_getInstanceMethod(UIViewController.self, #selector(UIViewController.dismiss(animated:completion:))),
+              let embeddedDismiss = class_getInstanceMethod(UIViewController.self, #selector(UIViewController.bankDismiss(animated:completion:))) else { return }
+        method_exchangeImplementations(dismiss, embeddedDismiss)
     }()
     static func install() { _ = installed }
 }
 private extension UIViewController {
+    @objc dynamic func bankDismiss(animated: Bool, completion: (() -> Void)?) {
+        if let owner = objc_getAssociatedObject(self, &BankChatPresentation.inlineSearchOwnerKey) as? BankInlineSearchOwner {
+            owner.navigation?.closeInlineSearch()
+            completion?()
+        } else {
+            bankDismiss(animated: animated, completion: completion)
+        }
+    }
+
     @objc dynamic func bankPresent(_ controller: UIViewController, animated: Bool, completion: (() -> Void)?) {
         let navigation = (self as? BankChatNavigationController) ?? (navigationController as? BankChatNavigationController)
         if let alert = controller as? UIAlertController,

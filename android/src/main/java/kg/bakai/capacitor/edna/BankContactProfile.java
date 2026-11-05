@@ -36,7 +36,7 @@ public final class BankContactProfile {
             .replace("__CONTACTS__", russian ? "Контакты" : kyrgyz ? "Байланыш маалыматы" : "Contacts")
             .replace("__SITE__", russian ? "Сайт" : kyrgyz ? "Сайт" : "Website")
             .replace("__PHONE__", russian ? "Номер" : kyrgyz ? "Номер" : "Phone")
-            .replace("__CLOSE__", russian ? "Назад" : kyrgyz ? "Артка" : "Back");
+            .replace("__CLOSE__", russian ? "Закрыть" : kyrgyz ? "Жабуу" : "Close");
         Dialog dialog = new Dialog(activity, android.R.style.Theme_DeviceDefault_NoActionBar);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         WebView web = new WebView(activity);
