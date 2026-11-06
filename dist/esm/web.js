@@ -1,5 +1,8 @@
 import { WebPlugin } from '@capacitor/core';
 export class BakaiEdnaWeb extends WebPlugin {
+    async getLastMessageDate() {
+        return {};
+    }
     async refreshUnreadCount() {
         throw this.unimplemented('edna requires iOS or Android.');
     }

@@ -7,6 +7,29 @@
     "methods": [
       {
         "name": "addListener",
+        "signature": "(eventName: 'lastMessageDateChanged', listener: (event: { timestamp: number; }) => void) => Promise<PluginListenerHandle>",
+        "parameters": [
+          {
+            "name": "eventName",
+            "docs": "",
+            "type": "'lastMessageDateChanged'"
+          },
+          {
+            "name": "listener",
+            "docs": "",
+            "type": "(event: { timestamp: number; }) => void"
+          }
+        ],
+        "returns": "Promise<PluginListenerHandle>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [
+          "PluginListenerHandle"
+        ],
+        "slug": "addlistenerlastmessagedatechanged-"
+      },
+      {
+        "name": "addListener",
         "signature": "(eventName: 'unreadCountChanged', listener: (event: { count: number; userId: string; }) => void) => Promise<PluginListenerHandle>",
         "parameters": [
           {
@@ -37,6 +60,16 @@
         "docs": "Requests the current SDK count, delivered through unreadCountChanged.",
         "complexTypes": [],
         "slug": "refreshunreadcount"
+      },
+      {
+        "name": "getLastMessageDate",
+        "signature": "() => Promise<{ timestamp?: number; }>",
+        "parameters": [],
+        "returns": "Promise<{ timestamp?: number | undefined; }>",
+        "tags": [],
+        "docs": "Returns the cached latest message timestamp in Unix milliseconds, if available.",
+        "complexTypes": [],
+        "slug": "getlastmessagedate"
       },
       {
         "name": "initialize",

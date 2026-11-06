@@ -35,7 +35,7 @@ public final class BankContactProfile {
             .replace("__BANK__", russian ? "БАКАЙ БАНК" : kyrgyz ? "БАКАЙ БАНК" : "BAKAI BANK")
             .replace("__CONTACTS__", russian ? "Контакты" : kyrgyz ? "Байланыш маалыматы" : "Contacts")
             .replace("__SITE__", russian ? "Сайт" : kyrgyz ? "Сайт" : "Website")
-            .replace("__PHONE__", russian ? "Номер" : kyrgyz ? "Номер" : "Phone")
+            .replace("__PHONE__", russian ? "Позвонить" : kyrgyz ? "Чалуу" : "Call")
             .replace("__CLOSE__", russian ? "Закрыть" : kyrgyz ? "Жабуу" : "Close");
         Dialog dialog = new Dialog(activity, android.R.style.Theme_DeviceDefault_NoActionBar);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);

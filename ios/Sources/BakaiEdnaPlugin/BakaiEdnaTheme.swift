@@ -686,6 +686,8 @@ internal final class BankChatNavigationController: UINavigationController, UIGes
     private var awaitingInitialAppearance = true
     private var initialChatLoading = true
     var onClose: (() -> Void)?
+    var onLastMessageDate: ((Date) -> Void)?
+    private var lastReportedMessageDate: Date?
 
     init(rootViewController: UIViewController, palette: BankChatTheme.Palette) {
         bankPalette = palette
@@ -790,6 +792,10 @@ internal final class BankChatNavigationController: UINavigationController, UIGes
         let model: CCChatModel? = screens.compactMap { controller -> CCChatModel? in
             BankEdnaOutlet.get(controller, "chatModel") ?? BankEdnaOutlet.get(controller, "chat")
         }.first
+        if let latestDate = model?.messages.map(\.date).max(), latestDate != lastReportedMessageDate {
+            lastReportedMessageDate = latestDate
+            onLastMessageDate?(latestDate)
+        }
         let loading: Bool
         if preload?.error != nil {
             loading = false

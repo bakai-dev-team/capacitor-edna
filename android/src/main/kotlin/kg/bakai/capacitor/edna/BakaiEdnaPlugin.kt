@@ -197,6 +197,15 @@ class BakaiEdnaPlugin : Plugin() {
     }
 
     @PluginMethod
+    fun getLastMessageDate(call: PluginCall) = execute(call) {
+        val timestamp = context.getSharedPreferences("bakai_edna_chat", android.content.Context.MODE_PRIVATE)
+            .getLong("last_message_timestamp", 0L)
+        val result = JSObject()
+        if (timestamp > 0L) result.put("timestamp", timestamp)
+        call.resolve(result)
+    }
+
+    @PluginMethod
     fun refreshUnreadCount(call: PluginCall) = execute(call) {
         val instance = sdk(call) ?: return@execute
         if (EdnaSession.userId == null) {

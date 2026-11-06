@@ -163,8 +163,10 @@ Android manifest SDK объединяется с manifest приложения: 
 
 <docgen-index>
 
+* [`addListener('lastMessageDateChanged', ...)`](#addlistenerlastmessagedatechanged-)
 * [`addListener('unreadCountChanged', ...)`](#addlistenerunreadcountchanged-)
 * [`refreshUnreadCount()`](#refreshunreadcount)
+* [`getLastMessageDate()`](#getlastmessagedate)
 * [`initialize(...)`](#initialize)
 * [`authorize(...)`](#authorize)
 * [`openChat(...)`](#openchat)
@@ -180,6 +182,22 @@ Android manifest SDK объединяется с manifest приложения: 
 
 <docgen-api>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
+
+### addListener('lastMessageDateChanged', ...)
+
+```typescript
+addListener(eventName: 'lastMessageDateChanged', listener: (event: { timestamp: number; }) => void) => Promise<PluginListenerHandle>
+```
+
+| Param           | Type                                                    |
+| --------------- | ------------------------------------------------------- |
+| **`eventName`** | <code>'lastMessageDateChanged'</code>                   |
+| **`listener`**  | <code>(event: { timestamp: number; }) =&gt; void</code> |
+
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+
+--------------------
+
 
 ### addListener('unreadCountChanged', ...)
 
@@ -204,6 +222,19 @@ refreshUnreadCount() => Promise<void>
 ```
 
 Requests the current SDK count, delivered through unreadCountChanged.
+
+--------------------
+
+
+### getLastMessageDate()
+
+```typescript
+getLastMessageDate() => Promise<{ timestamp?: number; }>
+```
+
+Returns the cached latest message timestamp in Unix milliseconds, if available.
+
+**Returns:** <code>Promise&lt;{ timestamp?: number; }&gt;</code>
 
 --------------------
 

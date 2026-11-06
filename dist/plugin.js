@@ -6,6 +6,9 @@ var capacitorBakaiEdna = (function (exports, core) {
     });
 
     class BakaiEdnaWeb extends core.WebPlugin {
+        async getLastMessageDate() {
+            return {};
+        }
         async refreshUnreadCount() {
             throw this.unimplemented('edna requires iOS or Android.');
         }

@@ -9,6 +9,7 @@ public class BakaiEdnaPlugin: CAPPlugin, CAPBridgedPlugin, ChatCenterUISDKDelega
     public let jsName = "BakaiEdna"
     public let pluginMethods: [CAPPluginMethod] = [
         CAPPluginMethod(name: "refreshUnreadCount", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getLastMessageDate", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "initialize", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "authorize", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "openChat", returnType: CAPPluginReturnPromise),
@@ -26,6 +27,7 @@ public class BakaiEdnaPlugin: CAPPlugin, CAPBridgedPlugin, ChatCenterUISDKDelega
     private var unlocked = false
     private var sessionRevision = 0
     private var unreadRevision = 0
+    private let lastMessageDateKey = "BakaiEdnaLastMessageDate"
 
     private func required(_ call: CAPPluginCall, _ key: String) -> String? {
         guard let value = call.getString(key), !value.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
@@ -117,6 +119,13 @@ public class BakaiEdnaPlugin: CAPPlugin, CAPBridgedPlugin, ChatCenterUISDKDelega
         notifyListeners("unreadCountChanged", data: ["count": count, "userId": id])
     }
 
+    @objc func getLastMessageDate(_ call: CAPPluginCall) {
+        DispatchQueue.main.async {
+            let timestamp = UserDefaults.standard.double(forKey: self.lastMessageDateKey)
+            call.resolve(timestamp > 0 ? ["timestamp": timestamp] : [:])
+        }
+    }
+
     @objc func refreshUnreadCount(_ call: CAPPluginCall) {
         DispatchQueue.main.async {
             guard let sdk = self.requireSDK(call) else { return }
@@ -174,6 +183,12 @@ public class BakaiEdnaPlugin: CAPPlugin, CAPBridgedPlugin, ChatCenterUISDKDelega
                     navigation.clientAvatar = UIImage(data: data)
                 }
                 navigation.onClose = { [weak self] in self?.dismissChatButton() }
+                navigation.onLastMessageDate = { [weak self] date in
+                    guard let self else { return }
+                    let timestamp = date.timeIntervalSince1970 * 1000
+                    UserDefaults.standard.set(timestamp, forKey: self.lastMessageDateKey)
+                    self.notifyListeners("lastMessageDateChanged", data: ["timestamp": timestamp])
+                }
                 navigation.overrideUserInterfaceStyle = palette.isDark ? .dark : .light
                 navigation.modalPresentationStyle = .fullScreen
                 self.chatNavigation = navigation

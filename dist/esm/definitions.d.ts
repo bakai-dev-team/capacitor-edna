@@ -33,12 +33,19 @@ export interface OpenChatOptions {
     prefilledMessage?: string;
 }
 export interface BakaiEdnaPlugin {
+    addListener(eventName: 'lastMessageDateChanged', listener: (event: {
+        timestamp: number;
+    }) => void): Promise<PluginListenerHandle>;
     addListener(eventName: 'unreadCountChanged', listener: (event: {
         count: number;
         userId: string;
     }) => void): Promise<PluginListenerHandle>;
     /** Requests the current SDK count, delivered through unreadCountChanged. */
     refreshUnreadCount(): Promise<void>;
+    /** Returns the cached latest message timestamp in Unix milliseconds, if available. */
+    getLastMessageDate(): Promise<{
+        timestamp?: number;
+    }>;
     /** Once per native plugin instance. Does not confirm server availability. */
     initialize(options: InitializeOptions): Promise<void>;
     /** Sets SDK credentials; resolution does not confirm server authentication. */

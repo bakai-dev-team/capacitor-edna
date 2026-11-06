@@ -187,7 +187,20 @@ class EdnaChatActivity : AppCompatActivity() {
         super.onSaveInstanceState(outState)
     }
 
+    private fun persistLastMessageDate() {
+        val chat = supportFragmentManager.findFragmentByTag("edna-chat") as? ChatFragment ?: return
+        val elements = runCatching {
+            chat.javaClass.methods.firstOrNull { it.name.startsWith("getElements") }?.invoke(chat) as? Iterable<*>
+        }.getOrNull() ?: return
+        val timestamp = elements.mapNotNull { (it as? edna.chatcenter.core.models.ChatItem)?.timeStamp }
+            .filter { it > 0L }.maxOrNull() ?: return
+        getSharedPreferences("bakai_edna_chat", MODE_PRIVATE).edit()
+            .putLong("last_message_timestamp", if (timestamp < 1_000_000_000_000L) timestamp * 1000 else timestamp)
+            .apply()
+    }
+
     override fun onDestroy() {
+        persistLastMessageDate()
         val wasCurrent = current.get() === this
         if (wasCurrent) current.clear()
         super.onDestroy()

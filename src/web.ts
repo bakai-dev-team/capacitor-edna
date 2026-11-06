@@ -2,6 +2,9 @@ import { WebPlugin } from '@capacitor/core';
 import type { AuthorizeOptions, BakaiEdnaPlugin, InitializeOptions, OpenChatOptions } from './definitions.js';
 
 export class BakaiEdnaWeb extends WebPlugin implements BakaiEdnaPlugin {
+  async getLastMessageDate(): Promise<{ timestamp?: number }> {
+    return {};
+  }
   async refreshUnreadCount(): Promise<void> {
     throw this.unimplemented('edna requires iOS or Android.');
   }
