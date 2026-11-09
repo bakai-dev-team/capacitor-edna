@@ -37,7 +37,7 @@ internal final class BankContactProfile: UIViewController, WKNavigationDelegate 
         let kyrgyz = BankEdnaLocalization.language == "ky"
         for (key, value) in ["__THEME__": dark ? "dark" : "light", "__BANK__": russian ? "БАКАЙ БАНК" : kyrgyz ? "БАКАЙ БАНК" : "BAKAI BANK",
             "__CONTACTS__": russian ? "Контакты" : kyrgyz ? "Байланыш маалыматы" : "Contacts", "__SITE__": russian ? "Сайт" : kyrgyz ? "Сайт" : "Website",
-            "__PHONE__": russian ? "Номер" : kyrgyz ? "Номер" : "Phone", "__CLOSE__": russian ? "Закрыть" : kyrgyz ? "Жабуу" : "Close"] {
+            "__PHONE__": russian ? "Позвонить" : kyrgyz ? "Чалуу" : "Call", "__CLOSE__": russian ? "Закрыть" : kyrgyz ? "Жабуу" : "Close"] {
             html = html.replacingOccurrences(of: key, with: value)
         }
         web.loadHTMLString(html, baseURL: nil)

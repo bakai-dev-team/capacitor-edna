@@ -164,6 +164,8 @@ Android manifest SDK объединяется с manifest приложения: 
 <docgen-index>
 
 * [`addListener('unreadCountChanged', ...)`](#addlistenerunreadcountchanged-)
+* [`addListener('chatPresented', ...)`](#addlistenerchatpresented-)
+* [`addListener('lastMessageDateChanged', ...)`](#addlistenerlastmessagedatechanged-)
 * [`refreshUnreadCount()`](#refreshunreadcount)
 * [`initialize(...)`](#initialize)
 * [`authorize(...)`](#authorize)
@@ -191,6 +193,38 @@ addListener(eventName: 'unreadCountChanged', listener: (event: { count: number; 
 | --------------- | ------------------------------------------------------------------- |
 | **`eventName`** | <code>'unreadCountChanged'</code>                                   |
 | **`listener`**  | <code>(event: { count: number; userId: string; }) =&gt; void</code> |
+
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+
+--------------------
+
+
+### addListener('chatPresented', ...)
+
+```typescript
+addListener(eventName: 'chatPresented', listener: () => void) => Promise<PluginListenerHandle>
+```
+
+| Param           | Type                         |
+| --------------- | ---------------------------- |
+| **`eventName`** | <code>'chatPresented'</code> |
+| **`listener`**  | <code>() =&gt; void</code>   |
+
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
+
+--------------------
+
+
+### addListener('lastMessageDateChanged', ...)
+
+```typescript
+addListener(eventName: 'lastMessageDateChanged', listener: (event: { timestamp: number; }) => void) => Promise<PluginListenerHandle>
+```
+
+| Param           | Type                                                    |
+| --------------- | ------------------------------------------------------- |
+| **`eventName`** | <code>'lastMessageDateChanged'</code>                   |
+| **`listener`**  | <code>(event: { timestamp: number; }) =&gt; void</code> |
 
 **Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 

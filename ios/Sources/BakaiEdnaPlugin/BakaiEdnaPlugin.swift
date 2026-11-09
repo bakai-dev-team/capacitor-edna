@@ -9,6 +9,8 @@ public class BakaiEdnaPlugin: CAPPlugin, CAPBridgedPlugin, ChatCenterUISDKDelega
     public let jsName = "BakaiEdna"
     public let pluginMethods: [CAPPluginMethod] = [
         CAPPluginMethod(name: "refreshUnreadCount", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "getLastMessageDate", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "refreshLastMessageDate", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "initialize", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "authorize", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "openChat", returnType: CAPPluginReturnPromise),
@@ -26,6 +28,9 @@ public class BakaiEdnaPlugin: CAPPlugin, CAPBridgedPlugin, ChatCenterUISDKDelega
     private var unlocked = false
     private var sessionRevision = 0
     private var unreadRevision = 0
+    private let lastMessageDateKey = "BakaiEdnaLastMessageDate"
+    private var lastMessageWarmupController: UIViewController?
+    private var refreshingLastMessageDate = false
 
     private func required(_ call: CAPPluginCall, _ key: String) -> String? {
         guard let value = call.getString(key), !value.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
@@ -117,6 +122,100 @@ public class BakaiEdnaPlugin: CAPPlugin, CAPBridgedPlugin, ChatCenterUISDKDelega
         notifyListeners("unreadCountChanged", data: ["count": count, "userId": id])
     }
 
+    @objc func getLastMessageDate(_ call: CAPPluginCall) {
+        DispatchQueue.main.async {
+            let timestamp = UserDefaults.standard.double(forKey: self.lastMessageDateKey)
+            call.resolve(timestamp > 0 ? ["timestamp": timestamp] : [:])
+        }
+    }
+
+    @objc func refreshLastMessageDate(_ call: CAPPluginCall) {
+        DispatchQueue.main.async {
+            guard let sdk = self.sdk, self.userId != nil, self.unlocked else {
+                call.reject("Call authorize first", "NOT_AUTHORIZED")
+                return
+            }
+            if self.chatNavigation != nil || self.presenting {
+                call.resolve()
+                return
+            }
+            guard !self.refreshingLastMessageDate else { call.resolve(); return }
+            self.refreshingLastMessageDate = true
+            let userId = self.userId
+            let session = self.sessionRevision
+            do {
+                let chat = try sdk.getChat()
+                self.lastMessageWarmupController = chat
+                chat.loadViewIfNeeded()
+                guard let model = self.chatModel(in: chat) else {
+                    self.refreshingLastMessageDate = false
+                    self.lastMessageWarmupController = nil
+                    call.reject("Edna chat history is not ready", "EDNA_NOT_READY")
+                    return
+                }
+                if model.historyIsLoaded {
+                    self.reportLastMessageDate(from: model)
+                    self.refreshingLastMessageDate = false
+                    self.lastMessageWarmupController = nil
+                    call.resolve()
+                    return
+                }
+                model.initChat()
+                self.waitForChatHistory(model, attemptsRemaining: 40) {
+                    guard self.userId == userId, self.sessionRevision == session else {
+                        self.refreshingLastMessageDate = false
+                        self.lastMessageWarmupController = nil
+                        call.reject("Session changed", "SESSION_CHANGED")
+                        return
+                    }
+                    self.reportLastMessageDate(from: model)
+                    self.refreshingLastMessageDate = false
+                    self.lastMessageWarmupController = nil
+                    call.resolve()
+                }
+            } catch {
+                self.refreshingLastMessageDate = false
+                self.lastMessageWarmupController = nil
+                call.reject("Could not refresh Edna message history", "EDNA_ERROR")
+            }
+        }
+    }
+
+    private func chatModel(in controller: UIViewController) -> CCChatModel? {
+        if let model: CCChatModel = BankEdnaOutlet.get(controller, "chatModel")
+            ?? BankEdnaOutlet.get(controller, "chat") {
+            return model
+        }
+        for child in controller.children {
+            if let model = chatModel(in: child) { return model }
+        }
+        return nil
+    }
+
+    private func waitForChatHistory(
+        _ model: CCChatModel,
+        attemptsRemaining: Int,
+        completion: @escaping () -> Void
+    ) {
+        guard !model.historyIsLoaded, attemptsRemaining > 0 else {
+            completion()
+            return
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) { [weak self] in
+            guard let self else { return }
+            self.waitForChatHistory(model, attemptsRemaining: attemptsRemaining - 1, completion: completion)
+        }
+    }
+
+    private func reportLastMessageDate(from model: CCChatModel) {
+        guard let latestDate = model.messages.map(\.date).max() else { return }
+        let timestamp = latestDate.timeIntervalSince1970 * 1000
+        let previous = UserDefaults.standard.double(forKey: lastMessageDateKey)
+        guard timestamp > previous else { return }
+        UserDefaults.standard.set(timestamp, forKey: lastMessageDateKey)
+        notifyListeners("lastMessageDateChanged", data: ["timestamp": timestamp])
+    }
+
     @objc func refreshUnreadCount(_ call: CAPPluginCall) {
         DispatchQueue.main.async {
             guard let sdk = self.requireSDK(call) else { return }
@@ -174,6 +273,12 @@ public class BakaiEdnaPlugin: CAPPlugin, CAPBridgedPlugin, ChatCenterUISDKDelega
                     navigation.clientAvatar = UIImage(data: data)
                 }
                 navigation.onClose = { [weak self] in self?.dismissChatButton() }
+                navigation.onLastMessageDate = { [weak self] date in
+                    guard let self else { return }
+                    let timestamp = date.timeIntervalSince1970 * 1000
+                    UserDefaults.standard.set(timestamp, forKey: self.lastMessageDateKey)
+                    self.notifyListeners("lastMessageDateChanged", data: ["timestamp": timestamp])
+                }
                 navigation.overrideUserInterfaceStyle = palette.isDark ? .dark : .light
                 navigation.modalPresentationStyle = .fullScreen
                 self.chatNavigation = navigation
@@ -181,6 +286,7 @@ public class BakaiEdnaPlugin: CAPPlugin, CAPBridgedPlugin, ChatCenterUISDKDelega
                 self.presenting = true
                 host.present(navigation, animated: true) {
                     self.presenting = false
+                    self.notifyListeners("chatPresented", data: [:])
                     call.resolve()
                 }
             } catch { call.reject("Could not open edna chat", "EDNA_ERROR") }
@@ -269,6 +375,9 @@ public class BakaiEdnaPlugin: CAPPlugin, CAPBridgedPlugin, ChatCenterUISDKDelega
         DispatchQueue.main.async {
             self.unlocked = false
             self.sessionRevision += 1
+            UserDefaults.standard.removeObject(forKey: self.lastMessageDateKey)
+            self.lastMessageWarmupController = nil
+            self.refreshingLastMessageDate = false
             guard let sdk = self.sdk, self.userId != nil else { call.resolve(); return }
             self.close(call) {
                 do {

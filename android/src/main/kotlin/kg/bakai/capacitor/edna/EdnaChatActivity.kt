@@ -50,6 +50,13 @@ class EdnaChatActivity : AppCompatActivity() {
 
     private var darkChat = false
     private var sessionRevision = -1L
+    private val messageDateHandler = android.os.Handler(android.os.Looper.getMainLooper())
+    private val messageDatePoll = object : Runnable {
+        override fun run() {
+            updateLastMessageDate()
+            if (!isFinishing && !isDestroyed) messageDateHandler.postDelayed(this, 500)
+        }
+    }
 
     var clientAvatar: android.graphics.Bitmap? = null
         private set
@@ -140,6 +147,8 @@ class EdnaChatActivity : AppCompatActivity() {
             val chat = EdnaSession.sdk?.getChatFragment() ?: ChatFragment.newInstance(OpenWay.DEFAULT)
             supportFragmentManager.beginTransaction().replace(container.id, chat, "edna-chat").commitNow()
         }
+        EdnaSession.chatPresented?.invoke()
+        messageDateHandler.post(messageDatePoll)
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 val chat = supportFragmentManager.findFragmentByTag("edna-chat") as? ChatFragment
@@ -188,11 +197,34 @@ class EdnaChatActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
+        messageDateHandler.removeCallbacks(messageDatePoll)
+        updateLastMessageDate()
         val wasCurrent = current.get() === this
         if (wasCurrent) current.clear()
         super.onDestroy()
         if (wasCurrent && isFinishing && !isChangingConfigurations) {
             EdnaSession.refreshUnreadAfterClosing(sessionRevision)
         }
+    }
+
+    /** Reads timestamps from Edna's own message models (ChatItem.timeStamp). */
+    private fun updateLastMessageDate() {
+        val chat = supportFragmentManager.findFragmentByTag("edna-chat") as? ChatFragment ?: return
+        val adapter = runCatching {
+            val field = chat.javaClass.getDeclaredField("chatAdapter")
+            field.isAccessible = true
+            field.get(chat)
+        }.getOrNull() ?: return
+        val items = runCatching {
+            adapter.javaClass.methods.firstOrNull { it.name == "getList" && it.parameterCount == 0 }
+                ?.invoke(adapter) as? Iterable<*>
+        }.getOrNull() ?: return
+        val timestamp = items.mapNotNull { (it as? edna.chatcenter.core.models.ChatItem)?.timeStamp }
+            .filter { it > 0L }.maxOrNull() ?: return
+        val prefs = getSharedPreferences("bakai_edna_chat", MODE_PRIVATE)
+        val previous = prefs.getLong("last_message_timestamp", 0L)
+        if (timestamp <= previous) return
+        prefs.edit().putLong("last_message_timestamp", timestamp).apply()
+        EdnaSession.lastMessageDateChanged?.invoke(timestamp)
     }
 }
