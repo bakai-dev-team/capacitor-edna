@@ -98,7 +98,7 @@ internal final class BankAttachmentMenu: UIViewController {
             gallery.delegate = picker
             next = gallery
         default:
-            let documents = UIDocumentPickerViewController(forOpeningContentTypes: CCFileSettings.getDocumentTypes(), asCopy: true)
+            let documents = UIDocumentPickerViewController(forOpeningContentTypes: CCFileSettings.getDocumentTypes(), asCopy: false)
             documents.delegate = picker
             next = documents
         }
