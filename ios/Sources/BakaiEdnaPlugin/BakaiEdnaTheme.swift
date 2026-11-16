@@ -688,6 +688,9 @@ internal final class BankChatNavigationController: UINavigationController, UIGes
     var onClose: (() -> Void)?
     var onLastMessageDate: ((Date) -> Void)?
     private var lastReportedMessageDate: Date?
+    private var hasLoadedChat = false
+    private var resumeErrorGraceDeadline: TimeInterval?
+    private let resumeErrorGraceInterval: TimeInterval = 1.5
 
     init(rootViewController: UIViewController, palette: BankChatTheme.Palette) {
         bankPalette = palette
@@ -719,6 +722,22 @@ internal final class BankChatNavigationController: UINavigationController, UIGes
         view.addSubview(bankHeader)
         NotificationCenter.default.addObserver(self, selector: #selector(textChanged(_:)),
             name: UITextView.textDidChangeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(chatDidEnterBackground),
+            name: UIApplication.didEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(chatDidBecomeActive),
+            name: UIApplication.didBecomeActiveNotification, object: nil)
+    }
+
+    @objc private func chatDidEnterBackground() {
+        guard hasLoadedChat else { return }
+        resumeErrorGraceDeadline = .infinity
+        updateLoadingState()
+    }
+
+    @objc private func chatDidBecomeActive() {
+        guard resumeErrorGraceDeadline != nil else { return }
+        resumeErrorGraceDeadline = ProcessInfo.processInfo.systemUptime + resumeErrorGraceInterval
+        updateLoadingState()
     }
 
     @objc private func dismissKeyboardFromHistory() {
@@ -796,19 +815,33 @@ internal final class BankChatNavigationController: UINavigationController, UIGes
             lastReportedMessageDate = latestDate
             onLastMessageDate?(latestDate)
         }
+        let chatState = model?.stateModel.getState()
+        if let chatState {
+            switch chatState {
+            case .ready, .waitingForSpecialist, .working:
+                hasLoadedChat = true
+            default:
+                break
+            }
+        }
+        let error = (preload?.error).map { $0 as NSError }
         let loading: Bool
-        if preload?.error != nil {
+        if error != nil {
             loading = false
-        } else if let model {
-            switch model.stateModel.getState() {
+        } else if let chatState {
+            switch chatState {
             case .notConnected, .connecting, .reconnecting, .loadingHistory: loading = true
             default: loading = false
             }
         } else {
             loading = preload != nil
         }
-        // Hide only the initial loading screen, never the SDK's error/retry UI.
-        preload?.viewIfLoaded?.alpha = loading ? 0 : 1
+        // Edna can briefly surface its connection error as an open chat resumes.
+        // The loading timer restores the SDK retry UI if the error persists.
+        let isResumeConnectionError = error?.domain == "io.edna.chatcenter.ui.sdk"
+            && error?.code == 1000
+            && ProcessInfo.processInfo.systemUptime < (resumeErrorGraceDeadline ?? 0)
+        preload?.viewIfLoaded?.alpha = loading || isResumeConnectionError ? 0 : 1
         updateTitle(from: root)
         initialChatLoading = loading
         bankHeader.setLoading(loading)
