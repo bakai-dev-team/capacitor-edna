@@ -29,6 +29,52 @@
         "slug": "addlistenerunreadcountchanged-"
       },
       {
+        "name": "addListener",
+        "signature": "(eventName: 'chatPresented', listener: () => void) => Promise<PluginListenerHandle>",
+        "parameters": [
+          {
+            "name": "eventName",
+            "docs": "",
+            "type": "'chatPresented'"
+          },
+          {
+            "name": "listener",
+            "docs": "",
+            "type": "() => void"
+          }
+        ],
+        "returns": "Promise<PluginListenerHandle>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [
+          "PluginListenerHandle"
+        ],
+        "slug": "addlistenerchatpresented-"
+      },
+      {
+        "name": "addListener",
+        "signature": "(eventName: 'lastMessageDateChanged', listener: (event: { timestamp: number; }) => void) => Promise<PluginListenerHandle>",
+        "parameters": [
+          {
+            "name": "eventName",
+            "docs": "",
+            "type": "'lastMessageDateChanged'"
+          },
+          {
+            "name": "listener",
+            "docs": "",
+            "type": "(event: { timestamp: number; }) => void"
+          }
+        ],
+        "returns": "Promise<PluginListenerHandle>",
+        "tags": [],
+        "docs": "",
+        "complexTypes": [
+          "PluginListenerHandle"
+        ],
+        "slug": "addlistenerlastmessagedatechanged-"
+      },
+      {
         "name": "refreshUnreadCount",
         "signature": "() => Promise<void>",
         "parameters": [],

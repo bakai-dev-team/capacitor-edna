@@ -37,6 +37,10 @@ export interface BakaiEdnaPlugin {
         count: number;
         userId: string;
     }) => void): Promise<PluginListenerHandle>;
+    addListener(eventName: 'chatPresented', listener: () => void): Promise<PluginListenerHandle>;
+    addListener(eventName: 'lastMessageDateChanged', listener: (event: {
+        timestamp: number;
+    }) => void): Promise<PluginListenerHandle>;
     /** Requests the current SDK count, delivered through unreadCountChanged. */
     refreshUnreadCount(): Promise<void>;
     /** Once per native plugin instance. Does not confirm server availability. */
