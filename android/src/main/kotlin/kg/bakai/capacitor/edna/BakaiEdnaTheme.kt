@@ -311,10 +311,11 @@ internal object BakaiEdnaTheme {
                 this?.font = ChatFontStyle(bankRegular, R.dimen.bakai_edna_input_text_size)
             }
             quoteView.apply {
-                quoteHeaderChatViewText.textColor = colors.incomingText
+                quoteHeaderChatViewText.textColor = colors.main
                 quoteMessageChatViewText.textColor = colors.incomingText
                 quoteDurationChatViewText.textColor = colors.inputMessageHint
-                quoteClearIconButton.style.iconTintColor = colors.main
+                quoteClearIconButton.iconRes = R.drawable.bakai_edna_reply_close
+                quoteClearIconButton.style.iconTintColor = colors.inputMessageHint
                 quoteIcon.style.iconTintColor = colors.main
             }
         }

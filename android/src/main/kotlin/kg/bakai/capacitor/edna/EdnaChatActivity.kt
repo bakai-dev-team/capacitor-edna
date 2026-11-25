@@ -113,6 +113,7 @@ class EdnaChatActivity : AppCompatActivity() {
                 if (fragment !is ChatFragment) return
                 BankSendButtonStyle.install(view)
                 BankReplyGesture.install(view)
+                BankMessageActions.install(view) { fragment.onBackPressed() }
                 view.post {
                     view.findViewById<View>(R.id.bakai_edna_profile)?.setOnClickListener {
                         BankContactProfile.show(this@EdnaChatActivity, darkChat)

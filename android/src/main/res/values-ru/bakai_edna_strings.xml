@@ -1,2 +1,4 @@
 <resources><string name="bakai_edna_input_placeholder">Введите сообщение…</string>    <string name="bakai_edna_loading">Загрузка</string>
+    <string name="bakai_edna_action_reply">Ответить</string>
+    <string name="bakai_edna_action_copy">Копировать</string>
 </resources>

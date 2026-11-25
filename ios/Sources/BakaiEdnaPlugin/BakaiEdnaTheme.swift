@@ -72,6 +72,11 @@ internal enum BankChatTheme {
         let theme = ChatTheme(colors: colors, images: images, typography: fonts)
         let flow = theme.flows.chatFlow
         flow.backgroundColor = p.background
+        flow.toastAlertStyle.backgroundColor = p.input
+        flow.toastAlertStyle.tintColor = p.muted
+        flow.toastAlertStyle.cornerRadius = 16
+        flow.toastAlertStyle.textStyle = ChatTextStyle(
+            font: .systemFont(ofSize: 14, weight: .medium), color: p.text)
         // Give the sheet a distinct surface and an explicit, independent text style.
         flow.addFileMenuStyle.backgroundColor = p.incoming
         flow.addFileMenuStyle.tintColor = p.text
@@ -541,9 +546,42 @@ private extension UITextView {
 private final class BankChatComposerLayout {
     weak var content: UIView?
     private var installed = false
+    private weak var expandedQuote: UIView?
+
+    private func expandQuote(in root: UIView) {
+        // Verified SDK toolbar outlet: quoteContainer belongs to message cells,
+        // whereas attachmentView contains the composer reply and its close button.
+        guard let content,
+              let quote: UIView = BankEdnaOutlet.get(content, "attachmentView"),
+              quote.isDescendant(of: content), expandedQuote !== quote else { return }
+        // Keep the SDK's vertical chain and visibility/height management.
+        let horizontal: [NSLayoutConstraint.Attribute] = [.left, .right, .leading, .trailing, .centerX, .width]
+        var ancestor: UIView? = quote
+        while let current = ancestor {
+            NSLayoutConstraint.deactivate(current.constraints.filter {
+                let first = $0.firstItem as? UIView
+                let second = $0.secondItem as? UIView
+                if first === quote, horizontal.contains($0.firstAttribute) {
+                    return second == nil || !(second?.isDescendant(of: quote) ?? false)
+                }
+                if second === quote, horizontal.contains($0.secondAttribute) {
+                    return first == nil || !(first?.isDescendant(of: quote) ?? false)
+                }
+                return false
+            })
+            if current === content { break }
+            ancestor = current.superview
+        }
+        quote.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            quote.leadingAnchor.constraint(equalTo: content.leadingAnchor, constant: 8),
+            quote.trailingAnchor.constraint(equalTo: content.trailingAnchor, constant: -8)
+        ])
+        expandedQuote = quote
+    }
 
     func install(in root: UIView, palette: BankChatTheme.Palette) {
-        guard !installed else { return }
+        if installed { expandQuote(in: root); return }
         guard let toolbar = descendants(root).first(where: {
             $0.responds(to: NSSelectorFromString("preferredDefaultHeight")) &&
             $0.responds(to: NSSelectorFromString("contentView"))
@@ -642,6 +680,7 @@ private final class BankChatComposerLayout {
             pill.bottomAnchor.constraint(equalTo: text.bottomAnchor)
         ])
         self.content = content
+        expandQuote(in: root)
         installed = true
     }
 
@@ -784,6 +823,9 @@ internal final class BankChatNavigationController: UINavigationController, UIGes
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
+        toastDismissal?.cancel()
+        chatToast?.removeFromSuperview()
+        chatToast = nil
         loadingTimer?.invalidate()
         loadingTimer = nil
         messageDisplayLink?.invalidate()
@@ -937,6 +979,7 @@ internal final class BankChatNavigationController: UINavigationController, UIGes
         updatePresentedAlertAppearance()
         restrictFileAttachments()
         prepareMediaNavigation()
+        positionChatToasts()
         guard let root = viewControllers.first, topViewController === root else { return }
         // SDK content can arrive after presentation. Install the composer and
         // style newly created cells before revealing the first complete layout.
@@ -950,6 +993,89 @@ internal final class BankChatNavigationController: UINavigationController, UIGes
             UIView.performWithoutAnimation { root.view.alpha = 1 }
             awaitingInitialAppearance = false
         }
+    }
+
+    private let handledToasts = NSHashTable<ToastView>.weakObjects()
+    private var chatToast: UIView?
+    private var toastDismissal: DispatchWorkItem?
+
+    private func positionChatToasts() {
+        guard !bankHeader.isHidden, presentedViewController == nil,
+              let scene = view.window?.windowScene else { return }
+        func labels(in view: UIView) -> [UILabel] {
+            (view as? UILabel).map { [$0] } ?? view.subviews.flatMap { labels(in: $0) }
+        }
+        func visit(_ container: UIView) {
+            for child in container.subviews {
+                guard let toast = child as? ToastView else { visit(child); continue }
+                guard !handledToasts.contains(toast) else { continue }
+                let title = labels(in: toast).compactMap { $0.text }.filter { !$0.isEmpty }.joined(separator: " ")
+                guard !title.isEmpty else { continue }
+                handledToasts.add(toast)
+                // Let the SDK finish its own lifecycle, without fighting its
+                // constraints/animations on every frame in a second window.
+                toast.isHidden = true
+                showChatToast(title)
+            }
+        }
+        for window in scene.windows where !window.isHidden { visit(window) }
+    }
+
+    private func showChatToast(_ title: String) {
+        toastDismissal?.cancel()
+        if let existing = chatToast, let label = existing.viewWithTag(7301) as? UILabel,
+           label.text == title {
+            existing.layer.removeAllAnimations()
+            existing.alpha = 1
+        } else {
+            chatToast?.removeFromSuperview()
+            let pill = UIView()
+            pill.backgroundColor = bankPalette.input
+            pill.layer.cornerRadius = 16
+            pill.layer.shadowColor = UIColor.black.cgColor
+            pill.layer.shadowOpacity = bankPalette.isDark ? 0.25 : 0.1
+            pill.layer.shadowRadius = 8
+            pill.layer.shadowOffset = CGSize(width: 0, height: 3)
+            pill.isUserInteractionEnabled = false
+            let label = UILabel()
+            label.tag = 7301
+            label.text = title
+            label.font = .preferredFont(forTextStyle: .footnote)
+            label.adjustsFontForContentSizeCategory = true
+            label.textColor = bankPalette.text
+            label.numberOfLines = 0
+            label.textAlignment = .center
+            pill.addSubview(label)
+            view.addSubview(pill)
+            pill.translatesAutoresizingMaskIntoConstraints = false
+            label.translatesAutoresizingMaskIntoConstraints = false
+            NSLayoutConstraint.activate([
+                pill.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+                pill.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor, constant: -76),
+                pill.widthAnchor.constraint(lessThanOrEqualToConstant: 320),
+                pill.leadingAnchor.constraint(greaterThanOrEqualTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 24),
+                pill.trailingAnchor.constraint(lessThanOrEqualTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -24),
+                label.leadingAnchor.constraint(equalTo: pill.leadingAnchor, constant: 16),
+                label.trailingAnchor.constraint(equalTo: pill.trailingAnchor, constant: -16),
+                label.topAnchor.constraint(equalTo: pill.topAnchor, constant: 10),
+                label.bottomAnchor.constraint(equalTo: pill.bottomAnchor, constant: -10)
+            ])
+            chatToast = pill
+            pill.alpha = 0
+            UIView.animate(withDuration: UIAccessibility.isReduceMotionEnabled ? 0 : 0.18) { pill.alpha = 1 }
+        }
+        let dismissal = DispatchWorkItem { [weak self, weak pill = chatToast] in
+            guard let self, let pill, self.chatToast === pill else { return }
+            UIView.animate(withDuration: UIAccessibility.isReduceMotionEnabled ? 0 : 0.18,
+                           animations: { pill.alpha = 0 }) { [weak self] _ in
+                // A new copy can cancel dismissal while the fade is running.
+                guard pill.alpha == 0 else { return }
+                pill.removeFromSuperview()
+                if self?.chatToast === pill { self?.chatToast = nil }
+            }
+        }
+        toastDismissal = dismissal
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: dismissal)
     }
 
     private weak var restrictedPicker: SystemFilePickerViewController?

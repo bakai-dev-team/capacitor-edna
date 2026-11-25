@@ -1,2 +1,4 @@
 <resources><string name="bakai_edna_input_placeholder">Билдирүү жазыңыз…</string>    <string name="bakai_edna_loading">Жүктөлүүдө</string>
+    <string name="bakai_edna_action_reply">Жооп берүү</string>
+    <string name="bakai_edna_action_copy">Көчүрүү</string>
 </resources>
