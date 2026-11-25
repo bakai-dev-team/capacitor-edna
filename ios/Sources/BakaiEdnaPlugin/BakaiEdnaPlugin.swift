@@ -208,11 +208,15 @@ public class BakaiEdnaPlugin: CAPPlugin, CAPBridgedPlugin, ChatCenterUISDKDelega
     }
 
     private func reportLastMessageDate(from model: CCChatModel) {
-        guard let latestDate = model.messages.map(\.date).max() else { return }
-        let timestamp = latestDate.timeIntervalSince1970 * 1000
+        guard model.historyIsLoaded else { return }
+        let timestamp = model.messages.map(\.date).max().map { $0.timeIntervalSince1970 * 1000 } ?? 0
         let previous = UserDefaults.standard.double(forKey: lastMessageDateKey)
-        guard timestamp > previous else { return }
-        UserDefaults.standard.set(timestamp, forKey: lastMessageDateKey)
+        guard timestamp != previous else { return }
+        if timestamp == 0 {
+            UserDefaults.standard.removeObject(forKey: lastMessageDateKey)
+        } else {
+            UserDefaults.standard.set(timestamp, forKey: lastMessageDateKey)
+        }
         notifyListeners("lastMessageDateChanged", data: ["timestamp": timestamp])
     }
 

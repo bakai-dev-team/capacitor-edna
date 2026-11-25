@@ -251,7 +251,7 @@ class BakaiEdnaPlugin : Plugin() {
         val revision = EdnaSession.revision
         val appContext = context.applicationContext
         CoroutineScope(SupervisorJob() + Dispatchers.IO).launch {
-            val timestamp = runCatching {
+            val latestMessageDate = runCatching {
                 history.loadPage(
                     null,
                     null,
@@ -261,7 +261,7 @@ class BakaiEdnaPlugin : Plugin() {
                     .asSequence()
                     .map { it.timeStamp }
                     .filter { it > 0L }
-                    .maxOrNull()
+                    .maxOrNull() ?: 0L
             }.getOrNull()
             withContext(Dispatchers.Main) {
                 EdnaSession.refreshingLastMessageDate = false
@@ -269,12 +269,18 @@ class BakaiEdnaPlugin : Plugin() {
                     call.reject("Session changed", "SESSION_CHANGED")
                     return@withContext
                 }
-                if (timestamp != null) {
+                if (latestMessageDate != null) {
                     val prefs = appContext.getSharedPreferences("bakai_edna_chat", android.content.Context.MODE_PRIVATE)
                     val previous = prefs.getLong("last_message_timestamp", 0L)
-                    if (timestamp > previous) {
-                        prefs.edit().putLong("last_message_timestamp", timestamp).apply()
-                        EdnaSession.lastMessageDateChanged?.invoke(timestamp)
+                    if (latestMessageDate != previous) {
+                        val editor = prefs.edit()
+                        if (latestMessageDate == 0L) {
+                            editor.remove("last_message_timestamp")
+                        } else {
+                            editor.putLong("last_message_timestamp", latestMessageDate)
+                        }
+                        editor.apply()
+                        EdnaSession.lastMessageDateChanged?.invoke(latestMessageDate)
                     }
                 }
                 call.resolve()
